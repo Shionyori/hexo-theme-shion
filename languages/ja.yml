@@ -19,3 +19,5 @@ page_not_found: "このページは私の財布と同じくらい空っぽです
 back_to_home: ホームに戻る
 dark_mode: ダークモード
 light_mode: ライトモード
+no_tags: まだタグがありません。
+no_categories: まだカテゴリがありません。

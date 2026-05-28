@@ -3,21 +3,31 @@
   padding: var(--spacing-3xl) 0;
 
   .not-found-image {
-    max-width: 300px;
+    max-width: 280px;
     margin: 0 auto var(--spacing-xl);
 
     img {
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-lg);
+      transition: transform var(--transition-slow);
+
+      &:hover {
+        transform: scale(1.02);
+      }
     }
   }
 
   .not-found-title {
-    font-size: 5rem;
+    font-size: 6rem;
     font-family: var(--font-heading);
-    color: var(--color-primary);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: var(--spacing-md);
     line-height: 1;
+    letter-spacing: -0.02em;
   }
 
   .not-found-message {
@@ -27,29 +37,50 @@
   }
 
   .btn-home {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-xl);
     background: var(--color-primary);
     color: #fff;
     border-radius: var(--radius-md);
     font-weight: 500;
-    transition: background var(--transition-fast);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-button);
 
     &:hover {
       background: var(--color-primary-dark);
       color: #fff;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
   }
 }
 
-/* Subtle Shion-themed decorative accent */
+/* Site footer decorative gradient bar */
 .site-footer::before {
   content: '';
   display: block;
-  width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  width: 80px;
   margin: 0 auto var(--spacing-lg);
   border-radius: 2px;
-  opacity: 0.4;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary-light));
+  opacity: 0.5;
+}
+
+/* Sidebar avatar ring */
+.sidebar-avatar img {
+  box-shadow: 0 0 0 4px var(--color-primary-soft), 0 0 0 6px var(--color-border-light);
+}
+
+/* Post divider decorative */
+.post-card:first-of-type::before {
+  content: none;
+}
+
+/* Shion-themed subtle page accent */
+.site-main::before {
+  display: none;
 }

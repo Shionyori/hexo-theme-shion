@@ -19,3 +19,5 @@ page_not_found: "这个页面和我的钱包一样空空如也..."
 back_to_home: 返回首页
 dark_mode: 深色模式
 light_mode: 浅色模式
+no_tags: 还没有标签。
+no_categories: 还没有分类。

@@ -1,7 +1,8 @@
 .site-footer {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-light);
   padding: var(--spacing-2xl) 0;
   text-align: center;
+  background: var(--color-surface);
 }
 
 .footer-inner {
@@ -17,8 +18,9 @@
   margin-bottom: var(--spacing-lg);
 
   .social-link {
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
     font-size: var(--font-size-sm);
+    font-weight: 500;
     transition: color var(--transition-fast);
 
     &:hover {
@@ -28,18 +30,22 @@
 }
 
 .footer-info {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--spacing-sm) var(--spacing-md);
+  gap: var(--spacing-xs) var(--spacing-md);
 
   a {
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
 
     &:hover {
       color: var(--color-primary);
     }
+  }
+
+  .powered-by a {
+    font-weight: 500;
   }
 }

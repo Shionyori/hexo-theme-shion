@@ -4,15 +4,16 @@
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.72);
+  border-bottom: 1px solid var(--color-border-light);
   z-index: var(--z-sticky);
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 [data-theme="dark"] .site-header {
-  background: rgba(37, 37, 64, 0.85);
+  background: rgba(38, 38, 55, 0.72);
+  border-bottom-color: var(--color-border);
 }
 
 .header-inner {
@@ -28,40 +29,44 @@
 .site-logo {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
   color: var(--color-text);
   font-family: var(--font-heading);
   font-size: var(--font-size-xl);
   font-weight: 700;
+  letter-spacing: -0.01em;
 
   &:hover {
     color: var(--color-primary);
   }
 
   .logo-img {
-    height: 36px;
+    height: 32px;
+    border-radius: var(--radius-sm);
   }
 }
 
 .site-nav {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xs);
 
   .nav-item {
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
     font-weight: 500;
-    padding: var(--spacing-xs) 0;
-    border-bottom: 2px solid transparent;
-    transition: color var(--transition-fast), border-color var(--transition-fast);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: color var(--transition-fast), background var(--transition-fast);
 
     &:hover {
       color: var(--color-text);
+      background: var(--color-code-bg);
     }
 
     &.active {
       color: var(--color-primary);
-      border-bottom-color: var(--color-primary);
+      background: var(--color-primary-soft);
     }
   }
 }
@@ -69,7 +74,7 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 
 .btn-icon {
@@ -80,11 +85,11 @@
   height: 36px;
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition: all var(--transition-fast);
 
   &:hover {
     color: var(--color-text);
-    background: var(--color-code-bg);
+    background: var(--color-primary-soft);
   }
 }
 
