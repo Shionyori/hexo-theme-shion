@@ -1,0 +1,12 @@
+<div class="tag-page">
+  <h1 class="tag-title">#<%= page.tag %></h1>
+  <span class="tag-count"><%= page.posts.length %> <%= __('posts') %></span>
+
+  <section class="post-list">
+    <% page.posts.forEach(function(post) { %>
+      <%- partial('_partial/post-card', { post: post }) %>
+    <% }) %>
+  </section>
+</div>
+
+<%- partial('_partial/pagination') %>

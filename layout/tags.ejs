@@ -1,0 +1,15 @@
+<div class="tags-page">
+  <h1 class="tags-title"><%= __('tags') %></h1>
+
+  <% if (site.tags.length) { %>
+  <div class="tag-cloud">
+    <% site.tags.sort('name').forEach(function(tag) { %>
+      <% var size = Math.min(2 + tag.posts.length * 0.3, 2.8); %>
+      <a class="tag-cloud-item" href="<%= url_for(tag.path) %>" style="font-size: <%= size %>rem">
+        <%= tag.name %>
+        <span class="tag-cloud-count"><%= tag.posts.length %></span>
+      </a>
+    <% }) %>
+  </div>
+  <% } %>
+</div>

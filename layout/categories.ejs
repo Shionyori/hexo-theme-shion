@@ -1,0 +1,14 @@
+<div class="categories-page">
+  <h1 class="categories-title"><%= __('categories') %></h1>
+
+  <% if (site.categories.length) { %>
+  <div class="category-list">
+    <% site.categories.sort('name').forEach(function(cat) { %>
+      <a class="category-item" href="<%= url_for(cat.path) %>">
+        <span class="category-name"><%= cat.name %></span>
+        <span class="category-count"><%= cat.posts.length %></span>
+      </a>
+    <% }) %>
+  </div>
+  <% } %>
+</div>
