@@ -4,3 +4,18 @@ archives: Archives
 tags: Tags
 categories: Categories
 about: About
+search: Search
+search_placeholder: Type to search...
+search_empty: No results found.
+read_more: Read more
+prev: Previous
+next: Next
+posts: posts
+toc: Table of Contents
+copyright: "&copy; %s %s. All rights reserved."
+powered_by: "Powered by %s"
+theme_by: "Theme by %s"
+page_not_found: "This page is as empty as my wallet..."
+back_to_home: Back to Home
+dark_mode: Dark Mode
+light_mode: Light Mode

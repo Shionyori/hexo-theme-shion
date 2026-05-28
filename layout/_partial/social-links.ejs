@@ -1,0 +1,9 @@
+<% if (theme.sidebar && theme.sidebar.social) { %>
+<div class="social-links">
+  <% for (var name in theme.sidebar.social) { %>
+    <a class="social-link-item" href="<%= theme.sidebar.social[name] %>" target="_blank" rel="noopener" aria-label="<%= name %>" title="<%= name %>">
+      <%= name %>
+    </a>
+  <% } %>
+</div>
+<% } %>

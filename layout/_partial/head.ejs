@@ -11,19 +11,37 @@
 
 <meta property="og:title" content="<%= page.title || config.title %>">
 <meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
-<meta property="og:url" content="<%= config.url + '/' + page.path %>">
+<meta property="og:url" content="<%= config.url + page.path %>">
 <meta property="og:site_name" content="<%= config.title %>">
 <% if (page.excerpt) { %>
 <meta property="og:description" content="<%= strip_html(page.excerpt).trim().substring(0, 200) %>">
 <% } %>
+<% if (page.og_image) { %>
+<meta property="og:image" content="<%= page.og_image %>">
+<% } %>
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="<%= page.title || config.title %>">
+<% if (page.excerpt) { %>
+<meta name="twitter:description" content="<%= strip_html(page.excerpt).trim().substring(0, 200) %>">
+<% } %>
 
-<link rel="canonical" href="<%= config.url + '/' + page.path %>">
+<link rel="canonical" href="<%= config.url + page.path %>">
 <% if (config.feed && config.feed.atom) { %>
 <link rel="alternate" href="<%= config.feed.atom %>" type="application/atom+xml" title="<%= config.title %>">
 <% } %>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "<%= page.layout === 'post' ? 'Article' : 'WebSite' %>",
+  "name": "<%= page.title || config.title %>",
+  "url": "<%= config.url + page.path %>"<% if (page.layout === 'post') { %>,
+  "datePublished": "<%= date(page.date, 'YYYY-MM-DDTHH:mm:ssZ') %>",
+  "author": { "@type": "Person", "name": "<%= config.author || '' %>" }
+  <% } %>
+}
+</script>
 
 <meta name="theme-color" content="#5B6ABF">
 <link rel="icon" href="<%= theme.favicon || '/images/shion/favicon.ico' %>">
@@ -32,27 +50,8 @@
 
 <link rel="stylesheet" href="<%= url_for('/css/main.css') %>">
 
-<% if (theme.analytics && theme.analytics.google) { %>
-<script async src="https://www.googletagmanager.com/gtag/js?id=<%= theme.analytics.google %>"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '<%= theme.analytics.google %>');
-</script>
-<% } %>
-
-<% if (theme.analytics && theme.analytics.baidu) { %>
-<script>
-  var _hmt = _hmt || [];
-  (function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?<%= theme.analytics.baidu %>";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-  })();
-</script>
-<% } %>
+<%- partial('_partial/analytics') %>
+<%- partial('_partial/math') %>
 
 <script>
   (function() {

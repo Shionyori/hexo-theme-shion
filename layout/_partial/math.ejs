@@ -1,0 +1,15 @@
+<% if (theme.post && theme.post.math && theme.post.math.enable) { %>
+<link rel="stylesheet" href="<%= theme.cdn.katex %>/dist/katex.min.css">
+<script src="<%= theme.cdn.katex %>/dist/katex.min.js"></script>
+<script src="<%= theme.cdn.katex %>/dist/contrib/auto-render.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+</script>
+<% } %>

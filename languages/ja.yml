@@ -1,0 +1,21 @@
+title: Shion
+home: ホーム
+archives: アーカイブ
+tags: タグ
+categories: カテゴリ
+about: 概要
+search: 検索
+search_placeholder: キーワードを入力...
+search_empty: 結果が見つかりません。
+read_more: 続きを読む
+prev: 前へ
+next: 次へ
+posts: 件
+toc: 目次
+copyright: "&copy; %s %s. All rights reserved."
+powered_by: "Powered by %s"
+theme_by: "Theme by %s"
+page_not_found: "このページは私の財布と同じくらい空っぽです..."
+back_to_home: ホームに戻る
+dark_mode: ダークモード
+light_mode: ライトモード

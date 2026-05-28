@@ -1,0 +1,13 @@
+<% if (theme.shion && theme.shion.hero_enable) { %>
+<section class="shion-hero">
+  <% if (theme.shion.hero_image) { %>
+  <img src="<%= url_for(theme.shion.hero_image) %>" alt="">
+  <% } %>
+  <div class="hero-content">
+    <h1 class="hero-title"><%= config.title %></h1>
+    <% if (config.description) { %>
+    <p class="hero-subtitle"><%= config.description %></p>
+    <% } %>
+  </div>
+</section>
+<% } %>

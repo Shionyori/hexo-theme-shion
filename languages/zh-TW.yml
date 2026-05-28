@@ -1,0 +1,21 @@
+title: Shion
+home: 首頁
+archives: 歸檔
+tags: 標籤
+categories: 分類
+about: 關於
+search: 搜尋
+search_placeholder: 輸入關鍵詞搜尋...
+search_empty: 未找到相關結果。
+read_more: 閱讀全文
+prev: 上一篇
+next: 下一篇
+posts: 篇
+toc: 目錄
+copyright: "&copy; %s %s. 保留所有權利。"
+powered_by: "由 %s 驅動"
+theme_by: "主題 %s"
+page_not_found: "這個頁面和我的錢包一樣空空如也..."
+back_to_home: 返回首頁
+dark_mode: 深色模式
+light_mode: 淺色模式
