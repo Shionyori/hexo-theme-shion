@@ -6,6 +6,7 @@
     "outDir": "scripts",
     "rootDir": "src/ts",
     "strict": true,
+    "noImplicitThis": false,
     "esModuleInterop": true,
     "declaration": false,
     "sourceMap": false,
