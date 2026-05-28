@@ -1,0 +1,15 @@
+<% if (page.prev || page.next) { %>
+<nav class="pagination">
+  <% if (page.prev) { %>
+    <a class="prev page-item" href="<%= url_for(page.prev_link) %>"><%= __('prev') %></a>
+  <% } %>
+
+  <% if (page.total > 1) { %>
+    <span class="page-number"><%= page.current %> / <%= page.total %></span>
+  <% } %>
+
+  <% if (page.next) { %>
+    <a class="next page-item" href="<%= url_for(page.next_link) %>"><%= __('next') %></a>
+  <% } %>
+</nav>
+<% } %>

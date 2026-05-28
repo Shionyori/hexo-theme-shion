@@ -1,0 +1,36 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <% if (theme.sidebar.enable && theme.sidebar.social) { %>
+    <div class="footer-social">
+      <% for (var name in theme.sidebar.social) { %>
+        <a class="social-link" href="<%= theme.sidebar.social[name] %>" target="_blank" rel="noopener" aria-label="<%= name %>">
+          <span class="social-name"><%= name %></span>
+        </a>
+      <% } %>
+    </div>
+    <% } %>
+
+    <div class="footer-info">
+      <span class="copyright">
+        &copy;
+        <% if (theme.footer.since && theme.footer.since < date(Date.now(), 'YYYY')) { %>
+          <%= theme.footer.since %> &ndash;
+        <% } %>
+        <%= date(Date.now(), 'YYYY') %>
+        <%= config.author || config.title %>
+      </span>
+
+      <% if (theme.footer.powered_by) { %>
+        <span class="powered-by"><%= __('powered_by', '<a href="https://hexo.io/" target="_blank">Hexo</a>') %></span>
+      <% } %>
+
+      <% if (theme.footer.theme_by) { %>
+        <span class="theme-by"><%= __('theme_by', 'Shion') %></span>
+      <% } %>
+
+      <% if (theme.footer.icp) { %>
+        <a class="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"><%= theme.footer.icp %></a>
+      <% } %>
+    </div>
+  </div>
+</footer>

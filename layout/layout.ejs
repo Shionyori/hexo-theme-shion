@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html lang="<%= config.language %>">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page.title ? page.title + ' - ' + config.title : config.title %></title>
+  <%- partial('_partial/head') %>
 </head>
 <body>
-  <%- body %>
+  <%- partial('_partial/header') %>
+
+  <div class="container">
+    <div class="content-wrapper">
+      <main class="site-main">
+        <%- body %>
+      </main>
+
+      <% if (theme.sidebar.enable) { %>
+      <%- partial('_partial/sidebar') %>
+      <% } %>
+    </div>
+  </div>
+
+  <%- partial('_partial/footer') %>
+  <%- partial('_partial/search') %>
+
+  <script src="<%= url_for('/js/main.js') %>"></script>
 </body>
 </html>

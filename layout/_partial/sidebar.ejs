@@ -1,0 +1,34 @@
+<aside class="site-sidebar" id="site-sidebar">
+  <div class="sidebar-inner">
+    <% if (theme.sidebar.avatar.enable) { %>
+    <div class="sidebar-avatar">
+      <img src="<%= url_for(theme.sidebar.avatar.image) %>" alt="<%= config.author || config.title %>" width="96" height="96">
+    </div>
+    <% } %>
+
+    <% if (config.author) { %>
+    <div class="sidebar-author"><%= config.author %></div>
+    <% } %>
+
+    <% if (config.description) { %>
+    <div class="sidebar-bio"><%= config.description %></div>
+    <% } %>
+
+    <% if (theme.sidebar.social) { %>
+    <div class="sidebar-social">
+      <% for (var name in theme.sidebar.social) { %>
+        <a class="social-icon" href="<%= theme.sidebar.social[name] %>" target="_blank" rel="noopener" aria-label="<%= name %>" title="<%= name %>">
+          <span class="social-name"><%= name %></span>
+        </a>
+      <% } %>
+    </div>
+    <% } %>
+
+    <% if (page.layout === 'post' && theme.post.toc) { %>
+    <div class="sidebar-toc">
+      <h4 class="widget-title"><%= __('toc') %></h4>
+      <%- toc(page.content, { max_depth: theme.post.toc_max_depth, class: 'toc-list' }) %>
+    </div>
+    <% } %>
+  </div>
+</aside>
