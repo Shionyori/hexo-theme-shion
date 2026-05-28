@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+Thumbs.db
+source/css/*
+source/js/*
+scripts/*
+!source/css/.gitkeep
+!source/js/.gitkeep
+!scripts/.gitkeep

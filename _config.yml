@@ -1,0 +1,105 @@
+# ============================================
+# hexo-theme-shion Configuration
+# ============================================
+
+# --- Site Identity ---
+favicon: /images/shion/favicon.ico
+logo:
+  text: null
+  image: null
+
+# --- Navigation Menu ---
+menu:
+  Home: /
+  Archives: /archives/
+  Tags: /tags/
+  Categories: /categories/
+  About: /about/
+
+# --- Appearance ---
+appearance:
+  default_mode: auto       # auto | light | dark
+  font_size: 16px
+  code_theme: auto         # auto | light | dark
+
+# --- Home Page ---
+home:
+  posts_per_page: 10
+  display_excerpt: true
+  excerpt_length: 200
+  show_read_more: true
+
+# --- Post ---
+post:
+  toc: true
+  toc_max_depth: 3
+  copyright: true
+  reading_time: true
+  word_count: true
+  date_format: "YYYY-MM-DD"
+  code:
+    highlight: highlight.js
+    line_numbers: true
+    copy_button: true
+  math:
+    enable: false
+  image:
+    lazy_load: true
+    fancybox: true
+
+# --- Sidebar ---
+sidebar:
+  enable: true
+  position: right          # left | right
+  avatar:
+    enable: true
+    image: /images/shion/avatar.png
+  social:
+    GitHub: https://github.com/
+
+# --- Comments ---
+comments:
+  enable: false
+  type: giscus             # giscus | disqus | waline | twikoo | none
+  giscus:
+    repo: ""
+    repo_id: ""
+    category: ""
+    category_id: ""
+    mapping: pathname
+    strict: false
+    reactions_enabled: "1"
+    emit_metadata: "0"
+    input_position: bottom
+    lang: auto
+
+# --- Analytics ---
+analytics:
+  google: null
+  baidu: null
+
+# --- Search ---
+search:
+  enable: true
+  type: local
+
+# --- Footer ---
+footer:
+  since: null
+  powered_by: true
+  theme_by: true
+  icp: null
+
+# --- Shion Theme Character ---
+shion:
+  hero_enable: false
+  hero_image: /images/shion/hero.png
+  404_image: /images/shion/404.png
+
+# --- Advanced ---
+custom_css: null
+custom_js: null
+cdn:
+  highlightjs: https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11
+  katex: https://cdn.jsdelivr.net/npm/katex@0
+  fusejs: https://cdn.jsdelivr.net/npm/fuse.js@7
