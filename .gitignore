@@ -7,3 +7,5 @@ scripts/*
 !source/css/.gitkeep
 !source/js/.gitkeep
 !scripts/.gitkeep
+demo/
+/tmp/

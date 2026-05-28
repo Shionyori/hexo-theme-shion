@@ -11,7 +11,7 @@
 
 <meta property="og:title" content="<%= page.title || config.title %>">
 <meta property="og:type" content="<%= page.layout === 'post' ? 'article' : 'website' %>">
-<meta property="og:url" content="<%= config.url + page.path %>">
+<meta property="og:url" content="<%= config.url.replace(/\/$/, '') + '/' + page.path %>">
 <meta property="og:site_name" content="<%= config.title %>">
 <% if (page.excerpt) { %>
 <meta property="og:description" content="<%= strip_html(page.excerpt).trim().substring(0, 200) %>">
@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="<%= strip_html(page.excerpt).trim().substring(0, 200) %>">
 <% } %>
 
-<link rel="canonical" href="<%= config.url + page.path %>">
+<link rel="canonical" href="<%= config.url.replace(/\/$/, '') + '/' + page.path %>">
 <% if (config.feed && config.feed.atom) { %>
 <link rel="alternate" href="<%= config.feed.atom %>" type="application/atom+xml" title="<%= config.title %>">
 <% } %>
@@ -36,7 +36,7 @@
   "@context": "https://schema.org",
   "@type": "<%= page.layout === 'post' ? 'Article' : 'WebSite' %>",
   "name": "<%= page.title || config.title %>",
-  "url": "<%= config.url + page.path %>"<% if (page.layout === 'post') { %>,
+  "url": "<%= config.url.replace(/\/$/, '') + '/' + page.path %>"<% if (page.layout === 'post') { %>,
   "datePublished": "<%= date(page.date, 'YYYY-MM-DDTHH:mm:ssZ') %>",
   "author": { "@type": "Person", "name": "<%= config.author || '' %>" }
   <% } %>
