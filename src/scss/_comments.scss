@@ -1,0 +1,15 @@
+.comments {
+  max-width: var(--content-max);
+  margin-top: var(--spacing-2xl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.giscus {
+  min-height: 200px;
+}
+
+#disqus_thread {
+  min-height: 200px;
+  margin-top: var(--spacing-xl);
+}

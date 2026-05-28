@@ -1,0 +1,114 @@
+.post-list {
+  max-width: var(--content-max);
+}
+
+.post-card {
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--color-border);
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.post-card-title {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-sm);
+
+  a {
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.post-card-excerpt {
+  margin: var(--spacing-md) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-more {
+  display: inline-block;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+  padding: var(--spacing-xs) 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-fast);
+
+  &:hover {
+    border-bottom-color: var(--color-primary);
+  }
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+
+  a {
+    color: var(--color-text-secondary);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.shion-hero {
+  position: relative;
+  margin: calc(-1 * (var(--header-height) + var(--spacing-xl))) calc(-1 * var(--spacing-lg)) var(--spacing-2xl);
+  height: 300px;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+  }
+
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+
+    .hero-title {
+      color: #fff;
+      font-size: var(--font-size-4xl);
+    }
+
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: var(--font-size-lg);
+      margin-top: var(--spacing-sm);
+    }
+  }
+}
+
+@include respond-down('md') {
+  .shion-hero {
+    height: 200px;
+
+    .hero-content .hero-title {
+      font-size: var(--font-size-2xl);
+    }
+  }
+}

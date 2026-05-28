@@ -1,2 +1,21 @@
-// Entry point for SCSS stylesheets.
-// Imports all partials in the correct cascade order.
+@import 'variables';
+@import 'reset';
+@import 'typography';
+@import 'layout';
+@import 'header';
+@import 'footer';
+@import 'sidebar';
+@import 'post';
+@import 'post-list';
+@import 'archive';
+@import 'tag';
+@import 'code';
+@import 'toc';
+@import 'search';
+@import 'pagination';
+@import 'comments';
+@import 'animation';
+@import 'dark';
+@import 'responsive';
+@import 'utilities';
+@import 'shion';

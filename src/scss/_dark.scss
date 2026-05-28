@@ -1,0 +1,22 @@
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #1A1A2E;
+    --color-surface: #252540;
+    --color-text: #E0E0E0;
+    --color-text-secondary: #A0A0B0;
+    --color-border: #2E2E42;
+    --color-code-bg: #1E1E30;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-overlay: rgba(0, 0, 0, 0.6);
+  }
+}
+
+[data-theme="dark"] {
+  img:not([src*=".svg"]) {
+    opacity: 0.9;
+  }
+
+  .site-header {
+    background: rgba(37, 37, 64, 0.85);
+  }
+}

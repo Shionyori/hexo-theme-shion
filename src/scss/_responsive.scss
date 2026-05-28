@@ -1,0 +1,62 @@
+@include respond-down('lg') {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .post-title,
+  .page-title {
+    font-size: var(--font-size-3xl);
+  }
+
+  h1 { font-size: var(--font-size-3xl); }
+  h2 { font-size: var(--font-size-2xl); }
+  h3 { font-size: var(--font-size-xl); }
+}
+
+@include respond-down('md') {
+  .content-wrapper {
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    padding-top: calc(var(--header-height) + var(--spacing-md));
+  }
+
+  .post-title,
+  .page-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .post-nav {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .archive-item {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .shion-hero {
+    height: 200px;
+    margin-left: calc(-1 * var(--spacing-md));
+    margin-right: calc(-1 * var(--spacing-md));
+  }
+}
+
+@include respond-down('sm') {
+  html {
+    font-size: 15px;
+  }
+
+  .post-title,
+  .page-title {
+    font-size: var(--font-size-xl);
+  }
+
+  h1 { font-size: var(--font-size-2xl); }
+  h2 { font-size: var(--font-size-xl); }
+  h3 { font-size: var(--font-size-lg); }
+
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+}

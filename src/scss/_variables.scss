@@ -1,0 +1,96 @@
+:root {
+  --color-primary: #5B6ABF;
+  --color-primary-dark: #3D4A8C;
+  --color-primary-light: #9EACD3;
+  --color-accent: #D4A843;
+
+  --color-bg: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-text: #2C2C2C;
+  --color-text-secondary: #6B6B6B;
+  --color-border: #E8E8EC;
+  --color-code-bg: #F4F4F8;
+
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  --font-heading: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+  --font-body: "Noto Sans SC", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-code: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+
+  --font-size-root: 16px;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px var(--color-shadow);
+  --shadow-md: 0 4px 12px var(--color-shadow);
+  --shadow-lg: 0 8px 30px var(--color-shadow);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+
+  --header-height: 60px;
+  --sidebar-width: 280px;
+  --container-max: 1200px;
+  --content-max: 800px;
+}
+
+[data-theme="dark"] {
+  --color-bg: #1A1A2E;
+  --color-surface: #252540;
+  --color-text: #E0E0E0;
+  --color-text-secondary: #A0A0B0;
+  --color-border: #2E2E42;
+  --color-code-bg: #1E1E30;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-overlay: rgba(0, 0, 0, 0.6);
+}
+
+$breakpoints: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
+
+
+@mixin respond-up($bp) {
+  @media (min-width: map-get($breakpoints, $bp)) {
+    @content;
+  }
+}
+
+@mixin respond-down($bp) {
+  @media (max-width: (map-get($breakpoints, $bp) - 1px)) {
+    @content;
+  }
+}

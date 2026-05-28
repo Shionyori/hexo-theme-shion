@@ -1,0 +1,114 @@
+code {
+  font-family: var(--font-code);
+  font-size: 0.9em;
+}
+
+p > code,
+li > code,
+td > code {
+  padding: 0.15em 0.4em;
+  background: var(--color-code-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+figure.highlight {
+  margin: var(--spacing-lg) 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+
+  table {
+    margin: 0;
+    width: 100%;
+    border: none;
+
+    td {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .gutter {
+    width: 48px;
+    text-align: right;
+    padding: var(--spacing-md) var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    user-select: none;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .code {
+    padding: var(--spacing-md);
+    overflow-x: auto;
+
+    pre {
+      margin: 0;
+    }
+
+    .line {
+      line-height: 1.6;
+      min-height: 1.6em;
+    }
+  }
+
+  figcaption {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid var(--color-border);
+
+    a {
+      color: var(--color-text-secondary);
+      float: right;
+      margin-left: var(--spacing-md);
+      cursor: pointer;
+      font-size: var(--font-size-xs);
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+figure.highlight:hover .code-copy-btn,
+.highlight-wrapper:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.highlight-wrapper {
+  position: relative;
+}
+
+[data-theme="dark"] .gutter {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] figcaption {
+  background: rgba(255, 255, 255, 0.03);
+}

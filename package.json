@@ -5,7 +5,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build:scss": "sass src/scss/main.scss source/css/main.css --style compressed",
+    "build:scss": "sass src/scss/main.scss source/css/main.css --style compressed --quiet-deps",
     "build:ts": "tsc -p tsconfig.json",
     "build:client": "esbuild src/client/main.ts --bundle --minify --outfile=source/js/main.js",
     "build": "npm run build:ts && npm run build:client && npm run build:scss",

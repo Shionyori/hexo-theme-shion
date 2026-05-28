@@ -1,0 +1,117 @@
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  z-index: var(--z-sticky);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] .site-header {
+  background: rgba(37, 37, 64, 0.85);
+}
+
+.header-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  .logo-img {
+    height: 36px;
+  }
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+
+  .nav-item {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 2px solid transparent;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+
+    &:hover {
+      color: var(--color-text);
+    }
+
+    &.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast), background var(--transition-fast);
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-code-bg);
+  }
+}
+
+.sidebar-toggle {
+  display: none;
+}
+
+.theme-toggle {
+  .icon-sun,
+  .icon-moon {
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .icon-moon { display: none; }
+}
+
+[data-theme="dark"] .theme-toggle {
+  .icon-sun { display: none; }
+  .icon-moon { display: block; }
+}
+
+@include respond-down('md') {
+  .site-nav {
+    display: none;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+  }
+}
