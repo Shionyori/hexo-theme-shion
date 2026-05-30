@@ -14,11 +14,31 @@
 }
 
 @include respond-down('md') {
+  .page-hero {
+    min-height: 30vh;
+    padding: var(--header-height) var(--spacing-md) 0;
+
+    .hero-title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .hero-subtitle {
+      font-size: var(--font-size-base);
+    }
+  }
+
+
   .content-wrapper {
     flex-direction: column;
     gap: var(--spacing-xl);
-    padding-top: calc(var(--header-height) + var(--spacing-md));
+    padding-top: var(--header-height);
   }
+
+  .page-bg {
+    height: 50vh;
+    max-height: 450px;
+  }
+
 
   .post,
   .page {

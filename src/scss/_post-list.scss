@@ -163,44 +163,44 @@
   }
 }
 
-// Hero section with gradient overlay
-.shion-hero {
-  position: relative;
-  margin: calc(-1 * (var(--header-height) + var(--spacing-xl))) calc(-1 * var(--spacing-lg)) var(--spacing-2xl);
-  height: 320px;
-  overflow: hidden;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+// Hero area — transparent, sits over .page-bg background image
+.page-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: var(--header-height) var(--spacing-lg) 0;
+  text-align: center;
 
-  img {
-    width: 100%;
-    height: 120%;
-    object-fit: cover;
-    object-position: center 30%;
-    -webkit-mask: linear-gradient(to top, transparent 0%, #fff 20%);
-    mask: linear-gradient(to top, transparent 0%, #fff 20%);
+  .hero-title {
+    color: #fff;
+    font-size: var(--font-size-4xl);
+    font-family: var(--font-heading);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.15);
+    max-width: 900px;
+    line-height: var(--line-height-tight);
   }
 
-  .hero-content {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.50));
+  .hero-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-lg);
+    margin-top: var(--spacing-sm);
+    text-shadow: 0 0 6px rgba(109,127,181,0.35), 0 1px 3px rgba(0,0,0,0.4);
+  }
 
-    .hero-title {
-      color: #fff;
-      font-size: var(--font-size-4xl);
-    }
+  .post-meta {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--font-size-sm);
+    text-shadow: 0 0 6px rgba(109,127,181,0.35), 0 1px 2px rgba(0,0,0,0.4);
 
-    .hero-subtitle {
-      color: rgba(255, 255, 255, 0.85);
-      font-size: var(--font-size-lg);
-      margin-top: var(--spacing-sm);
+    a {
+      color: rgba(255, 255, 255, 0.9);
+      &:hover { color: #fff; }
     }
   }
 }
+
 
 // Sticky post indicator
 .post-card-sticky {

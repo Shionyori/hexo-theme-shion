@@ -126,8 +126,9 @@ footer:
 
 # --- Shion Theme Character ---
 shion:
-  hero_enable: false
+  hero_enable: true
   hero_image: /images/shion/hero.png
+  background_image: /images/shion/bg.jpg
   404_image: /images/shion/404.png
 
 # --- Outdate Warning ---

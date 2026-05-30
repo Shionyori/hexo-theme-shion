@@ -1,17 +1,6 @@
 <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><%= page.title %></h1>
-    <%- partial('_partial/post-meta', { post: page }) %>
-  </header>
-
   <% if (theme.post.toc && page.toc) { %>
   <%- partial('_partial/toc', { post: page }) %>
-  <% } %>
-
-  <% if (page.cover) { %>
-  <div class="post-cover">
-    <img src="<%= url_for(page.cover) %>" alt="<%= page.title %>">
-  </div>
   <% } %>
 
   <div class="post-content">

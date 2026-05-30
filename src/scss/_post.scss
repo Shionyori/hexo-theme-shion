@@ -31,17 +31,6 @@
   margin-bottom: var(--spacing-sm);
 }
 
-.post-cover {
-  margin-bottom: var(--spacing-xl);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    display: block;
-  }
-}
-
 .outdate-warning {
   padding: var(--spacing-md) var(--spacing-lg);
   background: #FFFBEB;
