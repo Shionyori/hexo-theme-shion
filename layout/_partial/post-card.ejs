@@ -5,6 +5,12 @@
       <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
     </a>
   </div>
+  <% } else { %>
+  <div class="post-card-cover post-card-cover-placeholder">
+    <a href="<%= url_for(post.path) %>">
+      <div class="cover-placeholder"></div>
+    </a>
+  </div>
   <% } %>
 
   <div class="post-card-body">
