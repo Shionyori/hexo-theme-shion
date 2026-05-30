@@ -1,0 +1,11 @@
+<div class="widget">
+  <h4 class="widget-title"><%= __('tagcloud') %></h4>
+  <div class="tagcloud">
+    <% var min = theme.sidebar.tagcloud_min_font || 1.2; %>
+    <% var max = theme.sidebar.tagcloud_max_font || 2.8; %>
+    <% site.tags.sort('name').forEach(function(tag) { %>
+      <% var size = Math.min(min + tag.posts.length * 0.15, max); %>
+      <a href="<%= url_for(tag.path) %>" style="font-size: <%= size %>rem"><%= tag.name %></a>
+    <% }) %>
+  </div>
+</div>

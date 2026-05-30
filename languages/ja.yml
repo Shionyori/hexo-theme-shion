@@ -12,6 +12,7 @@ prev: 前へ
 next: 次へ
 posts: 件
 toc: 目次
+comment: コメント
 copyright: "&copy; %s %s. All rights reserved."
 powered_by: "Powered by %s"
 theme_by: "Theme by %s"
@@ -21,3 +22,15 @@ dark_mode: ダークモード
 light_mode: ライトモード
 no_tags: まだタグがありません。
 no_categories: まだカテゴリがありません。
+share: 共有
+share_on: "%s で共有"
+copy_link: リンクをコピー
+link_copied: リンクをコピーしました！
+outdate_warning: "この記事は %s 日前に公開されました。内容が古い可能性があります。"
+recent_posts: 最近の投稿
+category_list: カテゴリ
+tag_list: タグ
+tagcloud: タグクラウド
+archive_list: アーカイブ
+page: "%d ページ"
+posts_count: "%s 件の投稿"

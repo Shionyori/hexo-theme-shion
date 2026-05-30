@@ -8,7 +8,14 @@
   <%- partial('_partial/toc', { post: page }) %>
   <% } %>
 
+  <% if (page.cover) { %>
+  <div class="post-cover">
+    <img src="<%= url_for(page.cover) %>" alt="<%= page.title %>">
+  </div>
+  <% } %>
+
   <div class="post-content">
+    <%- partial('_partial/outdate-warning', { post: page }) %>
     <%- page.content %>
   </div>
 
@@ -21,6 +28,8 @@
   <% } %>
 
   <footer class="post-footer">
+    <%- partial('_partial/share', { page: page }) %>
+
     <% if (page.tags && page.tags.length) { %>
     <div class="post-tags-footer">
       <% page.tags.forEach(function(tag) { %>

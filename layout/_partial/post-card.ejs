@@ -1,4 +1,12 @@
 <article class="post-card">
+  <% if (post.cover) { %>
+  <div class="post-card-cover">
+    <a href="<%= url_for(post.path) %>">
+      <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
+    </a>
+  </div>
+  <% } %>
+
   <h2 class="post-card-title">
     <a href="<%= url_for(post.path) %>"><%= post.title %></a>
   </h2>

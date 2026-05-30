@@ -24,6 +24,12 @@
     </div>
     <% } %>
 
+    <% if (theme.sidebar.widgets && theme.sidebar.widgets.length) { %>
+      <% theme.sidebar.widgets.forEach(function(widget) { %>
+        <%- partial('_partial/widgets/' + widget) %>
+      <% }) %>
+    <% } %>
+
     <% if (page.layout === 'post' && theme.post.toc) { %>
     <div class="sidebar-toc">
       <h4 class="widget-title"><%= __('toc') %></h4>
