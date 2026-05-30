@@ -1,0 +1,34 @@
+<div id="utterances-container"></div>
+<script>
+  (function() {
+    var container = document.getElementById('utterances-container');
+    if (!container) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.setAttribute('repo', '<%= theme.comments.utterances.repo %>');
+      script.setAttribute('issue-term', '<%= theme.comments.utterances.issue_term || "pathname" %>');
+      script.setAttribute('theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'github-dark' : 'github-light');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      container.appendChild(script);
+
+      // Listen for theme changes
+      window.addEventListener('themeChanged', function(e) {
+        var iframe = container.querySelector('iframe');
+        if (iframe) {
+          iframe.contentWindow.postMessage({
+            type: 'set-theme',
+            theme: e.detail === 'dark' ? 'github-dark' : 'github-light'
+          }, 'https://utteranc.es');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+  })();
+</script>

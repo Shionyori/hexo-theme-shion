@@ -29,6 +29,26 @@
   }
 }
 
+.busuanzi {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+
+  .busuanzi-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .busuanzi-icon {
+    display: flex;
+    align-items: center;
+  }
+}
+
 .footer-info {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);

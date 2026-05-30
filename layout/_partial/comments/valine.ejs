@@ -1,0 +1,28 @@
+<div id="valine-container"></div>
+<script>
+  (function() {
+    var container = document.getElementById('valine-container');
+    if (!container) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+
+      container.innerHTML = '<div id="vcomments"></div>';
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/valine@1/dist/Valine.min.js';
+      script.async = true;
+      script.onload = function() {
+        new Valine({
+          el: '#vcomments',
+          appId: '<%= theme.comments.valine.appId %>',
+          appKey: '<%= theme.comments.valine.appKey %>',
+          placeholder: 'Leave a comment',
+        });
+      };
+      document.body.appendChild(script);
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+  })();
+</script>

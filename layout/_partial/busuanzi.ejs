@@ -1,0 +1,21 @@
+<% if (theme.busuanzi && theme.busuanzi.enable) { %>
+<div class="busuanzi">
+  <% if (theme.busuanzi.site_uv !== false) { %>
+  <span class="busuanzi-item">
+    <span class="busuanzi-icon">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </span>
+    <span id="busuanzi_value_site_uv">-</span>
+  </span>
+  <% } %>
+  <% if (theme.busuanzi.site_pv !== false) { %>
+  <span class="busuanzi-item">
+    <span class="busuanzi-icon">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </span>
+    <span id="busuanzi_value_site_pv">-</span>
+  </span>
+  <% } %>
+</div>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<% } %>

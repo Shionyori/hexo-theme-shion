@@ -1,0 +1,32 @@
+<div id="waline-container"></div>
+<script>
+  (function() {
+    var container = document.getElementById('waline-container');
+    if (!container) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+
+      container.innerHTML = '<div id="waline"></div>';
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/@waline/client@3/dist/waline.js';
+      script.async = true;
+      script.onload = function() {
+        Waline.init({
+          el: '#waline',
+          serverURL: '<%= theme.comments.waline.serverURL %>',
+          lang: '<%= theme.comments.waline.lang || "auto" %>',
+          dark: 'html[data-theme="dark"]',
+        });
+      };
+      document.head.appendChild(script);
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/@waline/client@3/dist/waline.css';
+      document.head.appendChild(link);
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+  })();
+</script>

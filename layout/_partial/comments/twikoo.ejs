@@ -1,0 +1,26 @@
+<div id="twikoo-container"></div>
+<script>
+  (function() {
+    var container = document.getElementById('twikoo-container');
+    if (!container) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+
+      container.innerHTML = '<div id="tcomment"></div>';
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/twikoo@1/dist/twikoo.all.min.js';
+      script.async = true;
+      script.onload = function() {
+        twikoo.init({
+          envId: '<%= theme.comments.twikoo.envId %>',
+          el: '#tcomment',
+        });
+      };
+      document.body.appendChild(script);
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+  })();
+</script>
