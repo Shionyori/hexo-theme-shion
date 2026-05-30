@@ -37,10 +37,18 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  position: relative;
 
   &.post-card-right {
     flex-direction: row-reverse;
   }
+}
+
+// Full-card clickable overlay (no-JS fallback)
+.post-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 // Cover image area — 40% width with diagonal clip-path
@@ -50,12 +58,6 @@
   overflow: hidden;
   position: relative;
   background: var(--color-primary-soft);
-
-  a {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
 
   img {
     width: 100%;
@@ -94,7 +96,6 @@
   padding: var(--spacing-lg) var(--spacing-xl);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .post-card-title {
@@ -118,7 +119,7 @@
 
 .post-card-excerpt {
   flex: 1;
-  margin: var(--spacing-md) 0;
+  margin: var(--spacing-md) 0 0;
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
@@ -128,40 +129,36 @@
   overflow: hidden;
 }
 
-.read-more {
-  display: inline-flex;
+// Top-right: date · words · time
+.post-card-meta-top {
+  display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 4px;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: var(--color-primary);
-  margin-top: auto;
-  padding-top: var(--spacing-sm);
-  transition: gap var(--transition-fast);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
 
-  &::after {
-    content: '→';
-    transition: transform var(--transition-fast);
-  }
-
-  &:hover {
-    gap: 8px;
+  .meta-sep {
+    margin: 0 2px;
+    opacity: 0.5;
   }
 }
 
-.post-meta {
+// Tags below title
+.post-card-tags {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  gap: var(--spacing-xs);
+  margin-bottom: 0;
 
   a {
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    color: var(--color-primary);
+    opacity: 0.8;
 
     &:hover {
-      color: var(--color-primary);
+      opacity: 1;
     }
   }
 }

@@ -2,37 +2,67 @@
 <% var direction = even ? 'left' : 'right'; %>
 <div class="post-card-wrapper">
   <article class="post-card post-card-<%= direction %>">
+    <a class="post-card-link" href="<%= url_for(post.path) %>" aria-label="<%= post.title %>"></a>
+
     <div class="post-card-cover <%= direction %>">
       <% if (post.cover) { %>
-      <a href="<%= url_for(post.path) %>">
-        <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
-      </a>
+      <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
       <% } else { %>
-      <a href="<%= url_for(post.path) %>">
-        <div class="cover-placeholder"></div>
-      </a>
+      <div class="cover-placeholder"></div>
       <% } %>
     </div>
 
     <div class="post-card-body">
+      <div class="post-card-meta-top">
+        <% if (post.date) { %>
+        <time datetime="<%= date(post.date, 'YYYY-MM-DDTHH:mm:ssZ') %>">
+          <%= date(post.date, theme.post.date_format || 'YYYY-MM-DD') %>
+        </time>
+        <% } %>
+        <% if (theme.post.word_count && post.content) { %>
+        <span class="meta-sep">·</span>
+        <span><%= word_count(post.content) %></span>
+        <% } %>
+        <% if (theme.post.reading_time && post.content) { %>
+        <span class="meta-sep">·</span>
+        <span><%= reading_time(post.content) %></span>
+        <% } %>
+      </div>
+
       <h2 class="post-card-title">
         <a href="<%= url_for(post.path) %>"><%= post.title %></a>
       </h2>
 
-      <%- partial('post-meta', { post: post }) %>
-
-      <% if (theme.home.display_excerpt) { %>
-      <div class="post-card-excerpt">
-        <% if (post.excerpt) { %>
-          <%- post.excerpt %>
-        <% } else { %>
-          <%- strip_html(post.content).substring(0, theme.home.excerpt_length || 200) %>
-        <% } %>
+      <% if (post.tags && post.tags.length) { %>
+      <div class="post-card-tags">
+        <% post.tags.forEach(function(tag) { %>
+          <a href="<%= url_for(tag.path) %>">#<%= tag.name %></a>
+        <% }) %>
       </div>
       <% } %>
 
-      <% if (theme.home.show_read_more) { %>
-      <a class="read-more" href="<%= url_for(post.path) %>"><%= __('read_more') %></a>
+      <% if (theme.home.display_excerpt) { %>
+      <div class="post-card-excerpt">
+        <%
+          var maxLen = theme.home.excerpt_length || 280;
+          var text = '';
+
+          if (post.description) {
+            text = post.description;
+          } else if (post.excerpt) {
+            text = strip_html(post.excerpt);
+          } else {
+            var pMatch = post.content.match(/<p[^>]*>([\s\S]*?)<\/p>/);
+            if (pMatch) {
+              text = strip_html(pMatch[1]);
+            } else {
+              text = strip_html(post.content);
+            }
+          }
+
+          if (text.length > maxLen) text = text.substring(0, maxLen) + '...';
+        %><%= text %>
+      </div>
       <% } %>
     </div>
   </article>

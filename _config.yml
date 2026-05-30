@@ -27,8 +27,7 @@ appearance:
 home:
   posts_per_page: 10
   display_excerpt: true
-  excerpt_length: 200
-  show_read_more: true
+  excerpt_length: 280
 
 # --- Post ---
 post:

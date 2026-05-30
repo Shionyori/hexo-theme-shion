@@ -9,6 +9,23 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+
+  a {
+    color: var(--color-text-secondary);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
 .post-title {
   font-size: var(--font-size-4xl);
   margin-bottom: var(--spacing-sm);

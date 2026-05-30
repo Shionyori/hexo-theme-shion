@@ -10,6 +10,7 @@ import { initLightbox } from './lightbox';
 import { initTabs as initTagTabs } from './tabs';
 import { initAnimations } from './animations';
 import { initHeaderScroll } from './header-scroll';
+import { initCardClick } from './card-click';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -24,4 +25,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initTagTabs();
   initAnimations();
   initHeaderScroll();
+  initCardClick();
 });
