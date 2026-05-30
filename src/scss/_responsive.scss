@@ -20,6 +20,11 @@
     padding-top: calc(var(--header-height) + var(--spacing-md));
   }
 
+  .post,
+  .page {
+    padding: var(--spacing-lg);
+  }
+
   .post-title,
   .page-title {
     font-size: var(--font-size-2xl);
@@ -40,6 +45,11 @@
 @include respond-down('sm') {
   html {
     font-size: 15px;
+  }
+
+  .post,
+  .page {
+    padding: var(--spacing-md);
   }
 
   .post-title,
