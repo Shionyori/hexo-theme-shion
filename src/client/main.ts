@@ -8,6 +8,7 @@ import { initShare } from './share';
 import { initMobileNav } from './mobile-nav';
 import { initLightbox } from './lightbox';
 import { initTabs as initTagTabs } from './tabs';
+import { initAnimations } from './animations';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -20,4 +21,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initLightbox();
   initTagTabs();
+  initAnimations();
 });

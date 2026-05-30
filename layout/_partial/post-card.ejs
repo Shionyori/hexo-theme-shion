@@ -7,23 +7,25 @@
   </div>
   <% } %>
 
-  <h2 class="post-card-title">
-    <a href="<%= url_for(post.path) %>"><%= post.title %></a>
-  </h2>
+  <div class="post-card-body">
+    <h2 class="post-card-title">
+      <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+    </h2>
 
-  <%- partial('post-meta', { post: post }) %>
+    <%- partial('post-meta', { post: post }) %>
 
-  <% if (theme.home.display_excerpt) { %>
-  <div class="post-card-excerpt">
-    <% if (post.excerpt) { %>
-      <%- post.excerpt %>
-    <% } else { %>
-      <%- strip_html(post.content).substring(0, theme.home.excerpt_length || 200) %>
+    <% if (theme.home.display_excerpt) { %>
+    <div class="post-card-excerpt">
+      <% if (post.excerpt) { %>
+        <%- post.excerpt %>
+      <% } else { %>
+        <%- strip_html(post.content).substring(0, theme.home.excerpt_length || 200) %>
+      <% } %>
+    </div>
+    <% } %>
+
+    <% if (theme.home.show_read_more) { %>
+    <a class="read-more" href="<%= url_for(post.path) %>"><%= __('read_more') %></a>
     <% } %>
   </div>
-  <% } %>
-
-  <% if (theme.home.show_read_more) { %>
-  <a class="read-more" href="<%= url_for(post.path) %>"><%= __('read_more') %></a>
-  <% } %>
 </article>
