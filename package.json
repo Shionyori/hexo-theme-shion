@@ -2,7 +2,7 @@
   "name": "hexo-theme-shion",
   "version": "1.0.0",
   "description": "A Hexo blog theme themed around Shion Yorigami from Touhou Project",
-  "author": "",
+  "author": "Shionyori",
   "license": "MIT",
   "scripts": {
     "build:scss": "sass src/scss/main.scss source/css/main.css --style compressed --quiet-deps",
