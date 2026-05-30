@@ -9,9 +9,20 @@
     "build:ts": "tsc -p tsconfig.json",
     "build:client": "esbuild src/client/main.ts --bundle --minify --outfile=source/js/main.js",
     "build": "npm run build:ts && npm run build:client && npm run build:scss",
-    "dev:scss": "sass --watch src/scss/main.scss source/css/main.css",
-    "dev:ts": "tsc -p tsconfig.json --watch",
-    "dev": "npm run build && concurrently \"npm:dev:scss\" \"npm:dev:ts\"",
+
+    "watch:scss": "sass --watch src/scss/main.scss:source/css/main.css --style compressed --quiet-deps",
+    "watch:ts": "tsc -p tsconfig.json --watch",
+    "watch:client": "node tools/watch-client.mjs",
+
+    "sync": "node tools/sync-demo.mjs",
+
+    "demo:clean": "cd demo && npx hexo clean",
+    "demo:generate": "cd demo && npx hexo generate",
+    "demo:server": "cd demo && npx hexo server --open",
+
+    "dev": "npm run build && npm run sync && concurrently -n scss,ts,client,hexo -c blue,green,yellow,magenta \"npm:watch:scss\" \"npm:watch:ts\" \"npm:watch:client\" \"npm:demo:server\"",
+    "preview": "npm run build && npm run sync && npm run demo:clean && npm run demo:generate && npm run demo:server",
+
     "clean": "rm -rf source/css/* source/js/* scripts/*"
   },
   "devDependencies": {
