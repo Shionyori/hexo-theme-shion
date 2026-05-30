@@ -19,8 +19,8 @@ export function initAnimations(): void {
     { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
   );
 
-  // Observe post cards with stagger
-  document.querySelectorAll('.post-card').forEach((el, i) => {
+  // Observe post cards with stagger (target wrapper for entrance animation)
+  document.querySelectorAll('.post-card-wrapper').forEach((el, i) => {
     const card = el as HTMLElement;
     card.classList.add('anim-fade-in-up');
     card.dataset.animDelay = String(i * 80);

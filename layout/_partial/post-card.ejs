@@ -1,37 +1,39 @@
-<article class="post-card">
-  <% if (post.cover) { %>
-  <div class="post-card-cover">
-    <a href="<%= url_for(post.path) %>">
-      <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
-    </a>
-  </div>
-  <% } else { %>
-  <div class="post-card-cover post-card-cover-placeholder">
-    <a href="<%= url_for(post.path) %>">
-      <div class="cover-placeholder"></div>
-    </a>
-  </div>
-  <% } %>
-
-  <div class="post-card-body">
-    <h2 class="post-card-title">
-      <a href="<%= url_for(post.path) %>"><%= post.title %></a>
-    </h2>
-
-    <%- partial('post-meta', { post: post }) %>
-
-    <% if (theme.home.display_excerpt) { %>
-    <div class="post-card-excerpt">
-      <% if (post.excerpt) { %>
-        <%- post.excerpt %>
+<% var even = (typeof index !== 'undefined') ? (index % 2 === 0) : true; %>
+<% var direction = even ? 'left' : 'right'; %>
+<div class="post-card-wrapper">
+  <article class="post-card post-card-<%= direction %>">
+    <div class="post-card-cover <%= direction %>">
+      <% if (post.cover) { %>
+      <a href="<%= url_for(post.path) %>">
+        <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
+      </a>
       <% } else { %>
-        <%- strip_html(post.content).substring(0, theme.home.excerpt_length || 200) %>
+      <a href="<%= url_for(post.path) %>">
+        <div class="cover-placeholder"></div>
+      </a>
       <% } %>
     </div>
-    <% } %>
 
-    <% if (theme.home.show_read_more) { %>
-    <a class="read-more" href="<%= url_for(post.path) %>"><%= __('read_more') %></a>
-    <% } %>
-  </div>
-</article>
+    <div class="post-card-body">
+      <h2 class="post-card-title">
+        <a href="<%= url_for(post.path) %>"><%= post.title %></a>
+      </h2>
+
+      <%- partial('post-meta', { post: post }) %>
+
+      <% if (theme.home.display_excerpt) { %>
+      <div class="post-card-excerpt">
+        <% if (post.excerpt) { %>
+          <%- post.excerpt %>
+        <% } else { %>
+          <%- strip_html(post.content).substring(0, theme.home.excerpt_length || 200) %>
+        <% } %>
+      </div>
+      <% } %>
+
+      <% if (theme.home.show_read_more) { %>
+      <a class="read-more" href="<%= url_for(post.path) %>"><%= __('read_more') %></a>
+      <% } %>
+    </div>
+  </article>
+</div>

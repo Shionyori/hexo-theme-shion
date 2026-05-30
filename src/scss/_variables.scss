@@ -7,6 +7,7 @@
   --color-accent-light: #E8D5A8;
 
   --color-bg: #F4F3FA;
+  --color-bg-alt: #ECEAF4;
   --color-surface: #FDFCFE;
   --color-text: #2D2B2A;
   --color-text-secondary: #7A7672;
@@ -17,6 +18,7 @@
 
   --color-shadow: rgba(45, 43, 42, 0.06);
   --color-shadow-strong: rgba(45, 43, 42, 0.10);
+  --color-shadow-primary: rgba(109, 127, 181, 0.15);
   --color-overlay: rgba(0, 0, 0, 0.35);
 
   --font-heading: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
@@ -53,7 +55,7 @@
   --shadow-sm: 0 1px 2px var(--color-shadow);
   --shadow-md: 0 4px 16px var(--color-shadow);
   --shadow-lg: 0 12px 40px var(--color-shadow-strong);
-  --shadow-card-hover: 0 8px 30px var(--color-shadow-strong);
+  --shadow-card-hover: 0 8px 30px var(--color-shadow-primary);
   --shadow-button: 0 2px 8px var(--color-shadow);
 
   --transition-fast: 150ms ease;
@@ -80,6 +82,7 @@
   --color-accent-light: #5C4A30;
 
   --color-bg: #1C1C28;
+  --color-bg-alt: #222233;
   --color-surface: #262637;
   --color-text: #E4E2DF;
   --color-text-secondary: #A8A4A0;
@@ -90,6 +93,7 @@
 
   --color-shadow: rgba(0, 0, 0, 0.25);
   --color-shadow-strong: rgba(0, 0, 0, 0.40);
+  --color-shadow-primary: rgba(139, 157, 201, 0.12);
   --color-overlay: rgba(0, 0, 0, 0.55);
 }
 

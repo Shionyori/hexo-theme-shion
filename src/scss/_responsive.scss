@@ -35,11 +35,6 @@
     gap: var(--spacing-xs);
   }
 
-  .shion-hero {
-    height: 200px;
-    margin-left: calc(-1 * var(--spacing-md));
-    margin-right: calc(-1 * var(--spacing-md));
-  }
 }
 
 @include respond-down('sm') {
