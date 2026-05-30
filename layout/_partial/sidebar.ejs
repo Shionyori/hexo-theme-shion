@@ -1,4 +1,28 @@
-<aside class="site-sidebar" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
+<%
+var isPost = page.layout === 'post' || page.layout === 'page';
+%>
+<aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
+  <% if (isPost) { %>
+  <% // Post/Page: compact TOC-only sidebar %>
+  <div class="sidebar-inner sidebar-toc-only">
+    <div class="sidebar-toc-header">
+      <a class="sidebar-back-home" href="<%= url_for('/') %>" title="<%= __('home') %>">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <span class="sidebar-toc-label"><%= page.title %></span>
+    </div>
+    <% if (page.toc || page.layout === 'post') { %>
+    <nav class="sidebar-toc">
+      <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list' }) %>
+    </nav>
+    <% } else { %>
+    <p class="toc-empty"><%= __('no_toc') || 'No headings found' %></p>
+    <% } %>
+    <a class="sidebar-back-home-bottom" href="<%= url_for('/') %>">← <%= __('home') %></a>
+  </div>
+
+  <% } else { %>
+  <% // Index/Archive/Category/Tag: full sidebar %>
   <div class="sidebar-inner">
     <% if (theme.sidebar.avatar.enable) { %>
     <div class="sidebar-avatar">
@@ -29,12 +53,6 @@
         <%- partial('_partial/widgets/' + widget) %>
       <% }) %>
     <% } %>
-
-    <% if (page.layout === 'post' && theme.post.toc) { %>
-    <div class="sidebar-toc">
-      <h4 class="widget-title"><%= __('toc') %></h4>
-      <%- toc(page.content, { max_depth: theme.post.toc_max_depth, class: 'toc-list' }) %>
-    </div>
-    <% } %>
   </div>
+  <% } %>
 </aside>

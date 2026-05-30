@@ -9,6 +9,12 @@
   z-index: var(--z-sticky);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transform: translateY(0);
+  transition: transform 0.35s ease;
+
+  &.header-hidden {
+    transform: translateY(-100%);
+  }
 }
 
 [data-theme="dark"] .site-header {

@@ -9,6 +9,7 @@ import { initMobileNav } from './mobile-nav';
 import { initLightbox } from './lightbox';
 import { initTabs as initTagTabs } from './tabs';
 import { initAnimations } from './animations';
+import { initHeaderScroll } from './header-scroll';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -22,4 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initTagTabs();
   initAnimations();
+  initHeaderScroll();
 });
