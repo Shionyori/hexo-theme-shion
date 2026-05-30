@@ -59,7 +59,7 @@ post:
 # --- Sidebar ---
 sidebar:
   enable: true
-  position: right          # left | right
+  position: left           # left | right
   avatar:
     enable: true
     image: /images/shion/avatar.png

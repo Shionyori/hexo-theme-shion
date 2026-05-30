@@ -195,7 +195,6 @@
   .site-sidebar {
     position: fixed;
     top: 0;
-    right: 0;
     bottom: 0;
     width: 300px;
     max-width: 80vw;
@@ -204,9 +203,19 @@
     padding: var(--spacing-xl);
     border-radius: 0;
     border: none;
-    box-shadow: none;
-    transform: translateX(100%);
+    box-shadow: var(--shadow-lg);
     transition: transform var(--transition-base);
+
+    // Default: slide from right
+    right: 0;
+    transform: translateX(100%);
+
+    // Slide from left when position is left
+    &[data-position="left"] {
+      right: auto;
+      left: 0;
+      transform: translateX(-100%);
+    }
 
     &.is-open {
       transform: translateX(0);

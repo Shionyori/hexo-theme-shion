@@ -1,6 +1,8 @@
 import { $, on } from './utils';
 
 const STORAGE_KEY = 'shion-theme';
+const TRANSITION_CLASS = 'theme-transitioning';
+const TRANSITION_DURATION = 400;
 
 function getPreferredMode(): 'dark' | 'light' {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -28,6 +30,24 @@ function updateGiscusTheme(mode: 'dark' | 'light'): void {
   );
 }
 
+function toggleTheme(): void {
+  const html = document.documentElement;
+  const current = html.hasAttribute('data-theme') ? 'dark' : 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+
+  // Add transition class for smooth color animation
+  html.classList.add(TRANSITION_CLASS);
+
+  applyTheme(next);
+  localStorage.setItem(STORAGE_KEY, next);
+  updateGiscusTheme(next);
+
+  // Remove transition class after animation completes
+  setTimeout(() => {
+    html.classList.remove(TRANSITION_CLASS);
+  }, TRANSITION_DURATION);
+}
+
 export function initTheme(): void {
   const mode = getPreferredMode();
   applyTheme(mode);
@@ -36,16 +56,17 @@ export function initTheme(): void {
   if (!toggle) return;
 
   on(toggle, 'click', () => {
-    const current = document.documentElement.hasAttribute('data-theme') ? 'dark' : 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem(STORAGE_KEY, next);
-    updateGiscusTheme(next);
+    toggleTheme();
   });
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     if (!localStorage.getItem(STORAGE_KEY)) {
+      const html = document.documentElement;
+      html.classList.add(TRANSITION_CLASS);
       applyTheme(e.matches ? 'dark' : 'light');
+      setTimeout(() => {
+        html.classList.remove(TRANSITION_CLASS);
+      }, TRANSITION_DURATION);
     }
   });
 }
