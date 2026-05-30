@@ -32,5 +32,15 @@
         <a class="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"><%= theme.footer.icp %></a>
       <% } %>
     </div>
+
+    <%- partial('_partial/busuanzi') %>
   </div>
 </footer>
+
+<% if (theme.custom_js) { %>
+  <% if (theme.custom_js.startsWith('http') || theme.custom_js.startsWith('/')) { %>
+  <script src="<%= theme.custom_js.startsWith('http') ? theme.custom_js : url_for(theme.custom_js) %>"></script>
+  <% } else { %>
+  <script><%- theme.custom_js %></script>
+  <% } %>
+<% } %>

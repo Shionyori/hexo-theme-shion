@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="<%= config.language %>">
+<head>
+  <%- partial('_partial/head') %>
+</head>
+<body>
+  <%- partial('_partial/header') %>
+
+  <div class="container">
+    <div class="content-wrapper">
+      <main class="site-main">
+        <div class="not-found">
+          <div class="not-found-image">
+            <img src="<%= url_for(theme.shion['404_image'] || '/images/shion/404.png') %>" alt="404">
+          </div>
+          <div class="not-found-title">4 0 4</div>
+          <p class="not-found-message"><%= __('page_not_found') %></p>
+          <a class="btn-home" href="<%= url_for('/') %>"><%= __('back_to_home') %></a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- partial('_partial/footer') %>
+  <script src="<%= url_for('/js/main.js') %>"></script>
+</body>
+</html>

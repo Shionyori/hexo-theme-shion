@@ -50,6 +50,18 @@
 
 <link rel="stylesheet" href="<%= url_for('/css/main.css') %>">
 
+<% if (theme.custom_css) { %>
+  <% if (theme.custom_css.startsWith('http') || theme.custom_css.startsWith('/')) { %>
+  <link rel="stylesheet" href="<%= theme.custom_css.startsWith('http') ? theme.custom_css : url_for(theme.custom_css) %>">
+  <% } else { %>
+  <style><%- theme.custom_css %></style>
+  <% } %>
+<% } %>
+
+<% if (theme.post && theme.post.image && theme.post.image.fancybox) { %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.css">
+<% } %>
+
 <%- partial('_partial/analytics') %>
 <%- partial('_partial/math') %>
 
@@ -64,5 +76,8 @@
     if (mode === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
+    <% if (theme.appearance.font_size) { %>
+    document.documentElement.style.setProperty('--font-size-root', '<%= theme.appearance.font_size %>');
+    <% } %>
   })();
 </script>

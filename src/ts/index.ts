@@ -5,9 +5,15 @@ import { registerMetaHelpers } from './helpers/meta';
 import { registerUtilHelpers } from './helpers/util';
 import { registerContentFilters } from './filters/content';
 import { registerSearchGenerator } from './generators/search';
+import { register404Generator } from './generators/404';
 import { registerNoteTag } from './tags/note';
 import { registerImageTag } from './tags/image';
 import { registerQuoteTag } from './tags/quote';
+import { registerTabsTag } from './tags/tabs';
+import { registerDetailsTag } from './tags/details';
+import { registerGalleryTag } from './tags/gallery';
+import { registerLinkCardTag } from './tags/linkCard';
+import { registerPostLinkCardTag } from './tags/postLinkCard';
 
 declare const hexo: Hexo;
 
@@ -17,6 +23,12 @@ registerMetaHelpers(hexo);
 registerUtilHelpers(hexo);
 registerContentFilters(hexo);
 registerSearchGenerator(hexo);
+register404Generator(hexo);
 registerNoteTag(hexo);
 registerImageTag(hexo);
 registerQuoteTag(hexo);
+registerTabsTag(hexo);
+registerDetailsTag(hexo);
+registerGalleryTag(hexo);
+registerLinkCardTag(hexo);
+registerPostLinkCardTag(hexo);

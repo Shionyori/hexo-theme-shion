@@ -6,18 +6,25 @@
 <body>
   <%- partial('_partial/header') %>
 
+  <%- partial('_partial/reading-progress') %>
+
   <div class="container">
     <div class="content-wrapper">
+      <% if (theme.sidebar.enable && theme.sidebar.position === 'left') { %>
+      <%- partial('_partial/sidebar') %>
+      <% } %>
+
       <main class="site-main">
         <%- body %>
       </main>
 
-      <% if (theme.sidebar.enable) { %>
+      <% if (theme.sidebar.enable && theme.sidebar.position !== 'left') { %>
       <%- partial('_partial/sidebar') %>
       <% } %>
     </div>
   </div>
 
+  <%- partial('_partial/mobile-nav') %>
   <%- partial('_partial/footer') %>
   <%- partial('_partial/search') %>
 
