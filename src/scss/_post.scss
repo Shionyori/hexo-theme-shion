@@ -1,3 +1,10 @@
+.content-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-2xl);
+}
+
 .post {
   background: var(--color-surface);
   border-radius: var(--radius-lg);

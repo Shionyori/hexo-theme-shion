@@ -41,7 +41,8 @@
 
 
   .post,
-  .page {
+  .page,
+  .content-card {
     padding: var(--spacing-lg);
   }
 
@@ -68,7 +69,8 @@
   }
 
   .post,
-  .page {
+  .page,
+  .content-card {
     padding: var(--spacing-md);
   }
 
