@@ -128,7 +128,7 @@ footer:
 shion:
   hero_enable: true
   hero_image: /images/shion/hero.png
-  background_image: /images/shion/bg.jpg
+  background_image: /images/shion/bg.png
   404_image: /images/shion/404.png
 
 # --- Outdate Warning ---

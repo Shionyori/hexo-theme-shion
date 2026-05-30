@@ -170,7 +170,7 @@
   align-items: center;
   justify-content: center;
   min-height: 40vh;
-  padding: var(--header-height) var(--spacing-lg) 0;
+  padding: calc(var(--header-height) + 8vh) var(--spacing-lg) 0;
   text-align: center;
 
   .hero-title {

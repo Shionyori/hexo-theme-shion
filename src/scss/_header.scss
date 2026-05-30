@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.65);
   border-bottom: 1px solid var(--color-border-light);
   z-index: var(--z-sticky);
   backdrop-filter: blur(20px) saturate(180%);
@@ -18,7 +18,7 @@
 }
 
 [data-theme="dark"] .site-header {
-  background: rgba(38, 38, 55, 0.72);
+  background: rgba(38, 38, 55, 0.55);
   border-bottom-color: var(--color-border);
 }
 
