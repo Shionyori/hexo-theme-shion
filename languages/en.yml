@@ -34,3 +34,6 @@ tagcloud: Tag Cloud
 archive_list: Archives
 page: Page
 posts_count: '%s posts'
+pagination:
+  prev: Prev
+  next: Next

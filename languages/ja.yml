@@ -34,3 +34,6 @@ tagcloud: タグクラウド
 archive_list: アーカイブ
 page: '%d ページ'
 posts_count: '%s 件の投稿'
+pagination:
+  prev: 前へ
+  next: 次へ

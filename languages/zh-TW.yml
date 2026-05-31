@@ -34,3 +34,6 @@ tagcloud: 標籤雲
 archive_list: 歸檔
 page: 第 %d 頁
 posts_count: '%s 篇文章'
+pagination:
+  prev: 上一頁
+  next: 下一頁

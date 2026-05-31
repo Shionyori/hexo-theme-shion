@@ -1,17 +1,26 @@
 <% if (page.total > 1) { %>
+<%
+  var base = page.path
+    .replace(/page\/\d+\//, '')
+    .replace(/index\.html$/, '');
+%>
 <nav class="pagination">
   <% if (page.prev) { %>
-    <a class="page-item prev" href="<%= url_for(page.prev_link) %>"><%= __('prev') %></a>
+    <a class="page-item prev" href="<%= url_for(page.prev_link) %>"><%= __('pagination.prev') %></a>
+  <% } else { %>
+    <span class="page-item prev disabled"><%= __('pagination.prev') %></span>
   <% } %>
 
   <div class="page-numbers">
-    <% var current = page.current; %>
-    <% var total = page.total; %>
-    <% var start = Math.max(1, current - 2); %>
-    <% var end = Math.min(total, current + 2); %>
+    <%
+    var current = page.current;
+    var total = page.total;
+    var start = Math.max(1, current - 2);
+    var end = Math.min(total, current + 2);
+    %>
 
     <% if (start > 1) { %>
-      <a class="page-item page-num" href="<%= url_for(page.link) %>">1</a>
+      <a class="page-item page-num" href="<%= url_for(base) %>">1</a>
       <% if (start > 2) { %>
         <span class="page-ellipsis">&hellip;</span>
       <% } %>
@@ -20,8 +29,10 @@
     <% for (var i = start; i <= end; i++) { %>
       <% if (i === current) { %>
         <span class="page-item page-num current"><%= i %></span>
+      <% } else if (i === 1) { %>
+        <a class="page-item page-num" href="<%= url_for(base) %>">1</a>
       <% } else { %>
-        <a class="page-item page-num" href="<%= url_for(page.path.replace(/page\/\d+/, '')) + (i === 1 ? '' : 'page/' + i + '/') %>"><%= i %></a>
+        <a class="page-item page-num" href="<%= url_for(base + 'page/' + i + '/') %>"><%= i %></a>
       <% } %>
     <% } %>
 
@@ -29,12 +40,14 @@
       <% if (end < total - 1) { %>
         <span class="page-ellipsis">&hellip;</span>
       <% } %>
-      <a class="page-item page-num" href="<%= url_for(page.path.replace(/page\/\d+/, 'page/' + total + '/')) %>"><%= total %></a>
+      <a class="page-item page-num" href="<%= url_for(base + 'page/' + total + '/') %>"><%= total %></a>
     <% } %>
   </div>
 
   <% if (page.next) { %>
-    <a class="page-item next" href="<%= url_for(page.next_link) %>"><%= __('next') %></a>
+    <a class="page-item next" href="<%= url_for(page.next_link) %>"><%= __('pagination.next') %></a>
+  <% } else { %>
+    <span class="page-item next disabled"><%= __('pagination.next') %></span>
   <% } %>
 </nav>
 <% } %>
