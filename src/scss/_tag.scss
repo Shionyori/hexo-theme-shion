@@ -51,15 +51,14 @@
     color: var(--color-primary-dark);
     border-radius: var(--radius-full);
     font-weight: 500;
-    opacity: calc(0.6 + 0.4 * var(--tag-weight, 0));
     transition:
       background var(--transition-fast),
       color var(--transition-fast),
-      opacity var(--transition-fast);
+      transform 0.2s ease;
 
     &:hover {
       background: var(--color-primary-light);
-      opacity: 1;
+      transform: translateY(-1px);
     }
 
     .tag-cloud-count {

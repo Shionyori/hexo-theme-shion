@@ -81,3 +81,29 @@
     <% } %>
   })();
 </script>
+
+<% // No-JS fallback: show all content at full opacity if JS is disabled %>
+<noscript>
+  <style>
+    .sidebar-inner,
+    .content-card,
+    .post,
+    .page,
+    .archive-item,
+    .category-item,
+    .pagination,
+    .comments,
+    .not-found,
+    .widget,
+    .tag-cloud-item,
+    .post-card-wrapper,
+    .post-content,
+    .post-tags-footer,
+    .post-share,
+    .post-copyright,
+    .post-nav {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  </style>
+</noscript>

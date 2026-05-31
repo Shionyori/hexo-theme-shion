@@ -1,70 +1,97 @@
 export function initAnimations(): void {
+  // IntersectionObserver for below-fold elements — triggers fade-in
+  // when the element scrolls into view.
+  // No rAF needed here: these elements have been painted in their
+  // hidden state for many frames, so the transition will fire immediately.
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
         const target = entry.target as HTMLElement;
-
-        // Stagger delay for cards in a list
-        const delay = target.dataset.animDelay;
-        if (delay) {
-          target.style.transitionDelay = delay + 'ms';
-        }
-
-        target.classList.add('is-visible');
+        const delay = Number(target.dataset.animDelay) || 0;
         observer.unobserve(target);
+
+        target.style.transitionDelay = delay + 'ms';
+        target.classList.add('is-visible');
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+    { threshold: 0.05, rootMargin: '0px 0px 100px 0px' },
   );
 
-  // Observe post cards with stagger (target wrapper for entrance animation)
-  document.querySelectorAll('.post-card-wrapper').forEach((el, i) => {
-    const card = el as HTMLElement;
-    card.classList.add('anim-fade-in-up');
-    card.dataset.animDelay = String(i * 80);
+  // Trigger entrance animation for all elements matching `selector`.
+  function animate(selector: string, stagger = 60): void {
+    const els = document.querySelectorAll<HTMLElement>(selector);
+    if (els.length === 0) return;
 
-    // Above-fold cards appear immediately
-    const rect = card.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      card.classList.add('is-visible');
-      card.style.transitionDelay = String(i * 80) + 'ms';
-    } else {
-      observer.observe(el);
-    }
-  });
+    els.forEach((el, i) => {
+      el.dataset.animDelay = String(i * stagger);
 
-  // Observe widgets with stagger
-  document.querySelectorAll('.widget').forEach((el, i) => {
-    (el as HTMLElement).classList.add('anim-fade-in-up');
-    (el as HTMLElement).dataset.animDelay = String(i * 60);
-    observer.observe(el);
-  });
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        // Above fold: double rAF ensures the hidden state is painted
+        // before is-visible triggers the CSS transition.
+        el.offsetHeight;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.transitionDelay = String(i * stagger) + 'ms';
+            el.classList.add('is-visible');
+          });
+        });
+      } else {
+        // Below fold: observe and trigger on scroll.
+        observer.observe(el);
+      }
+    });
+  }
 
-  // Observe archive items
-  document.querySelectorAll('.archive-item, .category-item').forEach((el, i) => {
-    (el as HTMLElement).classList.add('anim-fade-in-up');
-    (el as HTMLElement).dataset.animDelay = String(i * 60);
-    observer.observe(el);
-  });
+  // ==========================================================
+  // Home page: post cards cascade in
+  // ==========================================================
+  animate('.post-card-wrapper', 60);
 
-  // Observe tag cloud items
-  document.querySelectorAll('.tag-cloud-item').forEach((el, i) => {
-    (el as HTMLElement).classList.add('anim-fade-in');
-    (el as HTMLElement).dataset.animDelay = String(i * 40);
-    observer.observe(el);
-  });
+  // ==========================================================
+  // Sidebar (all variants: profile, widgets, toc-only on post pages)
+  // ==========================================================
+  animate('.sidebar-inner', 0);
 
-  // Observe page content (post, page, 404)
-  document.querySelectorAll('.post-header, .page-title, .not-found').forEach((el) => {
-    (el as HTMLElement).classList.add('anim-fade-in-up');
-    observer.observe(el);
-  });
+  // Widgets inside the sidebar widget card (staggered cascade)
+  animate('.widget', 60);
 
-  // Observe post content
-  document.querySelectorAll('.post-content, .page').forEach((el) => {
-    (el as HTMLElement).classList.add('anim-fade-in-up');
-    observer.observe(el);
-  });
+  // ==========================================================
+  // Content cards (archive, tag page, category page, about page)
+  // ==========================================================
+  animate('.content-card', 0);
+
+  // ==========================================================
+  // Post & Page
+  // ==========================================================
+  animate('.post', 0);
+  animate('.page', 0);
+
+  // Post page sections — staggered cascade after the card fades in
+  animate('.post-header, .page-title', 0);
+  animate('.post-content', 30);
+  animate('.post-tags-footer', 60);
+  animate('.post-share', 80);
+  animate('.post-copyright', 100);
+  animate('.post-nav', 120);
+
+  // ==========================================================
+  // Pagination
+  // ==========================================================
+  animate('.pagination', 0);
+
+  // ==========================================================
+  // List items (archive, categories, tag cloud)
+  // ==========================================================
+  animate('.archive-item', 40);
+  animate('.category-item', 50);
+  animate('.tag-cloud-item', 30);
+
+  // ==========================================================
+  // Comments, 404
+  // ==========================================================
+  animate('.comments', 0);
+  animate('.not-found', 0);
 }

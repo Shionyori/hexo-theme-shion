@@ -109,6 +109,11 @@
 .sidebar-toc-only {
   padding: 0;
   overflow: hidden;
+  position: sticky;
+  top: var(--spacing-md);
+  max-height: calc(100vh - var(--spacing-md) * 2);
+  display: flex;
+  flex-direction: column;
 
   .sidebar-toc-header {
     flex-shrink: 0;
@@ -127,6 +132,8 @@
 
 .sidebar-toc-only .sidebar-scroll {
   padding: var(--spacing-sm) var(--spacing-md);
+  flex: 1;
+  min-height: 0;
 }
 
 .sidebar-toc-header {

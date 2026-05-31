@@ -27,13 +27,83 @@
   }
 }
 
-// Scroll-triggered entrance animations
+// ============================================================
+// Entrance animations — all cards fade in from below on load
+//
+// Strategy:
+//   1. Cards start hidden (opacity:0, translateY) *in CSS* so the
+//      first paint renders them invisible — no flash, even if JS
+//      hasn't run yet.
+//   2. JS adds .is-visible via double-rAF (see animations.ts),
+//      triggering the CSS transition from hidden → visible.
+//   3. Below-fold elements get IntersectionObserver for
+//      scroll-triggered reveal.
+//
+// This is the same pattern that .post-card-wrapper already uses.
+// ============================================================
+
+.sidebar-inner,
+.content-card,
+.post,
+.page,
+.archive-item,
+.category-item,
+.pagination,
+.comments,
+.not-found,
+.widget {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.35s ease-out,
+    transform 0.35s ease-out;
+  will-change: transform, opacity;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Post content elements that live inside .post — fade-in-up only (no need for
+// their own translateY since the parent .post handles the card-level entrance)
+.post-content,
+.post-tags-footer,
+.post-share,
+.post-copyright,
+.post-nav {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
+  will-change: transform, opacity;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Tag cloud items — simple fade (no translate, lighter feel)
+.tag-cloud-item {
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+  will-change: opacity;
+
+  &.is-visible {
+    opacity: 1;
+  }
+}
+
+// Legacy animation classes (kept for any inline usage)
 .anim-fade-in-up {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition:
-    opacity 0.5s ease,
-    transform 0.5s ease;
+    opacity 0.35s ease-out,
+    transform 0.35s ease-out;
+  will-change: transform, opacity;
 
   &.is-visible {
     opacity: 1;
@@ -43,12 +113,16 @@
 
 .anim-fade-in {
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.25s ease-out;
+  will-change: opacity;
 
   &.is-visible {
     opacity: 1;
   }
 }
+
+// Note: overflow clipping of transforms is handled per-container.
+// Setting overflow:visible globally would break scroll containers like .sidebar-widgets.
 
 // Stagger delays
 .anim-delay-1 {
