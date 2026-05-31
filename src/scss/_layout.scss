@@ -18,7 +18,9 @@
 }
 
 .site-sidebar {
-  width: var(--sidebar-width);
+  width: 20%;
+  min-width: var(--sidebar-width);
+  max-width: 360px;
   flex-shrink: 0;
 }
 

@@ -5,12 +5,12 @@
   </time>
   <% } %>
 
-  <% if (theme.post.reading_time && post.content) { %>
-  <span class="post-reading-time"><%= reading_time(post.content) %></span>
-  <% } %>
-
   <% if (theme.post.word_count && post.content) { %>
   <span class="post-word-count"><%= word_count(post.content) %></span>
+  <% } %>
+
+  <% if (theme.post.reading_time && post.content) { %>
+  <span class="post-reading-time"><%= reading_time(post.content) %></span>
   <% } %>
 
   <% if (post.categories && post.categories.length) { %>

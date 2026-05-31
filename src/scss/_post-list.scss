@@ -222,6 +222,21 @@
         color: #fff;
       }
     }
+
+    .tag-link {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.15em 0.7em;
+      font-size: 0.72rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.22);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    }
   }
 }
 
