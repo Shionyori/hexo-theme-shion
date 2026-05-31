@@ -3,7 +3,7 @@
   <ul class="widget-list">
     <% site.tags.sort('name').forEach(function(tag) { %>
       <li class="widget-item">
-        <a href="<%= url_for(tag.path) %>">#<%= tag.name %></a>
+        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
         <span class="widget-count"><%= tag.posts.length %></span>
       </li>
     <% }) %>
