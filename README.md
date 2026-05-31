@@ -113,10 +113,10 @@ source/
 
 Each post's asset folder holds **all** its images; only one is the cover:
 
-| Image file | Role | How it's used |
-|------------|------|---------------|
-| `cover.png` (or `.jpg`, `.webp`, …) | **Cover** — displayed on the homepage card and post hero banner | Set in frontmatter: `cover: cover.png` |
-| Everything else | **Inline** — illustrations, screenshots, diagrams within the article body | Referenced via `{% asset_img %}` tag in Markdown |
+| Image file                          | Role                                                                      | How it's used                                    |
+| ----------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
+| `cover.png` (or `.jpg`, `.webp`, …) | **Cover** — displayed on the homepage card and post hero banner           | Set in frontmatter: `cover: cover.png`           |
+| Everything else                     | **Inline** — illustrations, screenshots, diagrams within the article body | Referenced via `{% asset_img %}` tag in Markdown |
 
 ### Post frontmatter
 
@@ -129,10 +129,10 @@ tags:
   - Hexo
   - Tutorial
 categories:
-  - Tech/Frontend                    # supports parent/child categories
-cover: cover.png                     # relative → post asset folder
-sticky: false                        # pin to homepage (top)
-toc: true                            # show table of contents
+  - Tech/Frontend # supports parent/child categories
+cover: cover.png # relative → post asset folder
+sticky: false # pin to homepage (top)
+toc: true # show table of contents
 ---
 ```
 
@@ -152,11 +152,11 @@ For global images (e.g. theme character images), use standard Markdown:
 
 ### Cover path resolution
 
-| Cover value | Resolves to |
-|-------------|-------------|
-| `cover.png` | `/<post-permalink>/cover.png` (post asset folder) |
-| `/images/shion/bg.png` | Site-root absolute path |
-| `https://cdn.example.com/img.jpg` | External URL |
+| Cover value                       | Resolves to                                       |
+| --------------------------------- | ------------------------------------------------- |
+| `cover.png`                       | `/<post-permalink>/cover.png` (post asset folder) |
+| `/images/shion/bg.png`            | Site-root absolute path                           |
+| `https://cdn.example.com/img.jpg` | External URL                                      |
 
 ### Scaffold templates
 
@@ -171,11 +171,11 @@ cp themes/shion/demo/scaffolds/draft.md scaffolds/
 
 ### Site Identity
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `favicon` | `string` | `/images/shion/favicon.ico` | Browser tab icon |
-| `logo.text` | `string` | `null` | Site title in header (uses `config.title` if null) |
-| `logo.image` | `string` | `null` | Logo image in header (overrides text) |
+| Key          | Type     | Default                     | Description                                        |
+| ------------ | -------- | --------------------------- | -------------------------------------------------- |
+| `favicon`    | `string` | `/images/shion/favicon.ico` | Browser tab icon                                   |
+| `logo.text`  | `string` | `null`                      | Site title in header (uses `config.title` if null) |
+| `logo.image` | `string` | `null`                      | Logo image in header (overrides text)              |
 
 ### Navigation
 
@@ -192,56 +192,56 @@ Add or remove items freely — key is the label, value is the URL path.
 
 ### Appearance
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `appearance.default_mode` | `auto \| light \| dark` | `auto` | Default color scheme |
-| `appearance.font_size` | `string` | `16px` | Base font size |
-| `appearance.code_theme` | `auto \| light \| dark` | `auto` | Code block color scheme |
-| `appearance.reading_progress` | `boolean` | `true` | Reading progress bar at page top |
+| Key                           | Type                    | Default | Description                      |
+| ----------------------------- | ----------------------- | ------- | -------------------------------- |
+| `appearance.default_mode`     | `auto \| light \| dark` | `auto`  | Default color scheme             |
+| `appearance.font_size`        | `string`                | `16px`  | Base font size                   |
+| `appearance.code_theme`       | `auto \| light \| dark` | `auto`  | Code block color scheme          |
+| `appearance.reading_progress` | `boolean`               | `true`  | Reading progress bar at page top |
 
 ### Home Page
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `home.posts_per_page` | `number` | `10` | Posts per page (overrides Hexo `per_page` for index) |
-| `home.display_excerpt` | `boolean` | `true` | Show excerpt instead of full content |
-| `home.excerpt_length` | `number` | `280` | Max characters in auto-excerpt |
+| Key                    | Type      | Default | Description                                          |
+| ---------------------- | --------- | ------- | ---------------------------------------------------- |
+| `home.posts_per_page`  | `number`  | `10`    | Posts per page (overrides Hexo `per_page` for index) |
+| `home.display_excerpt` | `boolean` | `true`  | Show excerpt instead of full content                 |
+| `home.excerpt_length`  | `number`  | `280`   | Max characters in auto-excerpt                       |
 
 ### Post
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `post.toc` | `boolean` | `true` | Show table of contents |
-| `post.toc_max_depth` | `number` | `3` | Maximum heading depth in TOC |
-| `post.copyright` | `boolean` | `true` | Show copyright notice at end of post |
-| `post.reading_time` | `boolean` | `true` | Show estimated reading time |
-| `post.word_count` | `boolean` | `true` | Show word count |
-| `post.date_format` | `string` | `YYYY-MM-DD` | Date display format (Moment.js) |
-| `post.cover.enable` | `boolean` | `true` | Enable cover images on posts |
-| `post.cover.default` | `string` | `null` | Fallback cover when post has none |
-| `post.share.enable` | `boolean` | `true` | Show social share buttons |
-| `post.share.platforms` | `string[]` | `['twitter','facebook','linkedin','copy']` | Enabled share platforms |
-| `post.copyright_license` | `string` | `CC BY-NC-SA 4.0` | License name displayed |
-| `post.code.highlight` | `string` | `highlight.js` | Code highlighter |
-| `post.code.line_numbers` | `boolean` | `true` | Show line numbers |
-| `post.code.copy_button` | `boolean` | `true` | Show copy-to-clipboard button |
-| `post.math.enable` | `boolean` | `false` | Enable KaTeX math rendering |
-| `post.image.lazy_load` | `boolean` | `true` | Native lazy loading for images |
-| `post.image.fancybox` | `boolean` | `true` | Click-to-zoom image lightbox |
+| Key                      | Type       | Default                                    | Description                          |
+| ------------------------ | ---------- | ------------------------------------------ | ------------------------------------ |
+| `post.toc`               | `boolean`  | `true`                                     | Show table of contents               |
+| `post.toc_max_depth`     | `number`   | `3`                                        | Maximum heading depth in TOC         |
+| `post.copyright`         | `boolean`  | `true`                                     | Show copyright notice at end of post |
+| `post.reading_time`      | `boolean`  | `true`                                     | Show estimated reading time          |
+| `post.word_count`        | `boolean`  | `true`                                     | Show word count                      |
+| `post.date_format`       | `string`   | `YYYY-MM-DD`                               | Date display format (Moment.js)      |
+| `post.cover.enable`      | `boolean`  | `true`                                     | Enable cover images on posts         |
+| `post.cover.default`     | `string`   | `null`                                     | Fallback cover when post has none    |
+| `post.share.enable`      | `boolean`  | `true`                                     | Show social share buttons            |
+| `post.share.platforms`   | `string[]` | `['twitter','facebook','linkedin','copy']` | Enabled share platforms              |
+| `post.copyright_license` | `string`   | `CC BY-NC-SA 4.0`                          | License name displayed               |
+| `post.code.highlight`    | `string`   | `highlight.js`                             | Code highlighter                     |
+| `post.code.line_numbers` | `boolean`  | `true`                                     | Show line numbers                    |
+| `post.code.copy_button`  | `boolean`  | `true`                                     | Show copy-to-clipboard button        |
+| `post.math.enable`       | `boolean`  | `false`                                    | Enable KaTeX math rendering          |
+| `post.image.lazy_load`   | `boolean`  | `true`                                     | Native lazy loading for images       |
+| `post.image.fancybox`    | `boolean`  | `true`                                     | Click-to-zoom image lightbox         |
 
 ### Sidebar
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `sidebar.enable` | `boolean` | `true` | Show sidebar |
-| `sidebar.position` | `left \| right` | `left` | Sidebar position |
-| `sidebar.avatar.enable` | `boolean` | `true` | Show author avatar |
-| `sidebar.avatar.image` | `string` | `/images/shion/avatar.png` | Avatar image path |
-| `sidebar.social` | `object` | `{ GitHub: '...' }` | Social link icons (key → URL) |
-| `sidebar.widgets` | `string[]` | `['recent-posts','categories-widget','tags-widget']` | Widget display order |
-| `sidebar.recent_posts_count` | `number` | `5` | Number of recent posts in widget |
-| `sidebar.tagcloud_min_font` | `number` | `1.2` | Tag cloud min font size (rem) |
-| `sidebar.tagcloud_max_font` | `number` | `2.8` | Tag cloud max font size (rem) |
+| Key                          | Type            | Default                                              | Description                      |
+| ---------------------------- | --------------- | ---------------------------------------------------- | -------------------------------- |
+| `sidebar.enable`             | `boolean`       | `true`                                               | Show sidebar                     |
+| `sidebar.position`           | `left \| right` | `left`                                               | Sidebar position                 |
+| `sidebar.avatar.enable`      | `boolean`       | `true`                                               | Show author avatar               |
+| `sidebar.avatar.image`       | `string`        | `/images/shion/avatar.png`                           | Avatar image path                |
+| `sidebar.social`             | `object`        | `{ GitHub: '...' }`                                  | Social link icons (key → URL)    |
+| `sidebar.widgets`            | `string[]`      | `['recent-posts','categories-widget','tags-widget']` | Widget display order             |
+| `sidebar.recent_posts_count` | `number`        | `5`                                                  | Number of recent posts in widget |
+| `sidebar.tagcloud_min_font`  | `number`        | `1.2`                                                | Tag cloud min font size (rem)    |
+| `sidebar.tagcloud_max_font`  | `number`        | `2.8`                                                | Tag cloud max font size (rem)    |
 
 Available social icon keys: `GitHub`, `Twitter`, `Facebook`, `Instagram`, `YouTube`, `Bilibili`, `Email`, `RSS`, `Steam`, `Discord`, `Telegram`, `LinkedIn`, `Weibo`, `Zhihu`, `Douban`, `NPM`, `Patreon`, `Reddit`, `Twitch`, `Spotify`, `Medium`, `CodePen`, `GitLab`, `StackOverflow`, `Mastodon`.
 
@@ -249,71 +249,71 @@ Available widgets: `recent-posts`, `categories-widget`, `tags-widget`, `tagcloud
 
 ### Comments
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `comments.enable` | `boolean` | `false` | Enable comments globally |
-| `comments.type` | `string` | `giscus` | Comment system: `giscus`, `disqus`, `waline`, `twikoo`, `valine`, `gitalk`, `utterances` |
+| Key               | Type      | Default  | Description                                                                              |
+| ----------------- | --------- | -------- | ---------------------------------------------------------------------------------------- |
+| `comments.enable` | `boolean` | `false`  | Enable comments globally                                                                 |
+| `comments.type`   | `string`  | `giscus` | Comment system: `giscus`, `disqus`, `waline`, `twikoo`, `valine`, `gitalk`, `utterances` |
 
 Each system has its own config block — see `_config.yml` for full per-system options.
 
 ### Analytics
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `analytics.google` | `string` | `null` | Google Analytics Measurement ID (e.g. `G-XXXXXXXXXX`) |
-| `analytics.baidu` | `string` | `null` | Baidu Tongji site ID |
+| Key                | Type     | Default | Description                                           |
+| ------------------ | -------- | ------- | ----------------------------------------------------- |
+| `analytics.google` | `string` | `null`  | Google Analytics Measurement ID (e.g. `G-XXXXXXXXXX`) |
+| `analytics.baidu`  | `string` | `null`  | Baidu Tongji site ID                                  |
 
 ### Search
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `search.enable` | `boolean` | `true` | Enable local search |
-| `search.type` | `string` | `local` | Search engine type |
+| Key             | Type      | Default | Description         |
+| --------------- | --------- | ------- | ------------------- |
+| `search.enable` | `boolean` | `true`  | Enable local search |
+| `search.type`   | `string`  | `local` | Search engine type  |
 
 Keyboard shortcut: `Ctrl+K` (Windows/Linux) or `Cmd+K` (macOS).
 
 ### Footer
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `footer.since` | `string` | `null` | Start year for copyright (e.g. `2024` → `2024 - 2026`) |
-| `footer.powered_by` | `boolean` | `true` | Show "Powered by Hexo" |
-| `footer.theme_by` | `boolean` | `true` | Show "Theme - Shion" |
-| `footer.icp` | `string` | `null` | ICP filing number (China) |
+| Key                 | Type      | Default | Description                                            |
+| ------------------- | --------- | ------- | ------------------------------------------------------ |
+| `footer.since`      | `string`  | `null`  | Start year for copyright (e.g. `2024` → `2024 - 2026`) |
+| `footer.powered_by` | `boolean` | `true`  | Show "Powered by Hexo"                                 |
+| `footer.theme_by`   | `boolean` | `true`  | Show "Theme - Shion"                                   |
+| `footer.icp`        | `string`  | `null`  | ICP filing number (China)                              |
 
 ### Shion Theme Character
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `shion.hero_enable` | `boolean` | `true` | Show hero section on homepage |
-| `shion.hero_image` | `string` | `/images/shion/hero.png` | Hero decorative image |
-| `shion.background_image` | `string` | `/images/shion/bg.png` | Page background decoration |
-| `shion.404_image` | `string` | `/images/shion/404.png` | 404 page illustration |
+| Key                      | Type      | Default                  | Description                   |
+| ------------------------ | --------- | ------------------------ | ----------------------------- |
+| `shion.hero_enable`      | `boolean` | `true`                   | Show hero section on homepage |
+| `shion.hero_image`       | `string`  | `/images/shion/hero.png` | Hero decorative image         |
+| `shion.background_image` | `string`  | `/images/shion/bg.png`   | Page background decoration    |
+| `shion.404_image`        | `string`  | `/images/shion/404.png`  | 404 page illustration         |
 
 ### Outdate Warning
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `outdate.enable` | `boolean` | `true` | Warn on old posts |
-| `outdate.days` | `number` | `365` | Days before a post is considered outdated |
+| Key              | Type      | Default | Description                               |
+| ---------------- | --------- | ------- | ----------------------------------------- |
+| `outdate.enable` | `boolean` | `true`  | Warn on old posts                         |
+| `outdate.days`   | `number`  | `365`   | Days before a post is considered outdated |
 
 ### Busuanzi
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `busuanzi.enable` | `boolean` | `false` | Enable Busuanzi visitor counting |
-| `busuanzi.site_uv` | `boolean` | `true` | Show unique visitors |
-| `busuanzi.site_pv` | `boolean` | `true` | Show page views |
+| Key                | Type      | Default | Description                      |
+| ------------------ | --------- | ------- | -------------------------------- |
+| `busuanzi.enable`  | `boolean` | `false` | Enable Busuanzi visitor counting |
+| `busuanzi.site_uv` | `boolean` | `true`  | Show unique visitors             |
+| `busuanzi.site_pv` | `boolean` | `true`  | Show page views                  |
 
 ### Advanced
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `custom_css` | `string` | `null` | Path to custom CSS file |
-| `custom_js` | `string` | `null` | Path to custom JS file |
+| Key               | Type     | Default          | Description               |
+| ----------------- | -------- | ---------------- | ------------------------- |
+| `custom_css`      | `string` | `null`           | Path to custom CSS file   |
+| `custom_js`       | `string` | `null`           | Path to custom JS file    |
 | `cdn.highlightjs` | `string` | jsDelivr CDN URL | highlight.js CDN base URL |
-| `cdn.katex` | `string` | jsDelivr CDN URL | KaTeX CDN base URL |
-| `cdn.fusejs` | `string` | jsDelivr CDN URL | Fuse.js CDN base URL |
+| `cdn.katex`       | `string` | jsDelivr CDN URL | KaTeX CDN base URL        |
+| `cdn.fusejs`      | `string` | jsDelivr CDN URL | Fuse.js CDN base URL      |
 
 ## 🏷️ Tag Plugins
 
@@ -399,20 +399,20 @@ Content for the second tab.
 
 ## 💬 Comment Systems
 
-| System | Key | Setup Difficulty | Notes |
-|--------|-----|:----------------:|-------|
-| [Giscus](https://giscus.app/) | `giscus` | Easy | GitHub Discussions-based, no backend |
-| [Disqus](https://disqus.com/) | `disqus` | Easy | Most widely used |
-| [Waline](https://waline.js.org/) | `waline` | Moderate | Self-hosted, LeanCloud or Vercel |
-| [Twikoo](https://twikoo.js.org/) | `twikoo` | Moderate | Self-hosted, Tencent CloudBase or Vercel |
-| [Valine](https://valine.js.org/) | `valine` | Easy | LeanCloud-based, serverless |
-| [Gitalk](https://github.com/gitalk/gitalk) | `gitalk` | Easy | GitHub Issues-based |
-| [Utterances](https://utteranc.es/) | `utterances` | Easy | GitHub Issues-based |
+| System                                     | Key          | Setup Difficulty | Notes                                    |
+| ------------------------------------------ | ------------ | :--------------: | ---------------------------------------- |
+| [Giscus](https://giscus.app/)              | `giscus`     |       Easy       | GitHub Discussions-based, no backend     |
+| [Disqus](https://disqus.com/)              | `disqus`     |       Easy       | Most widely used                         |
+| [Waline](https://waline.js.org/)           | `waline`     |     Moderate     | Self-hosted, LeanCloud or Vercel         |
+| [Twikoo](https://twikoo.js.org/)           | `twikoo`     |     Moderate     | Self-hosted, Tencent CloudBase or Vercel |
+| [Valine](https://valine.js.org/)           | `valine`     |       Easy       | LeanCloud-based, serverless              |
+| [Gitalk](https://github.com/gitalk/gitalk) | `gitalk`     |       Easy       | GitHub Issues-based                      |
+| [Utterances](https://utteranc.es/)         | `utterances` |       Easy       | GitHub Issues-based                      |
 
 ```yaml
 comments:
   enable: true
-  type: giscus                                       # choose one
+  type: giscus # choose one
   giscus:
     repo: 'your-username/your-repo'
     repo_id: 'R_kgXXXXXXX'
