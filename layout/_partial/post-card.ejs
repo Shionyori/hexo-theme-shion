@@ -6,7 +6,8 @@
 
     <div class="post-card-cover <%= direction %>">
       <% if (post.cover) { %>
-      <img src="<%= url_for(post.cover) %>" alt="<%= post.title %>" loading="lazy">
+      <% var coverUrl = (post.cover.startsWith('/') || post.cover.startsWith('http')) ? url_for(post.cover) : url_for(post.path + post.cover); %>
+      <img src="<%= coverUrl %>" alt="<%= post.title %>" loading="lazy">
       <% } else { %>
       <div class="cover-placeholder"></div>
       <% } %>

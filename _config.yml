@@ -39,6 +39,8 @@ post:
   date_format: 'YYYY-MM-DD'
   cover:
     enable: true
+    # Default cover image when post has no cover set.
+    # If you use post_asset_folder, set this to an absolute path like /images/covers/default.jpg
     default: null
   share:
     enable: true

@@ -12,7 +12,8 @@
   <% var hasCover = (page.cover && (page.layout === 'post' || page.layout === 'page')); %>
   <% if (hasCover) { %>
   <div class="page-bg">
-    <img src="<%= url_for(page.cover) %>" alt="">
+  <% var coverUrl = (page.cover.startsWith('/') || page.cover.startsWith('http')) ? url_for(page.cover) : url_for(page.path + page.cover); %>
+    <img src="<%= coverUrl %>" alt="">
   </div>
   <% } else if (theme.shion && theme.shion.background_image) { %>
   <div class="page-bg">
