@@ -1,19 +1,19 @@
 import Hexo from 'hexo';
-import { registerStringHelpers } from './helpers/string';
-import { registerDateHelpers } from './helpers/date';
-import { registerMetaHelpers } from './helpers/meta';
-import { registerUtilHelpers } from './helpers/util';
-import { registerContentFilters } from './filters/content';
-import { registerSearchGenerator } from './generators/search';
-import { register404Generator } from './generators/404';
-import { registerNoteTag } from './tags/note';
-import { registerImageTag } from './tags/image';
-import { registerQuoteTag } from './tags/quote';
-import { registerTabsTag } from './tags/tabs';
-import { registerDetailsTag } from './tags/details';
-import { registerGalleryTag } from './tags/gallery';
-import { registerLinkCardTag } from './tags/linkCard';
-import { registerPostLinkCardTag } from './tags/postLinkCard';
+import { registerStringHelpers } from './helpers/string.js';
+import { registerDateHelpers } from './helpers/date.js';
+import { registerMetaHelpers } from './helpers/meta.js';
+import { registerUtilHelpers } from './helpers/util.js';
+import { registerContentFilters } from './filters/content.js';
+import { registerSearchGenerator } from './generators/search.js';
+import { register404Generator } from './generators/404.js';
+import { registerNoteTag } from './tags/note.js';
+import { registerImageTag } from './tags/image.js';
+import { registerQuoteTag } from './tags/quote.js';
+import { registerTabsTag } from './tags/tabs.js';
+import { registerDetailsTag } from './tags/details.js';
+import { registerGalleryTag } from './tags/gallery.js';
+import { registerLinkCardTag } from './tags/linkCard.js';
+import { registerPostLinkCardTag } from './tags/postLinkCard.js';
 
 declare const hexo: Hexo;
 
