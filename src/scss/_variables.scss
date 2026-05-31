@@ -1,29 +1,29 @@
 :root {
-  --color-primary: #6D7FB5;
-  --color-primary-dark: #4A5D8C;
-  --color-primary-light: #BAC5E0;
-  --color-primary-soft: #EDECF6;
-  --color-accent: #C8A34E;
-  --color-accent-light: #E8D5A8;
+  --color-primary: #6d7fb5;
+  --color-primary-dark: #4a5d8c;
+  --color-primary-light: #bac5e0;
+  --color-primary-soft: #edecf6;
+  --color-accent: #c8a34e;
+  --color-accent-light: #e8d5a8;
 
-  --color-bg: #F4F3FA;
-  --color-bg-alt: #ECEAF4;
-  --color-surface: #FDFCFE;
-  --color-text: #2D2B2A;
-  --color-text-secondary: #7A7672;
-  --color-text-tertiary: #A8A49F;
-  --color-border: #E8E5F0;
-  --color-border-light: #F0EDF5;
-  --color-code-bg: #EFEDF5;
+  --color-bg: #f4f3fa;
+  --color-bg-alt: #eceaf4;
+  --color-surface: #fdfcfe;
+  --color-text: #2d2b2a;
+  --color-text-secondary: #7a7672;
+  --color-text-tertiary: #a8a49f;
+  --color-border: #e8e5f0;
+  --color-border-light: #f0edf5;
+  --color-code-bg: #efedf5;
 
   --color-shadow: rgba(45, 43, 42, 0.06);
-  --color-shadow-strong: rgba(45, 43, 42, 0.10);
-  --color-shadow-primary: rgba(109, 127, 181, 0.20);
+  --color-shadow-strong: rgba(45, 43, 42, 0.1);
+  --color-shadow-primary: rgba(109, 127, 181, 0.2);
   --color-overlay: rgba(0, 0, 0, 0.35);
 
-  --font-heading: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
-  --font-body: "Noto Sans SC", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-code: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+  --font-heading: 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
+  --font-body: 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
 
   --font-size-root: 16px;
   --font-size-xs: 0.75rem;
@@ -73,26 +73,26 @@
   --content-max: 960px;
 }
 
-[data-theme="dark"] {
-  --color-primary: #8B9DC9;
-  --color-primary-dark: #A8B8DE;
-  --color-primary-light: #5A6D96;
-  --color-primary-soft: #2A3040;
-  --color-accent: #D4B15C;
-  --color-accent-light: #5C4A30;
+[data-theme='dark'] {
+  --color-primary: #8b9dc9;
+  --color-primary-dark: #a8b8de;
+  --color-primary-light: #5a6d96;
+  --color-primary-soft: #2a3040;
+  --color-accent: #d4b15c;
+  --color-accent-light: #5c4a30;
 
-  --color-bg: #1C1C28;
+  --color-bg: #1c1c28;
   --color-bg-alt: #222233;
   --color-surface: #262637;
-  --color-text: #E4E2DF;
-  --color-text-secondary: #A8A4A0;
-  --color-text-tertiary: #706C68;
+  --color-text: #e4e2df;
+  --color-text-secondary: #a8a4a0;
+  --color-text-tertiary: #706c68;
   --color-border: #333345;
-  --color-border-light: #2C2C3D;
+  --color-border-light: #2c2c3d;
   --color-code-bg: #212135;
 
   --color-shadow: rgba(0, 0, 0, 0.25);
-  --color-shadow-strong: rgba(0, 0, 0, 0.40);
+  --color-shadow-strong: rgba(0, 0, 0, 0.4);
   --color-shadow-primary: rgba(139, 157, 201, 0.18);
   --color-overlay: rgba(0, 0, 0, 0.55);
 }
@@ -103,7 +103,6 @@ $breakpoints: (
   'lg': 1024px,
   'xl': 1280px,
 );
-
 
 @mixin respond-up($bp) {
   @media (min-width: map-get($breakpoints, $bp)) {

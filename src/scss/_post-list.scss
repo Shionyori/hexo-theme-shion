@@ -9,12 +9,17 @@
   opacity: 0;
   transform: translateY(24px);
   border-radius: var(--radius-lg);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &.is-visible {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease,
+      box-shadow 0.3s ease;
   }
 
   &:hover {
@@ -70,8 +75,15 @@
   .cover-placeholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--color-primary-soft), var(--color-primary-light), var(--color-primary-soft));
-    transition: transform 0.5s ease, opacity var(--transition-fast);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-soft),
+      var(--color-primary-light),
+      var(--color-primary-soft)
+    );
+    transition:
+      transform 0.5s ease,
+      opacity var(--transition-fast);
   }
 
   // Left-aligned: clip top-right corner
@@ -179,7 +191,10 @@
     color: #fff;
     font-size: var(--font-size-4xl);
     font-family: var(--font-heading);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.15);
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.15);
     max-width: 900px;
     line-height: var(--line-height-tight);
   }
@@ -188,21 +203,26 @@
     color: rgba(255, 255, 255, 0.9);
     font-size: var(--font-size-lg);
     margin-top: var(--spacing-sm);
-    text-shadow: 0 0 6px rgba(109,127,181,0.35), 0 1px 3px rgba(0,0,0,0.4);
+    text-shadow:
+      0 0 6px rgba(109, 127, 181, 0.35),
+      0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   .post-meta {
     color: rgba(255, 255, 255, 0.85);
     font-size: var(--font-size-sm);
-    text-shadow: 0 0 6px rgba(109,127,181,0.35), 0 1px 2px rgba(0,0,0,0.4);
+    text-shadow:
+      0 0 6px rgba(109, 127, 181, 0.35),
+      0 1px 2px rgba(0, 0, 0, 0.4);
 
     a {
       color: rgba(255, 255, 255, 0.9);
-      &:hover { color: #fff; }
+      &:hover {
+        color: #fff;
+      }
     }
   }
 }
-
 
 // Sticky post indicator
 .post-card-sticky {
@@ -219,7 +239,7 @@
 }
 
 // Dark mode
-[data-theme="dark"] {
+[data-theme='dark'] {
   .post-card {
     box-shadow: var(--shadow-md);
   }

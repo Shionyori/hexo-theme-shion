@@ -45,17 +45,17 @@ Edit `_config.shion.yml` to customize the theme.
 
 See `_config.yml` for all options with comments. Key sections:
 
-| Section | Description |
-|---------|-------------|
-| `menu` | Navigation menu items |
-| `appearance` | Dark/light mode, font size |
-| `home` | Post list display options |
-| `post` | TOC, copyright, reading time, code highlight |
-| `sidebar` | Avatar, social links |
-| `comments` | Giscus or Disqus integration |
-| `analytics` | Google Analytics or Baidu Tongji |
-| `search` | Local search settings |
-| `shion` | Shion-themed decorative images |
+| Section      | Description                                  |
+| ------------ | -------------------------------------------- |
+| `menu`       | Navigation menu items                        |
+| `appearance` | Dark/light mode, font size                   |
+| `home`       | Post list display options                    |
+| `post`       | TOC, copyright, reading time, code highlight |
+| `sidebar`    | Avatar, social links                         |
+| `comments`   | Giscus or Disqus integration                 |
+| `analytics`  | Google Analytics or Baidu Tongji             |
+| `search`     | Local search settings                        |
+| `shion`      | Shion-themed decorative images               |
 
 ## Development
 

@@ -24,10 +24,7 @@ function updateGiscusTheme(mode: 'dark' | 'light'): void {
   if (!iframe) return;
 
   const theme = mode === 'dark' ? 'dark' : 'light';
-  iframe.contentWindow?.postMessage(
-    { giscus: { setConfig: { theme } } },
-    'https://giscus.app'
-  );
+  iframe.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
 }
 
 function toggleTheme(): void {

@@ -42,7 +42,9 @@ function renderResults(query: string): string {
   const results = fuseInstance.search(query).slice(0, 10);
 
   if (results.length === 0) {
-    return '<div class="search-empty">' + (window.__searchEmptyText || 'No results found.') + '</div>';
+    return (
+      '<div class="search-empty">' + (window.__searchEmptyText || 'No results found.') + '</div>'
+    );
   }
 
   return results
@@ -51,7 +53,7 @@ function renderResults(query: string): string {
       <a class="search-result-item" href="${r.item.url}">
         <div class="search-result-title">${escapeHtml(r.item.title)}</div>
         <div class="search-result-excerpt">${escapeHtml(r.item.excerpt).substring(0, 120)}</div>
-      </a>`
+      </a>`,
     )
     .join('');
 }

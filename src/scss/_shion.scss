@@ -66,13 +66,20 @@
   width: 80px;
   margin: 0 auto var(--spacing-lg);
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary-light));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-accent),
+    var(--color-primary-light)
+  );
   opacity: 0.5;
 }
 
 /* Sidebar avatar ring */
 .sidebar-avatar img {
-  box-shadow: 0 0 0 4px var(--color-primary-soft), 0 0 0 6px var(--color-border-light);
+  box-shadow:
+    0 0 0 4px var(--color-primary-soft),
+    0 0 0 6px var(--color-border-light);
 }
 
 /* Post divider decorative */

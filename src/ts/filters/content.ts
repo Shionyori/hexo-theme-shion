@@ -19,14 +19,14 @@ export function registerContentFilters(hexo: Hexo): void {
           if (match.includes('data-fancybox')) return match;
           const caption = alt || '';
           return `<a href="${src}" data-fancybox="gallery" data-caption="${caption}">${match}</a>`;
-        }
+        },
       );
     }
 
     // External links target="_blank"
     data.content = data.content.replace(
       /<a href="(https?:\/\/[^"]+)"(?!.*?target=)/g,
-      '<a href="$1" target="_blank" rel="noopener"'
+      '<a href="$1" target="_blank" rel="noopener"',
     );
 
     return data;

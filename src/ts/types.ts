@@ -43,7 +43,12 @@ export interface HexoHelperContext {
       tagcloud_min_font?: number;
       tagcloud_max_font?: number;
     };
-    comments?: { enable?: boolean; type?: string; giscus?: Record<string, unknown>; disqus?: Record<string, unknown> };
+    comments?: {
+      enable?: boolean;
+      type?: string;
+      giscus?: Record<string, unknown>;
+      disqus?: Record<string, unknown>;
+    };
     search?: { enable?: boolean };
     outdate?: { enable?: boolean; days?: number };
     shion?: { hero_enable?: boolean; hero_image?: string; '404_image'?: string };

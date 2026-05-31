@@ -18,10 +18,10 @@ menu:
 
 # --- Appearance ---
 appearance:
-  default_mode: auto       # auto | light | dark
+  default_mode: auto # auto | light | dark
   font_size: 16px
-  code_theme: auto         # auto | light | dark
-  reading_progress: true   # Show reading progress bar at top of page
+  code_theme: auto # auto | light | dark
+  reading_progress: true # Show reading progress bar at top of page
 
 # --- Home Page ---
 home:
@@ -36,15 +36,15 @@ post:
   copyright: true
   reading_time: true
   word_count: true
-  date_format: "YYYY-MM-DD"
+  date_format: 'YYYY-MM-DD'
   cover:
     enable: true
     default: null
   share:
     enable: true
     platforms: ['twitter', 'facebook', 'linkedin', 'copy']
-  copyright_license: "CC BY-NC-SA 4.0"
-  copyright_license_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  copyright_license: 'CC BY-NC-SA 4.0'
+  copyright_license_url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
   code:
     highlight: highlight.js
     line_numbers: true
@@ -58,7 +58,7 @@ post:
 # --- Sidebar ---
 sidebar:
   enable: true
-  position: left           # left | right
+  position: left # left | right
   avatar:
     enable: true
     image: /images/shion/avatar.png
@@ -75,36 +75,36 @@ sidebar:
 # --- Comments ---
 comments:
   enable: false
-  type: giscus             # giscus | disqus | waline | twikoo | valine | gitalk | utterances | none
+  type: giscus # giscus | disqus | waline | twikoo | valine | gitalk | utterances | none
   giscus:
-    repo: ""
-    repo_id: ""
-    category: ""
-    category_id: ""
+    repo: ''
+    repo_id: ''
+    category: ''
+    category_id: ''
     mapping: pathname
     strict: false
-    reactions_enabled: "1"
-    emit_metadata: "0"
+    reactions_enabled: '1'
+    emit_metadata: '0'
     input_position: bottom
     lang: auto
   disqus:
-    shortname: ""
+    shortname: ''
   waline:
-    serverURL: ""
+    serverURL: ''
     lang: auto
   twikoo:
-    envId: ""
+    envId: ''
   valine:
-    appId: ""
-    appKey: ""
+    appId: ''
+    appKey: ''
   gitalk:
-    clientID: ""
-    clientSecret: ""
-    repo: ""
-    owner: ""
+    clientID: ''
+    clientSecret: ''
+    repo: ''
+    owner: ''
     admin: []
   utterances:
-    repo: ""
+    repo: ''
     issue_term: pathname
 
 # --- Analytics ---

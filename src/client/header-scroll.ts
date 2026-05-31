@@ -1,7 +1,7 @@
 import { $ } from './utils';
 
-const HIDE_THRESHOLD = 80;  // px scrolled before header can hide
-const SHOW_THRESHOLD = 30;  // px scrolled up before header shows
+const HIDE_THRESHOLD = 80; // px scrolled before header can hide
+const SHOW_THRESHOLD = 30; // px scrolled up before header shows
 const HIDDEN_CLASS = 'header-hidden';
 
 let lastScrollY = 0;

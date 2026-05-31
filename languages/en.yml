@@ -13,24 +13,24 @@ next: Next
 posts: posts
 toc: Table of Contents
 comment: Comments
-copyright: "&copy; %s %s. All rights reserved."
-powered_by: "Powered by %s"
-theme_by: "Theme by %s"
-page_not_found: "This page is as empty as my wallet..."
+copyright: '&copy; %s %s. All rights reserved.'
+powered_by: 'Powered by %s'
+theme_by: 'Theme by %s'
+page_not_found: 'This page is as empty as my wallet...'
 back_to_home: Back to Home
 dark_mode: Dark Mode
 light_mode: Light Mode
 no_tags: No tags yet.
 no_categories: No categories yet.
 share: Share
-share_on: "Share on %s"
+share_on: 'Share on %s'
 copy_link: Copy link
 link_copied: Link copied!
-outdate_warning: "This post was published %s days ago and may be outdated."
+outdate_warning: 'This post was published %s days ago and may be outdated.'
 recent_posts: Recent Posts
 category_list: Categories
 tag_list: Tags
 tagcloud: Tag Cloud
 archive_list: Archives
 page: Page
-posts_count: "%s posts"
+posts_count: '%s posts'

@@ -10,7 +10,7 @@ export function on<K extends keyof HTMLElementEventMap>(
   el: Element | Document | Window,
   event: K,
   handler: (e: HTMLElementEventMap[K]) => void,
-  options?: AddEventListenerOptions
+  options?: AddEventListenerOptions,
 ): void {
   el.addEventListener(event, handler as EventListener, options);
 }

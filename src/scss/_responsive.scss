@@ -8,9 +8,15 @@
     font-size: var(--font-size-3xl);
   }
 
-  h1 { font-size: var(--font-size-3xl); }
-  h2 { font-size: var(--font-size-2xl); }
-  h3 { font-size: var(--font-size-xl); }
+  h1 {
+    font-size: var(--font-size-3xl);
+  }
+  h2 {
+    font-size: var(--font-size-2xl);
+  }
+  h3 {
+    font-size: var(--font-size-xl);
+  }
 }
 
 @include respond-down('md') {
@@ -27,7 +33,6 @@
     }
   }
 
-
   .content-wrapper {
     flex-direction: column;
     gap: var(--spacing-xl);
@@ -38,7 +43,6 @@
     height: 50vh;
     max-height: 450px;
   }
-
 
   .post,
   .page,
@@ -60,7 +64,6 @@
     flex-direction: column;
     gap: var(--spacing-xs);
   }
-
 }
 
 @include respond-down('sm') {
@@ -79,9 +82,15 @@
     font-size: var(--font-size-xl);
   }
 
-  h1 { font-size: var(--font-size-2xl); }
-  h2 { font-size: var(--font-size-xl); }
-  h3 { font-size: var(--font-size-lg); }
+  h1 {
+    font-size: var(--font-size-2xl);
+  }
+  h2 {
+    font-size: var(--font-size-xl);
+  }
+  h3 {
+    font-size: var(--font-size-lg);
+  }
 
   .container {
     padding: 0 var(--spacing-md);

@@ -260,8 +260,12 @@
         margin-left: var(--spacing-sm);
         flex-shrink: 0;
 
-        &::before { content: '('; }
-        &::after { content: ')'; }
+        &::before {
+          content: '(';
+        }
+        &::after {
+          content: ')';
+        }
       }
     }
   }
@@ -304,7 +308,7 @@
     transform: translateX(100%);
 
     // Slide from left when position is left
-    &[data-position="left"] {
+    &[data-position='left'] {
       right: auto;
       left: 0;
       transform: translateX(-100%);

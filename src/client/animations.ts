@@ -16,7 +16,7 @@ export function initAnimations(): void {
         observer.unobserve(target);
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
   );
 
   // Observe post cards with stagger (target wrapper for entrance animation)

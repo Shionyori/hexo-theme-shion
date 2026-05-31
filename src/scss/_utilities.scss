@@ -10,12 +10,18 @@
   border-width: 0;
 }
 
-.text-center { text-align: center; }
+.text-center {
+  text-align: center;
+}
 
 @include respond-down('md') {
-  .hidden-md { display: none !important; }
+  .hidden-md {
+    display: none !important;
+  }
 }
 
 @include respond-up('md') {
-  .visible-md { display: none !important; }
+  .visible-md {
+    display: none !important;
+  }
 }

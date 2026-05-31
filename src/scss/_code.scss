@@ -89,7 +89,9 @@ figure.highlight {
   color: var(--color-text-secondary);
   cursor: pointer;
   opacity: 0;
-  transition: opacity var(--transition-fast), color var(--transition-fast);
+  transition:
+    opacity var(--transition-fast),
+    color var(--transition-fast);
 
   &:hover {
     color: var(--color-primary);
@@ -105,10 +107,10 @@ figure.highlight:hover .code-copy-btn,
   position: relative;
 }
 
-[data-theme="dark"] .gutter {
+[data-theme='dark'] .gutter {
   background: rgba(255, 255, 255, 0.04);
 }
 
-[data-theme="dark"] figcaption {
+[data-theme='dark'] figcaption {
   background: rgba(255, 255, 255, 0.03);
 }

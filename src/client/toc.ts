@@ -11,14 +11,14 @@ export function initToc(): void {
       entries.forEach((entry) => {
         const id = entry.target.id;
         const link = document.querySelector(
-          `.post-toc a[href="#${CSS.escape(id)}"], .sidebar-toc a[href="#${CSS.escape(id)}"]`
+          `.post-toc a[href="#${CSS.escape(id)}"], .sidebar-toc a[href="#${CSS.escape(id)}"]`,
         );
         if (link) {
           link.classList.toggle('active', entry.isIntersecting);
         }
       });
     },
-    { rootMargin: '-80px 0px -60% 0px' }
+    { rootMargin: '-80px 0px -60% 0px' },
   );
 
   headings.forEach((h) => observer.observe(h));

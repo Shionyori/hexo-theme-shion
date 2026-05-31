@@ -1,18 +1,18 @@
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #1A1A2E;
+  :root:not([data-theme='light']) {
+    --color-bg: #1a1a2e;
     --color-surface: #252540;
-    --color-text: #E0E0E0;
-    --color-text-secondary: #A0A0B0;
-    --color-border: #2E2E42;
-    --color-code-bg: #1E1E30;
+    --color-text: #e0e0e0;
+    --color-text-secondary: #a0a0b0;
+    --color-border: #2e2e42;
+    --color-code-bg: #1e1e30;
     --color-shadow: rgba(0, 0, 0, 0.3);
     --color-overlay: rgba(0, 0, 0, 0.6);
   }
 }
 
-[data-theme="dark"] {
-  img:not([src*=".svg"]) {
+[data-theme='dark'] {
+  img:not([src*='.svg']) {
     opacity: 0.9;
   }
 
@@ -27,7 +27,11 @@
   *,
   *::before,
   *::after {
-    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease,
+      border-color 0.4s ease,
+      box-shadow 0.4s ease !important;
   }
 
   img {
