@@ -24,9 +24,10 @@ var isPost = page.layout === 'post' || page.layout === 'page';
   </div>
 
   <% } else { %>
-  <% // Index/Archive/Category/Tag: full sidebar %>
-  <div class="sidebar-inner">
-    <div class="sidebar-scroll">
+  <% // Index/Archive/Category/Tag: full sidebar — split into two cards %>
+
+  <% if (theme.sidebar.avatar.enable || config.author || config.description || theme.sidebar.social) { %>
+  <div class="sidebar-inner sidebar-profile">
     <% if (theme.sidebar.avatar.enable) { %>
     <div class="sidebar-avatar">
       <img src="<%= url_for(theme.sidebar.avatar.image) %>" alt="<%= config.author || config.title %>" width="96" height="96">
@@ -50,13 +51,16 @@ var isPost = page.layout === 'post' || page.layout === 'page';
       <% } %>
     </div>
     <% } %>
-
-    <% if (theme.sidebar.widgets && theme.sidebar.widgets.length) { %>
-      <% theme.sidebar.widgets.forEach(function(widget) { %>
-        <%- partial('_partial/widgets/' + widget) %>
-      <% }) %>
-    <% } %>
-    </div>
   </div>
+  <% } %>
+
+  <% if (theme.sidebar.widgets && theme.sidebar.widgets.length) { %>
+  <div class="sidebar-inner sidebar-widgets">
+    <% theme.sidebar.widgets.forEach(function(widget) { %>
+      <%- partial('_partial/widgets/' + widget) %>
+    <% }) %>
+  </div>
+  <% } %>
+
   <% } %>
 </aside>

@@ -1,8 +1,27 @@
 <div class="widget">
   <h4 class="widget-title"><%= __('tag_list') %></h4>
+  <%
+    var tags = site.tags.sort('length').reverse();
+    var visible = 9;
+  %>
   <div class="widget-tagcloud">
-    <% site.tags.sort('length').reverse().slice(0, 10).forEach(function(tag) { %>
+    <% tags.slice(0, visible).forEach(function(tag) { %>
       <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
     <% }) %>
   </div>
+  <% var remaining = tags.length - visible; %>
+  <% if (remaining > 0) { %>
+  <div class="widget-expand">
+    <input type="checkbox" id="expand-tags" class="expand-toggle">
+    <div class="widget-tagcloud widget-hidden">
+      <% tags.slice(visible).forEach(function(tag) { %>
+        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+      <% }) %>
+    </div>
+    <label for="expand-tags" class="expand-btn">
+      <span class="expand-more">+ <%= remaining %> more</span>
+      <span class="expand-less">collapse</span>
+    </label>
+  </div>
+  <% } %>
 </div>
