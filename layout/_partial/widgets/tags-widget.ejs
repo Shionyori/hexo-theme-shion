@@ -1,11 +1,8 @@
 <div class="widget">
   <h4 class="widget-title"><%= __('tag_list') %></h4>
-  <ul class="widget-list">
-    <% site.tags.sort('name').forEach(function(tag) { %>
-      <li class="widget-item">
-        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
-        <span class="widget-count"><%= tag.posts.length %></span>
-      </li>
+  <div class="widget-tagcloud">
+    <% site.tags.sort('length').reverse().slice(0, 10).forEach(function(tag) { %>
+      <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
     <% }) %>
-  </ul>
+  </div>
 </div>

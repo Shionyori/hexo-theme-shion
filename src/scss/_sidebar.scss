@@ -270,21 +270,12 @@
     }
   }
 
-  .tagcloud {
+  .tagcloud,
+  .widget-tagcloud {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) 0;
-
-    a {
-      color: var(--color-text-secondary);
-      transition: color var(--transition-fast);
-      line-height: 1.8;
-
-      &:hover {
-        color: var(--color-primary);
-      }
-    }
   }
 }
 

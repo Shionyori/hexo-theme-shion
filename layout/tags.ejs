@@ -2,10 +2,21 @@
   <h1 class="tags-title"><%= __('tags') %></h1>
 
   <% if (site.tags.length) { %>
+  <%
+    var tags = site.tags.sort('name');
+    var counts = tags.map(function(t) { return t.posts.length; });
+    var min = Math.min.apply(null, counts);
+    var max = Math.max.apply(null, counts);
+    var range = (max - min) || 1;
+  %>
   <div class="tag-cloud">
-    <% site.tags.sort('name').forEach(function(tag) { %>
-      <% var size = Math.min(2 + tag.posts.length * 0.3, 2.8); %>
-      <a class="tag-cloud-item" href="<%= url_for(tag.path) %>" style="font-size: <%= size %>rem">
+    <% tags.forEach(function(tag) { %>
+      <%
+      var weight = (tag.posts.length - min) / range;
+      var size = 0.85 + weight * 0.7;
+      %>
+      <a class="tag-cloud-item" href="<%= url_for(tag.path) %>"
+         style="font-size: <%= size.toFixed(2) %>rem; --tag-weight: <%= weight.toFixed(3) %>;">
         <%= tag.name %>
         <span class="tag-cloud-count"><%= tag.posts.length %></span>
       </a>
@@ -14,3 +25,4 @@
   <% } else { %>
   <p class="empty-state"><%= __('no_tags') %></p>
   <% } %>
+</div>
