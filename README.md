@@ -60,10 +60,11 @@ See `_config.yml` for all options with comments. Key sections:
 ## Development
 
 ```bash
-cd themes/shion
+git clone https://github.com/Shionyori/hexo-theme-shion.git
+cd hexo-theme-shion
 npm install
 npm run build       # Build all (TS + SCSS + client JS)
-npm run dev         # Watch mode
+npm run dev         # Watch mode with demo server
 ```
 
 ### Project Structure
@@ -78,6 +79,18 @@ source/          Compiled CSS/JS and static assets
 languages/       i18n files
 scripts/         Compiled server JS output
 ```
+
+## Contributing
+
+This project follows **GitHub Flow**:
+
+1. **Fork & branch** — Fork the repo and create a feature branch from `master`
+2. **Build & test** — `npm run build` must pass; preview with `npm run dev`
+3. **Commit** — Write clear commit messages describing what and why
+4. **Pull Request** — Open a PR to `master`, fill out the PR template, and wait for CI to pass
+5. **Review** — Address feedback; once approved, squash-merge into `master`
+
+CI runs automatically on every PR via GitHub Actions (see `.github/workflows/ci.yml`).
 
 ## Credits
 
