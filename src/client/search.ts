@@ -6,6 +6,7 @@ interface SearchItem {
   url: string;
   categories: string[];
   tags: string[];
+  type: 'post' | 'page';
 }
 
 let searchIndex: SearchItem[] = [];
@@ -22,6 +23,7 @@ async function loadSearchIndex(): Promise<void> {
     searchIndex = raw.map((item: SearchItem) => ({
       ...item,
       excerpt: item.excerpt || '',
+      type: item.type || 'post',
     }));
 
     const FuseModule = await import('fuse.js');
@@ -36,38 +38,47 @@ async function loadSearchIndex(): Promise<void> {
   }
 }
 
-function renderResults(query: string): string {
-  if (!fuseInstance) return '';
-
-  const results = fuseInstance.search(query).slice(0, 10);
-
-  if (results.length === 0) {
-    return (
-      '<div class="search-empty">' + (window.__searchEmptyText || 'No results found.') + '</div>'
-    );
-  }
-
-  return results
-    .map(
-      (r) => `
-      <a class="search-result-item" href="${r.item.url}">
-        <div class="search-result-title">${escapeHtml(r.item.title)}</div>
-        <div class="search-result-excerpt">${escapeHtml(r.item.excerpt).substring(0, 120)}</div>
-      </a>`,
-    )
-    .join('');
-}
-
 function escapeHtml(text: string): string {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }
 
+function renderInfo(query: string, count: number): string {
+  const keyword = `<span class="search-highlight">${escapeHtml(query)}</span>`;
+  if (count > 0) {
+    return `关于「${keyword}」，找到了 <span class="search-highlight">${count}</span> 条记录`;
+  }
+  return `关于「${keyword}」，没有找到任何记录呢`;
+}
+
+function renderResultItems(results: { item: SearchItem }[]): string {
+  return results
+    .map((r) => {
+      const isPage = r.item.type === 'page';
+      const badgeClass = isPage ? 'is-page' : 'is-post';
+      const badgeText = isPage ? '页面' : '文章';
+      const excerpt = r.item.excerpt
+        ? `<div class="search-result-excerpt">${escapeHtml(r.item.excerpt)}</div>`
+        : '';
+
+      return `
+        <a class="search-result-item" href="${escapeHtml(r.item.url)}">
+          <span class="search-result-badge ${badgeClass}">${badgeText}</span>
+          <div class="search-result-body">
+            <div class="search-result-title">${escapeHtml(r.item.title)}</div>
+            ${excerpt}
+          </div>
+        </a>`;
+    })
+    .join('');
+}
+
 export function initSearch(): void {
   const overlay = $('#search-overlay');
   const input = $('#search-input') as HTMLInputElement | null;
   const results = $('#search-results');
+  const info = $('#search-info');
   const toggle = $('#search-toggle');
   const close = $('#search-close');
 
@@ -75,34 +86,29 @@ export function initSearch(): void {
 
   loadSearchIndex();
 
+  function closeSearch(): void {
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    input.value = '';
+    results.innerHTML = '';
+    if (info) info.innerHTML = '';
+  }
+
   on(toggle!, 'click', () => {
     overlay.classList.add('is-open');
     input.focus();
     document.body.style.overflow = 'hidden';
   });
 
-  on(close!, 'click', () => {
-    overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
-    input.value = '';
-    results.innerHTML = '';
-  });
+  on(close!, 'click', closeSearch);
 
   on(overlay, 'click', (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove('is-open');
-      document.body.style.overflow = '';
-      input.value = '';
-      results.innerHTML = '';
-    }
+    if (e.target === overlay) closeSearch();
   });
 
   on(document, 'keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
-      overlay.classList.remove('is-open');
-      document.body.style.overflow = '';
-      input.value = '';
-      results.innerHTML = '';
+      closeSearch();
     }
     if (e.key === 'k' && (e.ctrlKey || e.metaKey) && !overlay.classList.contains('is-open')) {
       e.preventDefault();
@@ -114,16 +120,23 @@ export function initSearch(): void {
 
   on(input, 'input', () => {
     const query = input.value.trim();
+
     if (query.length < 2) {
+      if (info) info.innerHTML = '';
       results.innerHTML = '';
       return;
     }
-    results.innerHTML = renderResults(query);
-  });
-}
 
-declare global {
-  interface Window {
-    __searchEmptyText?: string;
-  }
+    const fuseResults = fuseInstance ? fuseInstance.search(query).slice(0, 10) : [];
+
+    if (info) {
+      info.innerHTML = renderInfo(query, fuseResults.length);
+    }
+
+    if (fuseResults.length > 0) {
+      results.innerHTML = renderResultItems(fuseResults);
+    } else {
+      results.innerHTML = '';
+    }
+  });
 }

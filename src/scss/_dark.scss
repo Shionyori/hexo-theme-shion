@@ -12,7 +12,7 @@
 }
 
 [data-theme='dark'] {
-  img:not([src*='.svg']) {
+  img:not([src*='.svg']):not(.search-decoration) {
     opacity: 0.9;
   }
 

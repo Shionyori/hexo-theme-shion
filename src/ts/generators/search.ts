@@ -6,6 +6,7 @@ interface SearchEntry {
   url: string;
   categories: string[];
   tags: string[];
+  type: 'post' | 'page';
 }
 
 export function registerSearchGenerator(hexo: Hexo): void {
@@ -30,7 +31,7 @@ export function registerSearchGenerator(hexo: Hexo): void {
         .filter((p) => (p as Record<string, unknown>).published !== false)
         .toArray();
 
-      const mapEntry = (item: Record<string, unknown>): SearchEntry => ({
+      const mapEntry = (item: Record<string, unknown>, type: 'post' | 'page'): SearchEntry => ({
         title: item.title as string,
         excerpt: (((item as Record<string, unknown>).excerpt as string) || '')
           .replace(/<[^>]*>/g, '')
@@ -46,9 +47,13 @@ export function registerSearchGenerator(hexo: Hexo): void {
           ((item as Record<string, unknown>).tags as { data: { name: string }[] })?.data?.map(
             (t) => t.name,
           ) || [],
+        type,
       });
 
-      const index: SearchEntry[] = [...posts.map(mapEntry), ...pages.map(mapEntry)];
+      const index: SearchEntry[] = [
+        ...posts.map((p) => mapEntry(p, 'post')),
+        ...pages.map((p) => mapEntry(p, 'page')),
+      ];
 
       return {
         path: 'search.json',
