@@ -5,9 +5,16 @@
     <a class="post-card-link" href="<%= url_for(post.path) %>" aria-label="<%= post.title %>"></a>
 
     <div class="post-card-cover <%= direction %>">
-      <% if (post.cover) { %>
-      <% var coverUrl = (post.cover.startsWith('/') || post.cover.startsWith('http')) ? url_for(post.cover) : url_for(post.path + post.cover); %>
-      <img src="<%= coverUrl %>" alt="<%= post.title %>" loading="lazy">
+      <%
+        var coverSrc;
+        if (post.cover) {
+          coverSrc = (post.cover.startsWith('/') || post.cover.startsWith('http')) ? url_for(post.cover) : url_for(post.path + post.cover);
+        } else if (theme.post.cover && theme.post.cover.default) {
+          coverSrc = url_for(theme.post.cover.default);
+        }
+      %>
+      <% if (coverSrc) { %>
+      <img src="<%= coverSrc %>" alt="<%= post.title %>" loading="lazy">
       <% } else { %>
       <div class="cover-placeholder"></div>
       <% } %>

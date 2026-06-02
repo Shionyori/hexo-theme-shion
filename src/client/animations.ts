@@ -14,7 +14,9 @@ export function initAnimations(): void {
 
         target.style.transitionDelay = delay + 'ms';
         target.classList.add('is-visible');
-        target.addEventListener('transitionend', () => target.style.transitionDelay = '', { once: true });
+        target.addEventListener('transitionend', () => (target.style.transitionDelay = ''), {
+          once: true,
+        });
       });
     },
     { threshold: 0.05, rootMargin: '0px 0px 100px 0px' },
@@ -28,7 +30,7 @@ export function initAnimations(): void {
     els.forEach((el, i) => {
       el.dataset.animDelay = String(i * stagger);
 
-      const cleanup = () => el.style.transitionDelay = '';
+      const cleanup = () => (el.style.transitionDelay = '');
 
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight) {

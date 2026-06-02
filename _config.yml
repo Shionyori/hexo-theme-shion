@@ -41,7 +41,7 @@ post:
     enable: true
     # Default cover image when post has no cover set.
     # If you use post_asset_folder, set this to an absolute path like /images/covers/default.jpg
-    default: null
+    default: /images/shion/default-cover.png
   share:
     enable: true
     platforms: ['twitter', 'facebook', 'linkedin', 'copy']

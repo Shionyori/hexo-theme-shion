@@ -9,10 +9,13 @@
   <%- partial('_partial/reading-progress') %>
 
   <% // Full-width page-top background — outside container, edge-to-edge %>
-  <% var hasCover = (page.cover && page.layout === 'post'); %>
+  <%
+    var pageCover = page.cover || (theme.post.cover && theme.post.cover.default);
+    var hasCover = (pageCover && page.layout === 'post');
+  %>
   <% if (hasCover) { %>
   <div class="page-bg">
-  <% var coverUrl = (page.cover.startsWith('/') || page.cover.startsWith('http')) ? url_for(page.cover) : url_for(page.path + page.cover); %>
+  <% var coverUrl = (pageCover.startsWith('/') || pageCover.startsWith('http')) ? url_for(pageCover) : url_for(page.path + pageCover); %>
     <img src="<%= coverUrl %>" alt="">
   </div>
   <% } else if (theme.shion && theme.shion.background_image) { %>

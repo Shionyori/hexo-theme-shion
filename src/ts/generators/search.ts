@@ -48,9 +48,9 @@ export function registerSearchGenerator(hexo: Hexo): void {
             ((item as Record<string, unknown>).permalink as string) ||
             '/' + (((item as Record<string, unknown>).path as string) || ''),
           categories:
-            ((item as Record<string, unknown>).categories as { data: { name: string }[] })?.data?.map(
-              (c) => c.name,
-            ) || [],
+            (
+              (item as Record<string, unknown>).categories as { data: { name: string }[] }
+            )?.data?.map((c) => c.name) || [],
           tags:
             ((item as Record<string, unknown>).tags as { data: { name: string }[] })?.data?.map(
               (t) => t.name,
