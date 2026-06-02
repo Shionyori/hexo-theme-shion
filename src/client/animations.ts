@@ -14,6 +14,7 @@ export function initAnimations(): void {
 
         target.style.transitionDelay = delay + 'ms';
         target.classList.add('is-visible');
+        target.addEventListener('transitionend', () => target.style.transitionDelay = '', { once: true });
       });
     },
     { threshold: 0.05, rootMargin: '0px 0px 100px 0px' },
@@ -27,6 +28,8 @@ export function initAnimations(): void {
     els.forEach((el, i) => {
       el.dataset.animDelay = String(i * stagger);
 
+      const cleanup = () => el.style.transitionDelay = '';
+
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight) {
         // Above fold: double rAF ensures the hidden state is painted
@@ -36,6 +39,9 @@ export function initAnimations(): void {
           requestAnimationFrame(() => {
             el.style.transitionDelay = String(i * stagger) + 'ms';
             el.classList.add('is-visible');
+            // Clean up inline transitionDelay after entrance ends,
+            // otherwise it leaks into hover/other transitions.
+            el.addEventListener('transitionend', cleanup, { once: true });
           });
         });
       } else {
@@ -86,8 +92,6 @@ export function initAnimations(): void {
   // List items (archive, categories, tag cloud)
   // ==========================================================
   animate('.archive-item', 40);
-  animate('.category-item', 50);
-  animate('.tag-cloud-item', 30);
 
   // ==========================================================
   // Comments, 404

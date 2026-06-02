@@ -162,6 +162,7 @@
 // ── Results list ──────────────────────────────────────────────────
 .search-results {
   overflow-y: auto;
+  scrollbar-gutter: stable;
   padding: 4px 8px;
   text-align: left;
   flex: 1;

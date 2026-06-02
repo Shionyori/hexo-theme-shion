@@ -104,6 +104,7 @@
   gap: var(--spacing-lg);
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .sidebar-toc-only {
@@ -304,10 +305,25 @@
 
     .expand-toggle:checked ~ .widget-hidden {
       display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-xs) 0;
+
+      // Staggered entrance: each item floats up one by one
+      > * {
+        animation: widgetItemIn 0.35s ease both;
+      }
+    }
+
+    @for $i from 1 through 25 {
+      .expand-toggle:checked ~ .widget-hidden > :nth-of-type(#{$i}) {
+        animation-delay: min($i * 0.03s, 0.3s);
+      }
     }
 
     .expand-toggle:checked ~ .widget-hidden.widget-list {
       display: block;
+      // animation inherited from .expand-toggle:checked ~ .widget-hidden > *
     }
 
     .expand-btn {
@@ -335,6 +351,38 @@
     .expand-toggle:checked ~ .expand-btn .expand-less {
       display: inline;
     }
+  }
+}
+
+// ── Staggered entrance on page load ──────────────────────────────
+
+// TOC items — first-level only, nested items appear with parent
+.toc-list > .toc-item {
+  animation: widgetItemIn 0.35s ease both;
+}
+@for $i from 1 through 30 {
+  .toc-list > .toc-item:nth-of-type(#{$i}) {
+    animation-delay: min($i * 0.03s, 0.6s);
+  }
+}
+
+// Category list items (visible batch, not inside .widget-hidden)
+.widget-list:not(.widget-hidden) > .widget-item {
+  animation: widgetItemIn 0.35s ease both;
+}
+@for $i from 1 through 25 {
+  .widget-list:not(.widget-hidden) > .widget-item:nth-of-type(#{$i}) {
+    animation-delay: min($i * 0.03s, 0.3s);
+  }
+}
+
+// Tag cloud pills (visible batch, not inside .widget-hidden)
+.widget-tagcloud:not(.widget-hidden) > .tag-link {
+  animation: widgetItemIn 0.35s ease both;
+}
+@for $i from 1 through 20 {
+  .widget-tagcloud:not(.widget-hidden) > .tag-link:nth-of-type(#{$i}) {
+    animation-delay: min($i * 0.03s, 0.3s);
   }
 }
 

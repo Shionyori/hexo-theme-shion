@@ -25,6 +25,7 @@
   transform: translateX(-100%);
   transition: transform var(--transition-base);
   overflow-y: auto;
+  scrollbar-gutter: stable;
 
   &.is-open {
     transform: translateX(0);

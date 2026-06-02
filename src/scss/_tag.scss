@@ -51,6 +51,7 @@
     color: var(--color-primary-dark);
     border-radius: var(--radius-full);
     font-weight: 500;
+    animation: widgetItemIn 0.35s ease both;
     transition:
       background var(--transition-fast),
       color var(--transition-fast),
@@ -65,6 +66,12 @@
       font-size: 0.65em;
       margin-left: 3px;
       opacity: 0.65;
+    }
+  }
+
+  @for $i from 1 through 50 {
+    .tag-cloud-item:nth-of-type(#{$i}) {
+      animation-delay: min($i * 0.03s, 0.6s);
     }
   }
 }
@@ -98,6 +105,7 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     margin-bottom: var(--spacing-sm);
+    animation: widgetItemIn 0.35s ease both;
     transition:
       border-color var(--transition-fast),
       box-shadow var(--transition-fast);
@@ -115,6 +123,12 @@
     .category-count {
       font-family: var(--font-code);
       font-size: var(--font-size-sm);
+    }
+  }
+
+  @for $i from 1 through 30 {
+    .category-item:nth-of-type(#{$i}) {
+      animation-delay: min($i * 0.04s, 0.6s);
     }
   }
 }

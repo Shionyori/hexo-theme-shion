@@ -47,11 +47,9 @@
 .post,
 .page,
 .archive-item,
-.category-item,
 .pagination,
 .comments,
-.not-found,
-.widget {
+.not-found {
   opacity: 0;
   transform: translateY(20px);
   transition:
@@ -62,6 +60,28 @@
   &.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// Widgets: transform-only entrance so children's CSS animations
+// control their own opacity independently.
+.widget {
+  transform: translateY(20px);
+  transition: transform 0.35s ease-out;
+  will-change: transform;
+
+  &.is-visible {
+    transform: translateY(0);
+  }
+}
+
+// Shared staggered entrance: items float up one by one.
+// Only `from` is explicit — browser computes `to` from underlying
+// values, so hover transforms won't be locked after the animation ends.
+@keyframes widgetItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
 }
 
@@ -85,16 +105,6 @@
   }
 }
 
-// Tag cloud items — simple fade (no translate, lighter feel)
-.tag-cloud-item {
-  opacity: 0;
-  transition: opacity 0.25s ease-out;
-  will-change: opacity;
-
-  &.is-visible {
-    opacity: 1;
-  }
-}
 
 // Legacy animation classes (kept for any inline usage)
 .anim-fade-in-up {

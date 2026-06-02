@@ -152,7 +152,7 @@ code {
   outline-offset: 2px;
 }
 
-// Scrollbar
+// Scrollbar — themed semi-transparent
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -167,11 +167,11 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: color-mix(in srgb, var(--color-primary-light) 55%, transparent);
   border-radius: 3px;
 
   &:hover {
-    background: var(--color-text-tertiary);
+    background: color-mix(in srgb, var(--color-primary) 70%, transparent);
   }
 }
 
@@ -182,7 +182,12 @@ code {
 // Firefox
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
+  scrollbar-color: color-mix(in srgb, var(--color-primary-light) 55%, transparent) transparent;
+}
+
+// ── Scrollbar gutter — reserve space to prevent layout shift ─────
+html {
+  scrollbar-gutter: stable;
 }
 
 .empty-state {
