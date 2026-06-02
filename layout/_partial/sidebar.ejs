@@ -1,5 +1,5 @@
 <%
-var isPost = page.layout === 'post' || page.layout === 'page';
+var isPost = page.layout === 'post';
 %>
 <aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
   <% if (isPost) { %>

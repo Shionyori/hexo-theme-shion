@@ -9,7 +9,7 @@
   <%- partial('_partial/reading-progress') %>
 
   <% // Full-width page-top background — outside container, edge-to-edge %>
-  <% var hasCover = (page.cover && (page.layout === 'post' || page.layout === 'page')); %>
+  <% var hasCover = (page.cover && page.layout === 'post'); %>
   <% if (hasCover) { %>
   <div class="page-bg">
   <% var coverUrl = (page.cover.startsWith('/') || page.cover.startsWith('http')) ? url_for(page.cover) : url_for(page.path + page.cover); %>
@@ -23,7 +23,7 @@
 
   <% // Hero area — above content, outside flex layout so sidebar sits below it %>
   <% var isHome = (!page.layout || page.layout === 'index' || page.__index); %>
-  <% var isPost = (page.layout === 'post' || page.layout === 'page'); %>
+  <% var isPost = (page.layout === 'post'); %>
   <% if (isHome && theme.shion.hero_enable) { %>
   <section class="page-hero">
     <h1 class="hero-title"><%= config.title %></h1>
