@@ -83,18 +83,27 @@ export function initSearch(): void {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   function closeSearch(): void {
-    overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
-    input.value = '';
-    results.innerHTML = '';
-    if (info) info.innerHTML = '';
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-      debounceTimer = null;
-    }
+    if (overlay.classList.contains('is-closing')) return;
+
+    overlay.classList.add('is-closing');
+
+    // Clean up after close animation completes
+    setTimeout(() => {
+      overlay.classList.remove('is-open', 'is-closing');
+      document.body.style.overflow = '';
+      input.value = '';
+      results.innerHTML = '';
+      if (info) info.innerHTML = '';
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+        debounceTimer = null;
+      }
+    }, 200);
   }
 
   on(toggle!, 'click', () => {
+    if (overlay.classList.contains('is-closing')) return;
+    overlay.classList.remove('is-closing');
     overlay.classList.add('is-open');
     input.focus();
     document.body.style.overflow = 'hidden';
@@ -102,16 +111,13 @@ export function initSearch(): void {
 
   on(close!, 'click', closeSearch);
 
-  on(overlay, 'click', (e) => {
-    if (e.target === overlay) closeSearch();
-  });
-
   on(document, 'keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
       closeSearch();
     }
-    if (e.key === 'k' && (e.ctrlKey || e.metaKey) && !overlay.classList.contains('is-open')) {
+    if (e.key === 'k' && (e.ctrlKey || e.metaKey) && !overlay.classList.contains('is-open') && !overlay.classList.contains('is-closing')) {
       e.preventDefault();
+      overlay.classList.remove('is-closing');
       overlay.classList.add('is-open');
       input.focus();
       document.body.style.overflow = 'hidden';
