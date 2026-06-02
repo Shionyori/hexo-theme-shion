@@ -74,11 +74,7 @@
   object-position: right bottom;
 }
 
-[data-theme='dark'] .search-decoration {
-  opacity: 0.04;
-}
-
-[data-theme='dark'] .search-container {
+.search-container {
   box-shadow:
     0 0 14px 5px rgba(139, 157, 201, 0.3),
     0 0 40px rgba(139, 157, 201, 0.18),
@@ -179,25 +175,35 @@
 .search-result-item {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 12px;
+  gap: 5px 0;
   padding: 14px 14px 14px 28px;
   border-radius: var(--radius-md);
   text-decoration: none;
-  transition: background var(--transition-fast);
 
-  // Decorative bar (Reimu-style)
+  // Decorative bar — aligned with title midline
+  // title font-size: 16px, line-height: 1.4 → line box ≈ 22.4px
+  // padding-top: 14px, so title midline ≈ 14 + 11.2 ≈ 25px
   &::before {
     content: '';
     position: absolute;
     left: 12px;
-    top: 50%;
+    top: 25px;
     transform: translateY(-50%);
     width: 3px;
     height: 16px;
     border-radius: 2px;
     background: var(--color-primary-light);
     opacity: 0.4;
+  }
+
+  // All transitions are deferred via .is-mounted to prevent
+  // animating out of browser defaults on DOM insert.
+  &.is-mounted {
+    transition: background var(--transition-fast);
+  }
+  &.is-mounted::before {
     transition:
       height var(--transition-fast),
       border-radius var(--transition-fast),
@@ -205,7 +211,7 @@
   }
 
   &:hover {
-    background: var(--color-bg-alt);
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 
     &::before {
       height: 6px;
@@ -216,44 +222,28 @@
   }
 }
 
-// Type badge (post / page)
-.search-result-badge {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-top: 3px;
-
-  &.is-post {
-    color: var(--color-primary);
-    background: var(--color-primary-soft);
-  }
-
-  &.is-page {
-    color: var(--color-accent);
-    background: var(--color-accent-light);
-  }
-}
-
-// Text content
-.search-result-body {
-  flex: 1;
-  min-width: 0;
-}
-
 .search-result-title {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--color-text);
   line-height: 1.4;
 }
 
+// Highlight title on hover
+.search-result-item:hover .search-result-title {
+  color: var(--color-primary);
+}
+
+// Deferred — see .is-mounted note above
+.search-result-item.is-mounted .search-result-title {
+  transition: color var(--transition-fast);
+}
+
 .search-result-excerpt {
+  width: 100%;
   font-size: 14px;
   color: var(--color-text-secondary);
-  margin-top: 4px;
-  line-height: 1.5;
+  line-height: 1.8;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;

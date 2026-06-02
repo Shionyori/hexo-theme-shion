@@ -55,20 +55,14 @@ function renderInfo(query: string, count: number): string {
 function renderResultItems(results: { item: SearchItem }[]): string {
   return results
     .map((r) => {
-      const isPage = r.item.type === 'page';
-      const badgeClass = isPage ? 'is-page' : 'is-post';
-      const badgeText = isPage ? '页面' : '文章';
       const excerpt = r.item.excerpt
         ? `<div class="search-result-excerpt">${escapeHtml(r.item.excerpt)}</div>`
         : '';
 
       return `
         <a class="search-result-item" href="${escapeHtml(r.item.url)}">
-          <span class="search-result-badge ${badgeClass}">${badgeText}</span>
-          <div class="search-result-body">
-            <div class="search-result-title">${escapeHtml(r.item.title)}</div>
-            ${excerpt}
-          </div>
+          <div class="search-result-title">${escapeHtml(r.item.title)}</div>
+          ${excerpt}
         </a>`;
     })
     .join('');
@@ -86,12 +80,18 @@ export function initSearch(): void {
 
   loadSearchIndex();
 
+  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
   function closeSearch(): void {
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
     input.value = '';
     results.innerHTML = '';
     if (info) info.innerHTML = '';
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+      debounceTimer = null;
+    }
   }
 
   on(toggle!, 'click', () => {
@@ -121,22 +121,41 @@ export function initSearch(): void {
   on(input, 'input', () => {
     const query = input.value.trim();
 
+    // Clear immediately when query is too short
     if (query.length < 2) {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+        debounceTimer = null;
+      }
       if (info) info.innerHTML = '';
       results.innerHTML = '';
       return;
     }
 
-    const fuseResults = fuseInstance ? fuseInstance.search(query).slice(0, 10) : [];
+    // Debounce the actual search to avoid flicker on rapid typing
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      debounceTimer = null;
+      const fuseResults = fuseInstance ? fuseInstance.search(query).slice(0, 10) : [];
 
-    if (info) {
-      info.innerHTML = renderInfo(query, fuseResults.length);
-    }
+      if (info) {
+        info.innerHTML = renderInfo(query, fuseResults.length);
+      }
 
-    if (fuseResults.length > 0) {
-      results.innerHTML = renderResultItems(fuseResults);
-    } else {
-      results.innerHTML = '';
-    }
+      if (fuseResults.length > 0) {
+        results.innerHTML = renderResultItems(fuseResults);
+        // Delay enabling CSS transitions until after the first paint,
+        // otherwise the ::before bar animates from browser defaults and "jumps".
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            results.querySelectorAll('.search-result-item').forEach((el) => {
+              el.classList.add('is-mounted');
+            });
+          });
+        });
+      } else {
+        results.innerHTML = '';
+      }
+    }, 150);
   });
 }
