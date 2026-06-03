@@ -14,7 +14,7 @@ var isPost = page.layout === 'post';
     <div class="sidebar-scroll">
     <% if (page.toc || page.layout === 'post') { %>
     <nav class="sidebar-toc">
-      <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list' }) %>
+      <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list', list_number: false }) %>
     </nav>
     <% } else { %>
     <p class="toc-empty"><%= __('no_toc') || 'No headings found' %></p>

@@ -1,6 +1,0 @@
-<% if (post.toc && theme.post.toc) { %>
-<nav class="post-toc" id="post-toc">
-  <h4 class="toc-title"><%= __('toc') %></h4>
-  <%- toc(post.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list' }) %>
-</nav>
-<% } %>

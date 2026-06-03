@@ -254,38 +254,6 @@
   }
 }
 
-.post-toc {
-  margin-bottom: var(--spacing-xl);
-  padding: var(--spacing-lg);
-  background: var(--color-code-bg);
-  border-radius: var(--radius-md);
-
-  .toc-title {
-    font-size: var(--font-size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .toc-list {
-    font-size: var(--font-size-sm);
-    line-height: 1.8;
-
-    a {
-      color: var(--color-text-secondary);
-
-      &:hover {
-        color: var(--color-primary);
-      }
-    }
-
-    .toc-child {
-      padding-left: var(--spacing-md);
-    }
-  }
-}
-
 .page {
   background: var(--color-surface);
   border-radius: var(--radius-lg);

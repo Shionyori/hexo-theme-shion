@@ -1,32 +1,125 @@
-.post-toc .toc-list {
-  list-style: none;
-  padding: 0;
+// ── Sidebar TOC (inspired by Reimu) ─────────────────────────────
 
-  li {
+.sidebar-toc {
+  $_toc-ease: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Reset
+  .toc-list,
+  .toc-list-child {
+    list-style: none;
+    padding: 0;
     margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .toc-list-item {
+    margin: 2px 0;
     list-style: none;
   }
 
-  a {
+  // ── Link ──
+  .toc-list-link {
+    position: relative;
     display: block;
-    padding: var(--spacing-xs) 0;
-    border-left: 2px solid transparent;
-    padding-left: var(--spacing-md);
+    padding: 4px 10px 4px 28px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    line-height: var(--line-height-normal);
+    border-radius: var(--radius-md);
+    opacity: 0.85;
     transition:
-      border-color var(--transition-fast),
-      color var(--transition-fast);
+      color $_toc-ease,
+      background $_toc-ease,
+      opacity $_toc-ease;
 
+    // Decorative marker bar (like Reimu's h2-after bar)
+    &::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 9px;
+      border-radius: 1px;
+      background: var(--color-primary-light);
+      box-shadow: 0 0 4px var(--color-primary-light);
+      opacity: 0.55;
+      transition:
+        width $_toc-ease,
+        height $_toc-ease,
+        border-radius $_toc-ease,
+        opacity $_toc-ease,
+        background $_toc-ease,
+        box-shadow $_toc-ease;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+      background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+      opacity: 1;
+
+      &::before {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        opacity: 1;
+        background: var(--color-primary);
+        box-shadow: 0 0 6px var(--color-primary-light);
+      }
+    }
+
+    // ── Active ──
     &.active {
-      border-left-color: var(--color-primary);
       color: var(--color-primary);
       font-weight: 500;
+      opacity: 1;
+
+      &::before {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        opacity: 1;
+        background: var(--color-primary);
+        box-shadow: 0 0 7px var(--color-primary-light);
+      }
     }
   }
-}
 
-.toc-link {
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
+  // ── Collapsible children (JS-assisted height animation) ──
+  $_collapse-duration: 400ms;
+  $_collapse-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  .toc-list-child {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding-left: 0.75rem;
+    transition:
+      height $_collapse-duration $_collapse-ease,
+      opacity $_collapse-duration $_collapse-ease;
+
+    &.is-expanded {
+      opacity: 1;
+    }
+
+    .toc-list-link {
+      padding-left: 24px;
+
+      &::before {
+        left: 10px;
+      }
+    }
+  }
+
+  // ── Staggered entrance ──
+  .toc-list > .toc-list-item {
+    animation: widgetItemIn 0.35s ease both;
+  }
+  @for $i from 1 through 30 {
+    .toc-list > .toc-list-item:nth-of-type(#{$i}) {
+      animation-delay: min($i * 0.03s, 0.6s);
+    }
+  }
 }

@@ -175,28 +175,6 @@
   }
 }
 
-.sidebar-toc {
-  .toc-list {
-    font-size: var(--font-size-sm);
-    line-height: 1.8;
-
-    a {
-      color: var(--color-text-secondary);
-      transition: color var(--transition-fast);
-    }
-  }
-
-  .toc-child {
-    padding-left: var(--spacing-md);
-  }
-
-  // Active heading tracking (via IntersectionObserver)
-  .toc-link.active {
-    color: var(--color-primary);
-    font-weight: 500;
-  }
-}
-
 .sidebar-back-home-bottom {
   display: block;
   text-align: center;
@@ -355,16 +333,6 @@
 }
 
 // ── Staggered entrance on page load ──────────────────────────────
-
-// TOC items — first-level only, nested items appear with parent
-.toc-list > .toc-item {
-  animation: widgetItemIn 0.35s ease both;
-}
-@for $i from 1 through 30 {
-  .toc-list > .toc-item:nth-of-type(#{$i}) {
-    animation-delay: min($i * 0.03s, 0.6s);
-  }
-}
 
 // Category list items (visible batch, not inside .widget-hidden)
 .widget-list:not(.widget-hidden) > .widget-item {
