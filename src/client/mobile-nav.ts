@@ -8,15 +8,18 @@ export function initMobileNav(): void {
 
   if (!toggle || !nav || !overlay) return;
 
+  const mobileNav = nav;
+  const mobileOverlay = overlay;
+
   function open(): void {
-    nav.classList.add('is-open');
-    overlay.classList.add('is-open');
+    mobileNav.classList.add('is-open');
+    mobileOverlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
 
   function close(): void {
-    nav.classList.remove('is-open');
-    overlay.classList.remove('is-open');
+    mobileNav.classList.remove('is-open');
+    mobileOverlay.classList.remove('is-open');
     document.body.style.overflow = '';
   }
 
@@ -26,10 +29,10 @@ export function initMobileNav(): void {
     on(closeBtn, 'click', close);
   }
 
-  on(overlay, 'click', close);
+  on(mobileOverlay, 'click', close);
 
   on(document, 'keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+    if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
       close();
     }
   });

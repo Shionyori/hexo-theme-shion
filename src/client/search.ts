@@ -78,21 +78,25 @@ export function initSearch(): void {
 
   if (!overlay || !input || !results) return;
 
+  const searchOverlay = overlay;
+  const searchInput = input;
+  const searchResults = results;
+
   loadSearchIndex();
 
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   function closeSearch(): void {
-    if (overlay.classList.contains('is-closing')) return;
+    if (searchOverlay.classList.contains('is-closing')) return;
 
-    overlay.classList.add('is-closing');
+    searchOverlay.classList.add('is-closing');
 
     // Clean up after close animation completes
     setTimeout(() => {
-      overlay.classList.remove('is-open', 'is-closing');
+      searchOverlay.classList.remove('is-open', 'is-closing');
       document.body.style.overflow = '';
-      input.value = '';
-      results.innerHTML = '';
+      searchInput.value = '';
+      searchResults.innerHTML = '';
       if (info) info.innerHTML = '';
       if (debounceTimer) {
         clearTimeout(debounceTimer);
@@ -102,35 +106,35 @@ export function initSearch(): void {
   }
 
   on(toggle!, 'click', () => {
-    if (overlay.classList.contains('is-closing')) return;
-    overlay.classList.remove('is-closing');
-    overlay.classList.add('is-open');
-    input.focus();
+    if (searchOverlay.classList.contains('is-closing')) return;
+    searchOverlay.classList.remove('is-closing');
+    searchOverlay.classList.add('is-open');
+    searchInput.focus();
     document.body.style.overflow = 'hidden';
   });
 
   on(close!, 'click', closeSearch);
 
   on(document, 'keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+    if (e.key === 'Escape' && searchOverlay.classList.contains('is-open')) {
       closeSearch();
     }
     if (
       e.key === 'k' &&
       (e.ctrlKey || e.metaKey) &&
-      !overlay.classList.contains('is-open') &&
-      !overlay.classList.contains('is-closing')
+      !searchOverlay.classList.contains('is-open') &&
+      !searchOverlay.classList.contains('is-closing')
     ) {
       e.preventDefault();
-      overlay.classList.remove('is-closing');
-      overlay.classList.add('is-open');
-      input.focus();
+      searchOverlay.classList.remove('is-closing');
+      searchOverlay.classList.add('is-open');
+      searchInput.focus();
       document.body.style.overflow = 'hidden';
     }
   });
 
-  on(input, 'input', () => {
-    const query = input.value.trim();
+  on(searchInput, 'input', () => {
+    const query = searchInput.value.trim();
 
     // Clear immediately when query is too short
     if (query.length < 2) {
@@ -139,7 +143,7 @@ export function initSearch(): void {
         debounceTimer = null;
       }
       if (info) info.innerHTML = '';
-      results.innerHTML = '';
+      searchResults.innerHTML = '';
       return;
     }
 
@@ -154,18 +158,18 @@ export function initSearch(): void {
       }
 
       if (fuseResults.length > 0) {
-        results.innerHTML = renderResultItems(fuseResults);
+        searchResults.innerHTML = renderResultItems(fuseResults);
         // Delay enabling CSS transitions until after the first paint,
         // otherwise the ::before bar animates from browser defaults and "jumps".
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            results.querySelectorAll('.search-result-item').forEach((el) => {
+            searchResults.querySelectorAll('.search-result-item').forEach((el) => {
               el.classList.add('is-mounted');
             });
           });
         });
       } else {
-        results.innerHTML = '';
+        searchResults.innerHTML = '';
       }
     }, 150);
   });
