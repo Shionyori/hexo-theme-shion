@@ -25,25 +25,31 @@
   <% } %>
 
   <% // Hero area — above content, outside flex layout so sidebar sits below it %>
-  <% var isHome = (!page.layout || page.layout === 'index' || page.__index); %>
-  <% var isPost = (page.layout === 'post'); %>
-  <% if (isHome && theme.shion.hero_enable) { %>
-  <section class="page-hero">
-    <h1 class="hero-title"><%= config.title %></h1>
-    <% if (config.description) { %>
-    <p class="hero-subtitle"><%= config.description %></p>
-    <% } %>
-  </section>
-  <% } else if (isPost) { %>
+  <% if (is_post()) { %>
   <section class="page-hero">
     <h1 class="hero-title"><%= page.title %></h1>
     <div class="hero-subtitle">
       <%- partial('_partial/post-meta', { post: page }) %>
     </div>
   </section>
-  <% } else if (page.layout && page.layout !== 'index') { %>
+  <% } else if (is_archive()) { %>
   <section class="page-hero">
-    <h1 class="hero-title"><%= page.title || page.category || page.tag || '' %></h1>
+    <h1 class="hero-title"><%= __('archives') %></h1>
+  </section>
+  <% } else if (is_category() || is_tag()) { %>
+  <section class="page-hero">
+    <h1 class="hero-title"><%= page.category || page.tag || '' %></h1>
+  </section>
+  <% } else if (is_home() && theme.shion.hero_enable) { %>
+  <section class="page-hero">
+    <h1 class="hero-title"><%= config.title %></h1>
+    <% if (config.description) { %>
+    <p class="hero-subtitle"><%= config.description %></p>
+    <% } %>
+  </section>
+  <% } else { %>
+  <section class="page-hero">
+    <h1 class="hero-title"><%= page.title || '' %></h1>
   </section>
   <% } %>
 

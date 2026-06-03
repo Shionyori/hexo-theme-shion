@@ -110,10 +110,12 @@ export function initToc(): void {
 
     // Check if the active set actually changed
     const currentActive = new Set<Element>();
-    tocLinks.forEach((l) => { if (l.classList.contains('active')) currentActive.add(l); });
+    tocLinks.forEach((l) => {
+      if (l.classList.contains('active')) currentActive.add(l);
+    });
 
-    if (desired.size === currentActive.size &&
-        [...desired].every((l) => currentActive.has(l))) return;
+    if (desired.size === currentActive.size && [...desired].every((l) => currentActive.has(l)))
+      return;
 
     tocLinks.forEach((l) => l.classList.remove('active'));
     desired.forEach((l) => l.classList.add('active'));
@@ -129,31 +131,34 @@ export function initToc(): void {
   }
 
   // Primary driver: IntersectionObserver with a broad detection zone
-  const observer = new IntersectionObserver(
-    () => scheduleUpdate(),
-    { rootMargin: '-80px 0px -20% 0px' },
-  );
+  const observer = new IntersectionObserver(() => scheduleUpdate(), {
+    rootMargin: '-80px 0px -20% 0px',
+  });
 
   headings.forEach((h) => observer.observe(h));
 
   // Fallback: scroll listener catches edge cases (top/bottom of page)
   // where IntersectionObserver may not fire
   let scrollTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!scrollTicking) {
-      scrollTicking = true;
-      requestAnimationFrame(() => {
-        scheduleUpdate();
-        scrollTicking = false;
-      });
-    }
-  }, { passive: true });
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+          scheduleUpdate();
+          scrollTicking = false;
+        });
+      }
+    },
+    { passive: true },
+  );
 
   // Smooth scroll to heading on TOC link click.
   // Uses scroll-end detection instead of a fixed timeout, so long-distance
   // jumps wait for the actual scroll animation to finish before updating.
   let scrollEndTimer: ReturnType<typeof setTimeout> | null = null;
-  const SCROLL_END_WAIT = 120;  // ms of no scroll → animation finished
+  const SCROLL_END_WAIT = 120; // ms of no scroll → animation finished
   const SCROLL_MAX_WAIT = 3000; // safety cap
 
   function onScrollStopped(): void {
