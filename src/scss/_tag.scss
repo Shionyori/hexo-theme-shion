@@ -308,11 +308,7 @@
   &:hover {
     border-color: var(--color-primary-light);
     box-shadow: var(--shadow-md);
-    background: linear-gradient(
-      135deg,
-      var(--color-surface) 0%,
-      var(--color-primary-soft) 100%
-    );
+    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-primary-soft) 100%);
   }
 
   .link-card-title {

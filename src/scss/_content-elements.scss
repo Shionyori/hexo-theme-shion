@@ -4,11 +4,7 @@
 .page-content {
   // Highlighted text — gold highlighter effect
   mark {
-    background: linear-gradient(
-      180deg,
-      transparent 60%,
-      var(--color-accent-light) 60%
-    );
+    background: linear-gradient(180deg, transparent 60%, var(--color-accent-light) 60%);
     color: inherit;
     padding: 0.1em 0.2em;
     border-radius: 2px;

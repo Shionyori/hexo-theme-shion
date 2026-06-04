@@ -47,7 +47,8 @@ a {
   position: relative;
 }
 
-.post-content a:not(.tag-link):not(.post-nav-item):not(.heading-anchor):not(.toc-list-link):not(.tab-btn),
+.post-content
+  a:not(.tag-link):not(.post-nav-item):not(.heading-anchor):not(.toc-list-link):not(.tab-btn),
 .page-content a:not(.tag-link) {
   text-decoration: underline;
   text-decoration-color: var(--color-primary-light);

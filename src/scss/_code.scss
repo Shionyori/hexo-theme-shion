@@ -37,11 +37,7 @@ figure.highlight {
     width: 48px;
     text-align: right;
     padding: var(--spacing-md) var(--spacing-sm);
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.03),
-      transparent
-    );
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.03), transparent);
     color: var(--color-text-tertiary);
     font-size: var(--font-size-xs);
     user-select: none;
@@ -281,11 +277,7 @@ figure.highlight {
 // ─── Dark mode overrides ───────────────────────────────────
 [data-theme='dark'] {
   figure.highlight .gutter {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.03),
-      transparent
-    );
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
   }
 
   figure.highlight figcaption {
