@@ -14,8 +14,6 @@
   <% } %>
 
   <footer class="post-footer">
-    <%- partial('_partial/share', { page: page }) %>
-
     <% if (page.tags && page.tags.length) { %>
     <div class="post-tags-footer">
       <% page.tags.forEach(function(tag) { %>
@@ -23,6 +21,8 @@
       <% }) %>
     </div>
     <% } %>
+
+    <%- partial('_partial/share', { page: page }) %>
   </footer>
 </article>
 

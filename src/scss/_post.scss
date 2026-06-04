@@ -503,35 +503,72 @@
       font-style: italic;
     }
   }
+
+  // Divider between article content and supplementary info
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: var(--spacing-2xl) 0 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-primary-light) 8%,
+      var(--color-primary) 50%,
+      var(--color-primary-light) 92%,
+      transparent 100%
+    );
+  }
 }
 
 .post-copyright {
-  margin-top: var(--spacing-2xl);
-  padding: var(--spacing-lg);
-  background: var(--color-code-bg);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border-light);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
   line-height: 1.6;
+  position: relative;
 
   p {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 2px;
+    position: relative;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   strong {
-    color: var(--color-text);
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  // Article URL
+  p:nth-child(2) {
+    font-family: var(--font-code);
+    font-size: 0.7rem;
+    opacity: 0.6;
+    word-break: break-all;
   }
 }
 
 .post-footer {
-  margin-top: var(--spacing-2xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .post-tags-footer {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-xl);
 
   .tag-link {
     display: inline-flex;
@@ -650,14 +687,12 @@
 .post-share {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding-bottom: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--color-border-light);
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
 
   .share-label {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
     font-weight: 500;
   }
 

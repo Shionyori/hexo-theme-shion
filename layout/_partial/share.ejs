@@ -1,6 +1,5 @@
 <% if (theme.post.share && theme.post.share.enable) { %>
 <div class="post-share">
-  <span class="share-label"><%= __('share') %></span>
   <div class="share-buttons">
     <% var platforms = theme.post.share.platforms || ['twitter', 'facebook', 'linkedin', 'copy']; %>
     <% var url = encodeURIComponent(config.url.replace(/\/$/, '') + '/' + page.path); %>
