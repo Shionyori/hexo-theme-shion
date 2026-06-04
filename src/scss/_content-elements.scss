@@ -1,0 +1,131 @@
+// ─── Inline element styles for post/page content ──────────
+
+.post-content,
+.page-content {
+  // Highlighted text — gold highlighter effect
+  mark {
+    background: linear-gradient(
+      180deg,
+      transparent 60%,
+      var(--color-accent-light) 60%
+    );
+    color: inherit;
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+  }
+
+  // Keyboard keys — 3D keycap
+  kbd {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    font-family: var(--font-code);
+    font-size: 0.85em;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: var(--radius-sm);
+    box-shadow:
+      0 1px 0 var(--color-border),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    line-height: 1.5;
+  }
+
+  // Description lists
+  dl {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-code-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-light);
+
+    dt {
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      margin-top: var(--spacing-md);
+
+      &::before {
+        content: '# ';
+        color: var(--color-primary-light);
+        font-family: var(--font-code);
+      }
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    dd {
+      margin-left: var(--spacing-xl);
+      margin-top: var(--spacing-xs);
+      color: var(--color-text-secondary);
+      font-size: 0.95em;
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Footnotes section
+  .footnotes {
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+
+    &::before {
+      content: 'Footnotes';
+      display: block;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-md);
+      font-family: var(--font-heading);
+    }
+
+    ol {
+      counter-reset: fn-counter;
+
+      li {
+        counter-increment: fn-counter;
+
+        &::before {
+          content: '[' counter(fn-counter) ']';
+          font-family: var(--font-code);
+          color: var(--color-primary);
+        }
+      }
+    }
+  }
+
+  // Footnote reference links
+  sup.footnote-ref a {
+    font-family: var(--font-code);
+    font-size: 0.75em;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0 0.15em;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  a.footnote-backref {
+    font-family: var(--font-code);
+    margin-left: 0.3em;
+    color: var(--color-text-tertiary);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  // Selection color
+  &::selection,
+  *::selection {
+    background: var(--color-primary-light);
+    color: var(--color-primary-dark);
+  }
+}

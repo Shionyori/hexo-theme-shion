@@ -47,13 +47,40 @@ a {
   position: relative;
 }
 
-.post-content a,
-.page-content a {
+.post-content a:not(.tag-link):not(.post-nav-item):not(.heading-anchor):not(.toc-list-link):not(.tab-btn),
+.page-content a:not(.tag-link) {
   text-decoration: underline;
   text-decoration-color: var(--color-primary-light);
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  transition:
+    text-decoration-color var(--transition-fast),
+    text-underline-offset var(--transition-fast);
 
   &:hover {
     text-decoration-color: var(--color-primary);
+    text-underline-offset: 5px;
   }
+}
+
+// External link indicator
+.post-content a[target='_blank']:not(.tag-link-card):not(.post-nav-item)::after,
+.page-content a[target='_blank']:not(.tag-link-card)::after {
+  content: ' \2197';
+  font-size: 0.75em;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+
+// Drop cap for first paragraph
+.post-content > p.drop-cap:first-of-type::first-letter,
+.post-content .drop-cap::first-letter {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 4.5em;
+  line-height: 0.75;
+  margin-right: 0.12em;
+  margin-top: 0.05em;
+  color: var(--color-primary);
+  font-weight: 700;
 }

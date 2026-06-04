@@ -17,6 +17,9 @@ import { registerPostLinkCardTag } from './tags/postLinkCard.js';
 
 declare const hexo: Hexo;
 
+// Enable hljs-prefixed CSS class names so our syntax highlighting CSS can target tokens.
+(hexo.config.highlight as any).hljs = true;
+
 registerStringHelpers(hexo);
 registerDateHelpers(hexo);
 registerMetaHelpers(hexo);

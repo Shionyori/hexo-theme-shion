@@ -1,0 +1,68 @@
+// ─── KaTeX color overrides for theme integration ──────────
+// Overrides the CDN-loaded katex.min.css with theme-harmonious colors.
+
+.katex {
+  color: var(--color-text);
+  font-size: 1.05em;
+}
+
+.katex .mathnormal {
+  color: var(--color-text);
+}
+
+.katex .mathcal {
+  color: var(--color-primary);
+}
+
+.katex .mathbf {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+// Display math block
+.katex-display {
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md);
+  background: var(--color-code-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+
+  > .katex {
+    color: var(--color-text);
+  }
+}
+
+// Fraction lines
+.katex .frac-line {
+  border-bottom-color: var(--color-primary-light);
+}
+
+// Sqrt radicals
+.katex .sqrt-line {
+  border-bottom-color: var(--color-primary-light);
+}
+
+// Delimiters
+.katex .delimsizing {
+  color: var(--color-primary-light);
+}
+
+// Error styling
+.katex .katex-error {
+  color: var(--note-danger-text) !important;
+}
+
+// Dark mode
+[data-theme='dark'] {
+  .katex-display {
+    background: var(--color-code-bg);
+    border-color: var(--color-border);
+  }
+
+  .katex .frac-line,
+  .katex .sqrt-line {
+    border-bottom-color: var(--color-primary-light);
+  }
+}

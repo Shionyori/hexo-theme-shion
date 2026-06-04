@@ -1,31 +1,50 @@
-:root {
-  --color-primary: #6d7fb5;
-  --color-primary-dark: #4a5d8c;
-  --color-primary-light: #bac5e0;
-  --color-primary-soft: #edecf6;
-  --color-accent: #c8a34e;
-  --color-accent-light: #e8d5a8;
+// ─── Shion Theme: Design Tokens ────────────────────────────
+// Based on 依神紫苑 (Shion Yorigami):
+//   deep navy  → hair accessory
+//   blue-purple → hair
+//   light blue → hair gradient
+//   cool gray  → clothing
+//   gold       → bracelet
 
+:root {
+  // Primary — blue-purple from hair
+  --color-primary: #6b7eb5;
+  --color-primary-dark: #3a4a6e;
+  --color-primary-light: #b0c6e8;
+  --color-primary-soft: #e8ecf6;
+
+  // Accent — gold from bracelet (sparing use)
+  --color-accent: #b89840;
+  --color-accent-light: #e0d0a0;
+
+  // Background — lavender-tinted from original Shion palette
   --color-bg: #f4f3fa;
   --color-bg-alt: #eceaf4;
   --color-surface: #fdfcfe;
+
+  // Text — warm dark gray
   --color-text: #2d2b2a;
   --color-text-secondary: #7a7672;
   --color-text-tertiary: #a8a49f;
+
+  // Borders & code — lavender tint
   --color-border: #e8e5f0;
   --color-border-light: #f0edf5;
   --color-code-bg: #efedf5;
 
+  // Shadows
   --color-shadow: rgba(45, 43, 42, 0.06);
   --color-shadow-strong: rgba(45, 43, 42, 0.1);
   --color-shadow-primary: rgba(109, 127, 181, 0.2);
   --color-overlay: rgba(0, 0, 0, 0.35);
 
+  // Typography
   --font-heading: 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
   --font-body: 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-code: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
 
-  --font-size-root: 16px;
+  // Font sizes
+  --font-size-root: 15px;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -35,10 +54,12 @@
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
 
+  // Line heights
   --line-height-tight: 1.25;
   --line-height-normal: 1.6;
-  --line-height-relaxed: 1.8;
+  --line-height-relaxed: 1.7;
 
+  // Spacing scale
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -47,56 +68,136 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
 
+  // Radii
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-full: 9999px;
 
+  // Shadows
   --shadow-sm: 0 1px 2px var(--color-shadow);
   --shadow-md: 0 4px 16px var(--color-shadow);
   --shadow-lg: 0 12px 40px var(--color-shadow-strong);
   --shadow-card-hover: 0 8px 30px var(--color-shadow-primary);
   --shadow-button: 0 2px 8px var(--color-shadow);
 
+  // Transitions
   --transition-fast: 120ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
+  // Z-index
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-overlay: 300;
   --z-modal: 400;
 
+  // Layout
   --header-height: 64px;
   --sidebar-width: 260px;
   --container-max: 1500px;
   --content-max: 960px;
+
+  // ── Syntax highlighting ────────────────────────────────
+  --syntax-keyword: #7555c8;
+  --syntax-string: #3b8c5c;
+  --syntax-number: #c06020;
+  --syntax-comment: #8e8d96;
+  --syntax-function: #4a5ec8;
+  --syntax-title: #b07020;
+  --syntax-builtin: #6b7eb5;
+  --syntax-attr: #7b6cb8;
+  --syntax-literal: #2088a0;
+  --syntax-regexp: #d04040;
+  --syntax-deletion: #d04040;
+  --syntax-addition: #3b8c5c;
+  --syntax-meta: #6058c8;
+  --syntax-section: #4a6ec8;
+  --syntax-selector: #8058c8;
+  --syntax-subst: #c858c0;
+
+  // ── Note / callout colors ───────────────────────────────
+  --note-info-bg: #eaf2fc;
+  --note-info-border: #5b8ed8;
+  --note-info-text: #2a5090;
+  --note-warning-bg: #faf6ea;
+  --note-warning-border: #c2a050;
+  --note-warning-text: #6e5018;
+  --note-success-bg: #eaf5ee;
+  --note-success-border: #4a9868;
+  --note-success-text: #1a5838;
+  --note-danger-bg: #fceeec;
+  --note-danger-border: #d85448;
+  --note-danger-text: #882820;
 }
 
+// ─── Dark mode ─────────────────────────────────────────────
 [data-theme='dark'] {
-  --color-primary: #8b9dc9;
-  --color-primary-dark: #a8b8de;
-  --color-primary-light: #5a6d96;
-  --color-primary-soft: #2a3040;
-  --color-accent: #d4b15c;
-  --color-accent-light: #5c4a30;
+  // Primary — lighter blue-purple for dark backgrounds
+  --color-primary: #8fa0d0;
+  --color-primary-dark: #b4c2e8;
+  --color-primary-light: #4a5d8a;
+  --color-primary-soft: #262d40;
 
+  // Accent — muted gold
+  --color-accent: #c8a850;
+  --color-accent-light: #3e3820;
+
+  // Background — deep lavender-gray
   --color-bg: #1c1c28;
   --color-bg-alt: #222233;
   --color-surface: #262637;
+
+  // Text
   --color-text: #e4e2df;
   --color-text-secondary: #a8a4a0;
   --color-text-tertiary: #706c68;
+
+  // Borders & code
   --color-border: #333345;
   --color-border-light: #2c2c3d;
   --color-code-bg: #212135;
 
+  // Shadows
   --color-shadow: rgba(0, 0, 0, 0.25);
   --color-shadow-strong: rgba(0, 0, 0, 0.4);
   --color-shadow-primary: rgba(139, 157, 201, 0.18);
   --color-overlay: rgba(0, 0, 0, 0.55);
+
+  // ── Syntax highlighting (dark) ──────────────────────────
+  --syntax-keyword: #b094e8;
+  --syntax-string: #6ecf8c;
+  --syntax-number: #f09050;
+  --syntax-comment: #707078;
+  --syntax-function: #8b9de0;
+  --syntax-title: #e8a840;
+  --syntax-builtin: #8fa0d0;
+  --syntax-attr: #a898d8;
+  --syntax-literal: #40c0d8;
+  --syntax-regexp: #f06060;
+  --syntax-deletion: #f06060;
+  --syntax-addition: #6ecf8c;
+  --syntax-meta: #9088e8;
+  --syntax-section: #7b9ee0;
+  --syntax-selector: #a888e0;
+  --syntax-subst: #e078d8;
+
+  // ── Note / callout colors (dark) ────────────────────────
+  --note-info-bg: #1e2a40;
+  --note-info-border: #6b9ce0;
+  --note-info-text: #9cbef0;
+  --note-warning-bg: #302818;
+  --note-warning-border: #d0b058;
+  --note-warning-text: #e8d090;
+  --note-success-bg: #1a3028;
+  --note-success-border: #5ab878;
+  --note-success-text: #80d8a0;
+  --note-danger-bg: #341c1a;
+  --note-danger-border: #e87060;
+  --note-danger-text: #f0a098;
 }
 
+// ─── Responsive breakpoints ─────────────────────────────────
 $breakpoints: (
   'sm': 640px,
   'md': 768px,
