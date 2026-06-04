@@ -1,18 +1,19 @@
+declare global {
+  interface Window {
+    mediumZoom?: (selector: string | Element, options?: Record<string, unknown>) => void;
+  }
+}
+
 export function initLightbox(): void {
-  const images = document.querySelectorAll('.post-content a[data-fancybox]');
+  const images = document.querySelectorAll('.post-content img, .page-content img');
   if (images.length === 0) return;
 
-  // Dynamically import Fancybox
-  import('https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.esm.js')
-    .then(({ Fancybox }) => {
-      Fancybox.bind('[data-fancybox]', {
-        Thumbs: { autoStart: false },
-        Toolbar: {
-          display: ['zoom', 'slideShow', 'fullScreen', 'thumbs', 'close'],
-        },
-      });
-    })
-    .catch(() => {
-      // Fancybox failed to load, images will be plain links
+  const mz = window.mediumZoom;
+  if (typeof mz === 'function') {
+    mz('.post-content img:not(.no-zoom), .page-content img:not(.no-zoom)', {
+      margin: 40,
+      background: 'rgba(0, 0, 0, 0.88)',
+      scrollOffset: 0,
     });
+  }
 }

@@ -1,31 +1,31 @@
 <div class="post-meta">
-  <% if (post.date) { %>
-  <time class="post-date" datetime="<%= date(post.date, 'YYYY-MM-DDTHH:mm:ssZ') %>">
-    <%= date(post.date, theme.post.date_format || 'YYYY-MM-DD') %>
-  </time>
-  <% } %>
+    <% if (post.date) { %>
+    <time class="post-date" datetime="<%= date(post.date, 'YYYY-MM-DDTHH:mm:ssZ') %>">
+      <%= date(post.date, theme.post.date_format || 'YYYY-MM-DD') %>
+    </time>
+    <% } %>
 
-  <% if (theme.post.word_count && post.content) { %>
-  <span class="post-word-count"><%= word_count(post.content) %></span>
-  <% } %>
+    <% if (theme.post.word_count && post.content) { %>
+    <span class="post-word-count"><%= word_count(post.content) %></span>
+    <% } %>
 
-  <% if (theme.post.reading_time && post.content) { %>
-  <span class="post-reading-time"><%= reading_time(post.content) %></span>
-  <% } %>
+    <% if (theme.post.reading_time && post.content) { %>
+    <span class="post-reading-time"><%= reading_time(post.content) %></span>
+    <% } %>
 
-  <% if (post.categories && post.categories.length) { %>
-  <span class="post-categories">
-    <% post.categories.forEach(function(cat) { %>
-      <a class="category-link" href="<%= url_for(cat.path) %>"><%= cat.name %></a>
-    <% }) %>
-  </span>
-  <% } %>
+    <% if (post.categories && post.categories.length) { %>
+    <span class="post-categories">
+      <% post.categories.forEach(function(cat) { %>
+        <a class="category-link" href="<%= url_for(cat.path) %>"><%= cat.name %></a>
+      <% }) %>
+    </span>
+    <% } %>
 
-  <% if (post.tags && post.tags.length) { %>
-  <span class="post-tags">
-    <% post.tags.forEach(function(tag) { %>
-      <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
-    <% }) %>
-  </span>
-  <% } %>
+    <% if (post.tags && post.tags.length) { %>
+    <span class="post-tags">
+      <% post.tags.forEach(function(tag) { %>
+        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+      <% }) %>
+    </span>
+    <% } %>
 </div>

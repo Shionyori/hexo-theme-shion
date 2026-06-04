@@ -23,22 +23,46 @@
       <% }) %>
     </div>
     <% } %>
-
-    <nav class="post-nav">
-      <% if (page.prev) { %>
-        <a class="post-nav-prev" href="<%= url_for(page.prev.path) %>">
-          <span class="nav-label"><%= __('prev') %></span>
-          <span class="nav-title"><%= page.prev.title %></span>
-        </a>
-      <% } %>
-      <% if (page.next) { %>
-        <a class="post-nav-next" href="<%= url_for(page.next.path) %>">
-          <span class="nav-label"><%= __('next') %></span>
-          <span class="nav-title"><%= page.next.title %></span>
-        </a>
-      <% } %>
-    </nav>
   </footer>
 </article>
+
+<%
+  var prevCover = null;
+  if (page.prev) {
+    if (page.prev.cover) {
+      prevCover = (page.prev.cover.startsWith('/') || page.prev.cover.startsWith('http')) ? url_for(page.prev.cover) : url_for(page.prev.path + page.prev.cover);
+    } else if (theme.post.cover && theme.post.cover.default) {
+      prevCover = url_for(theme.post.cover.default);
+    }
+  }
+  var nextCover = null;
+  if (page.next) {
+    if (page.next.cover) {
+      nextCover = (page.next.cover.startsWith('/') || page.next.cover.startsWith('http')) ? url_for(page.next.cover) : url_for(page.next.path + page.next.cover);
+    } else if (theme.post.cover && theme.post.cover.default) {
+      nextCover = url_for(theme.post.cover.default);
+    }
+  }
+%>
+<% if (page.prev || page.next) { %>
+<nav class="post-nav">
+  <% if (page.prev) { %>
+    <a class="post-nav-item post-nav-prev<%= prevCover ? ' has-cover' : '' %>" href="<%= url_for(page.prev.path) %>"<%- prevCover ? ' style=\'background-image: url(' + prevCover + ')\'' : '' %>>
+      <span class="nav-label"><%= __('prev') %></span>
+      <span class="nav-title"><%= page.prev.title %></span>
+    </a>
+  <% } else { %>
+    <span class="post-nav-item post-nav-placeholder"></span>
+  <% } %>
+  <% if (page.next) { %>
+    <a class="post-nav-item post-nav-next<%= nextCover ? ' has-cover' : '' %>" href="<%= url_for(page.next.path) %>"<%- nextCover ? ' style=\'background-image: url(' + nextCover + ')\'' : '' %>>
+      <span class="nav-label"><%= __('next') %></span>
+      <span class="nav-title"><%= page.next.title %></span>
+    </a>
+  <% } else { %>
+    <span class="post-nav-item post-nav-placeholder"></span>
+  <% } %>
+</nav>
+<% } %>
 
 <%- partial('_partial/comments') %>

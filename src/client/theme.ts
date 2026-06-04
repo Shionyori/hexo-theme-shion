@@ -60,7 +60,8 @@ export function initTheme(): void {
     if (!localStorage.getItem(STORAGE_KEY)) {
       const html = document.documentElement;
       html.classList.add(TRANSITION_CLASS);
-      applyTheme(e.matches ? 'dark' : 'light');
+      const nextMode = e.matches ? 'dark' : 'light';
+      applyTheme(nextMode);
       setTimeout(() => {
         html.classList.remove(TRANSITION_CLASS);
       }, TRANSITION_DURATION);

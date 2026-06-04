@@ -11,6 +11,7 @@ import { initTabs as initTagTabs } from './tabs';
 import { initAnimations } from './animations';
 import { initHeaderScroll } from './header-scroll';
 import { initCardClick } from './card-click';
+import { initHeadingAnchors } from './heading-anchors';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -26,4 +27,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initAnimations();
   initHeaderScroll();
   initCardClick();
+  initHeadingAnchors();
 });
