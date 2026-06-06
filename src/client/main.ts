@@ -12,6 +12,7 @@ import { initAnimations } from './animations';
 import { initHeaderScroll } from './header-scroll';
 import { initCardClick } from './card-click';
 import { initHeadingAnchors } from './heading-anchors';
+import { initCodeCopy } from './code-copy';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -28,4 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initCardClick();
   initHeadingAnchors();
+  initCodeCopy();
 });
