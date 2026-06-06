@@ -477,14 +477,14 @@
       overflow: visible;
     }
 
-    // Header — subtle contrast with the body rows
+    // Header — distinctive periwinkle band that anchors the table
     th {
-      background: var(--color-bg-alt);
+      background: var(--color-primary-soft);
       font-weight: 600;
-      font-size: var(--font-size-sm);
-      letter-spacing: 0.03em;
-      color: var(--color-text);
-      border-bottom: 1px solid var(--color-border);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-primary-dark);
+      border-bottom: 2px solid var(--color-primary-light);
       padding: var(--spacing-sm) var(--spacing-md);
     }
 
