@@ -7,13 +7,14 @@
  */
 
 function getCodeText(figure: HTMLElement): string {
-  const codeCell = figure.querySelector('.code');
-  if (!codeCell) return '';
-  // Each .line span is display:block; join with newlines.
-  const lines = codeCell.querySelectorAll('.line');
-  return Array.from(lines)
-    .map((line) => line.textContent || '')
-    .join('\n');
+  const code = figure.querySelector<HTMLElement>('.code code');
+  if (!code) return '';
+
+  // Deep-clone so we don't mutate the live DOM, then convert each <br>
+  // into a literal newline before extracting textContent.
+  const clone = code.cloneNode(true) as HTMLElement;
+  clone.querySelectorAll('br').forEach((br) => br.replaceWith('\n'));
+  return clone.textContent || '';
 }
 
 function createCopyButton(): HTMLButtonElement {
@@ -28,7 +29,6 @@ export function initCodeCopy(): void {
   const figures = document.querySelectorAll<HTMLElement>('figure.highlight');
 
   figures.forEach((figure) => {
-    // Skip if we already injected a button (idempotent).
     if (figure.querySelector('.code-copy-btn')) return;
 
     const btn = createCopyButton();
