@@ -222,6 +222,8 @@
     cursor: pointer;
     color: var(--color-text);
     outline: none;
+    user-select: none;
+    -webkit-user-select: none;
 
     &::marker {
       color: var(--color-primary);
