@@ -452,32 +452,64 @@
     }
   }
 
+  // ── Data tables ───────────────────────────────────────────
+  // Regular markdown tables get a clean card-style treatment.
+  // Code-block tables (figure.highlight table) are excluded via
+  // explicit overrides in _code.scss.
   table {
     margin: var(--spacing-lg) 0;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--color-border);
+
     display: block;
+    width: fit-content;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 
     table {
       display: table;
       border: none;
+      border-radius: 0;
       box-shadow: none;
+      overflow: visible;
     }
 
+    // Header — clearly distinct from data rows
     th {
-      background: linear-gradient(180deg, var(--color-primary-soft) 0%, var(--color-code-bg) 100%);
+      background: var(--color-primary-soft);
       font-weight: 600;
       font-size: var(--font-size-sm);
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
+      color: var(--color-primary-dark);
+      border-bottom: 2px solid var(--color-primary-light);
+      padding: var(--spacing-sm) var(--spacing-md);
     }
 
+    // Data cells
+    td {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-bottom: 1px solid var(--color-border-light);
+      vertical-align: middle;
+      background: var(--color-surface);
+    }
+
+    // Subtle alternating row tint — barely perceptible, just enough
+    // to guide the eye horizontally.
+    tr:nth-child(even) td {
+      background: var(--color-bg);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    // Hover — light lavender wash, distinct from both row colors
     tr:hover td {
       background: var(--color-primary-soft);
       transition: background var(--transition-fast);

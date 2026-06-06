@@ -81,7 +81,8 @@ figure.highlight {
     }
   }
 
-  tr:hover td {
+  tr:hover td,
+  tr:nth-child(even) td {
     background: transparent;
   }
 
