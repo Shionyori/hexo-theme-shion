@@ -7,35 +7,35 @@
 //   gold       → bracelet
 
 :root {
-  // Primary — blue-purple from hair
-  --color-primary: #6b7eb5;
-  --color-primary-dark: #3a4a6e;
-  --color-primary-light: #b0c6e8;
-  --color-primary-soft: #e8ecf6;
+  // Primary — Periwinkle blue-purple (Shion's hair)
+  --color-primary: #6b82ba;
+  --color-primary-dark: #3b4b6e;
+  --color-primary-light: #afc6e8;
+  --color-primary-soft: #e7ecf6;
 
-  // Accent — gold from bracelet (sparing use)
+  // Accent — Gold (Shion's bracelet & eyes)
   --color-accent: #b89840;
   --color-accent-light: #e0d0a0;
 
-  // Background — lavender-tinted from original Shion palette
-  --color-bg: #f4f3fa;
-  --color-bg-alt: #eceaf4;
-  --color-surface: #fdfcfe;
+  // Background — cool with a whisper of lavender
+  --color-bg: #f4f3f8;
+  --color-bg-alt: #ebeaf2;
+  --color-surface: #fbfbfd;
 
-  // Text — warm dark gray
-  --color-text: #2d2b2a;
-  --color-text-secondary: #7a7672;
-  --color-text-tertiary: #a8a49f;
+  // Text — balanced dark gray
+  --color-text: #2d2c32;
+  --color-text-secondary: #797882;
+  --color-text-tertiary: #a6a5ad;
 
-  // Borders & code — lavender tint
-  --color-border: #e8e5f0;
-  --color-border-light: #f0edf5;
-  --color-code-bg: #efedf5;
+  // Borders & code
+  --color-border: #e5e4ef;
+  --color-border-light: #f0eff6;
+  --color-code-bg: #efeff5;
 
   // Shadows
-  --color-shadow: rgba(45, 43, 42, 0.06);
-  --color-shadow-strong: rgba(45, 43, 42, 0.1);
-  --color-shadow-primary: rgba(109, 127, 181, 0.2);
+  --color-shadow: rgba(45, 44, 50, 0.06);
+  --color-shadow-strong: rgba(45, 44, 50, 0.1);
+  --color-shadow-primary: rgba(107, 130, 186, 0.2);
   --color-overlay: rgba(0, 0, 0, 0.35);
 
   // Typography
@@ -99,97 +99,97 @@
   --content-max: 960px;
 
   // ── Syntax highlighting ────────────────────────────────
-  --syntax-keyword: #7555c8;
+  --syntax-keyword: #706dc8;
   --syntax-string: #3b8c5c;
   --syntax-number: #c06020;
-  --syntax-comment: #8e8d96;
-  --syntax-function: #4a5ec8;
+  --syntax-comment: #8e8e98;
+  --syntax-function: #5575c8;
   --syntax-title: #b07020;
-  --syntax-builtin: #6b7eb5;
-  --syntax-attr: #7b6cb8;
+  --syntax-builtin: #6b82ba;
+  --syntax-attr: #6e78c0;
   --syntax-literal: #2088a0;
   --syntax-regexp: #d04040;
   --syntax-deletion: #d04040;
   --syntax-addition: #3b8c5c;
-  --syntax-meta: #6058c8;
-  --syntax-section: #4a6ec8;
-  --syntax-selector: #8058c8;
+  --syntax-meta: #605ec8;
+  --syntax-section: #5e78c8;
+  --syntax-selector: #7260c4;
   --syntax-subst: #c858c0;
 
   // ── Note / callout colors ───────────────────────────────
-  --note-info-bg: #eaf2fc;
+  --note-info-bg: #e8f0fa;
   --note-info-border: #5b8ed8;
   --note-info-text: #2a5090;
-  --note-warning-bg: #faf6ea;
+  --note-warning-bg: #f6f3ea;
   --note-warning-border: #c2a050;
   --note-warning-text: #6e5018;
-  --note-success-bg: #eaf5ee;
+  --note-success-bg: #e6f2ea;
   --note-success-border: #4a9868;
   --note-success-text: #1a5838;
-  --note-danger-bg: #fceeec;
+  --note-danger-bg: #faecec;
   --note-danger-border: #d85448;
   --note-danger-text: #882820;
 }
 
 // ─── Dark mode ─────────────────────────────────────────────
 [data-theme='dark'] {
-  // Primary — lighter blue-purple for dark backgrounds
-  --color-primary: #8fa0d0;
-  --color-primary-dark: #b4c2e8;
-  --color-primary-light: #4a5d8a;
-  --color-primary-soft: #262d40;
+  // Primary — lighter periwinkle for dark backgrounds
+  --color-primary: #90a4d6;
+  --color-primary-dark: #b8c6e8;
+  --color-primary-light: #405580;
+  --color-primary-soft: #252d40;
 
   // Accent — muted gold
   --color-accent: #c8a850;
   --color-accent-light: #3e3820;
 
-  // Background — deep lavender-gray
-  --color-bg: #1c1c28;
-  --color-bg-alt: #222233;
-  --color-surface: #262637;
+  // Background — deep blue-purple tones
+  --color-bg: #1c1e28;
+  --color-bg-alt: #212334;
+  --color-surface: #262838;
 
   // Text
-  --color-text: #e4e2df;
-  --color-text-secondary: #a8a4a0;
-  --color-text-tertiary: #706c68;
+  --color-text: #e4e3e8;
+  --color-text-secondary: #a8a6ae;
+  --color-text-tertiary: #727078;
 
   // Borders & code
-  --color-border: #333345;
-  --color-border-light: #2c2c3d;
-  --color-code-bg: #212135;
+  --color-border: #323448;
+  --color-border-light: #2a2d3e;
+  --color-code-bg: #202336;
 
   // Shadows
   --color-shadow: rgba(0, 0, 0, 0.25);
   --color-shadow-strong: rgba(0, 0, 0, 0.4);
-  --color-shadow-primary: rgba(139, 157, 201, 0.18);
+  --color-shadow-primary: rgba(144, 164, 214, 0.15);
   --color-overlay: rgba(0, 0, 0, 0.55);
 
   // ── Syntax highlighting (dark) ──────────────────────────
-  --syntax-keyword: #b094e8;
+  --syntax-keyword: #aca8e8;
   --syntax-string: #6ecf8c;
   --syntax-number: #f09050;
-  --syntax-comment: #707078;
-  --syntax-function: #8b9de0;
+  --syntax-comment: #707070;
+  --syntax-function: #8da8e8;
   --syntax-title: #e8a840;
-  --syntax-builtin: #8fa0d0;
-  --syntax-attr: #a898d8;
+  --syntax-builtin: #90a4d6;
+  --syntax-attr: #a498d8;
   --syntax-literal: #40c0d8;
   --syntax-regexp: #f06060;
   --syntax-deletion: #f06060;
   --syntax-addition: #6ecf8c;
-  --syntax-meta: #9088e8;
-  --syntax-section: #7b9ee0;
-  --syntax-selector: #a888e0;
-  --syntax-subst: #e078d8;
+  --syntax-meta: #9098e8;
+  --syntax-section: #7da0e8;
+  --syntax-selector: #a494e0;
+  --syntax-subst: #e080d8;
 
   // ── Note / callout colors (dark) ────────────────────────
-  --note-info-bg: #1e2a40;
+  --note-info-bg: #1e2a3f;
   --note-info-border: #6b9ce0;
   --note-info-text: #9cbef0;
   --note-warning-bg: #302818;
   --note-warning-border: #d0b058;
   --note-warning-text: #e8d090;
-  --note-success-bg: #1a3028;
+  --note-success-bg: #182e26;
   --note-success-border: #5ab878;
   --note-success-text: #80d8a0;
   --note-danger-bg: #341c1a;

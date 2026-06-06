@@ -453,7 +453,7 @@
   }
 
   // ── Data tables ───────────────────────────────────────────
-  // Regular markdown tables get a clean card-style treatment.
+  // Clean, subtle tables that blend with the post content.
   // Code-block tables (figure.highlight table) are excluded via
   // explicit overrides in _code.scss.
   table {
@@ -462,7 +462,6 @@
     border-spacing: 0;
     border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
     border: 1px solid var(--color-border);
 
     display: block;
@@ -475,23 +474,21 @@
       display: table;
       border: none;
       border-radius: 0;
-      box-shadow: none;
       overflow: visible;
     }
 
-    // Header — clearly distinct from data rows
+    // Header — subtle contrast with the body rows
     th {
-      background: var(--color-primary-soft);
+      background: var(--color-bg-alt);
       font-weight: 600;
       font-size: var(--font-size-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--color-primary-dark);
-      border-bottom: 2px solid var(--color-primary-light);
+      letter-spacing: 0.03em;
+      color: var(--color-text);
+      border-bottom: 1px solid var(--color-border);
       padding: var(--spacing-sm) var(--spacing-md);
     }
 
-    // Data cells
+    // Body cells
     td {
       padding: var(--spacing-sm) var(--spacing-md);
       border-bottom: 1px solid var(--color-border-light);
@@ -499,8 +496,7 @@
       background: var(--color-surface);
     }
 
-    // Subtle alternating row tint — barely perceptible, just enough
-    // to guide the eye horizontally.
+    // Alternating rows — barely-there warmth
     tr:nth-child(even) td {
       background: var(--color-bg);
     }
@@ -509,7 +505,7 @@
       border-bottom: none;
     }
 
-    // Hover — light lavender wash, distinct from both row colors
+    // Hover highlight
     tr:hover td {
       background: var(--color-primary-soft);
       transition: background var(--transition-fast);

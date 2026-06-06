@@ -1,11 +1,11 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #1c1c28;
-    --color-surface: #262637;
-    --color-text: #e4e2df;
-    --color-text-secondary: #a8a4a0;
-    --color-border: #333345;
-    --color-code-bg: #212135;
+    --color-bg: #1c1e28;
+    --color-surface: #262838;
+    --color-text: #e4e3e8;
+    --color-text-secondary: #a8a6ae;
+    --color-border: #323448;
+    --color-code-bg: #202336;
     --color-shadow: rgba(0, 0, 0, 0.25);
     --color-overlay: rgba(0, 0, 0, 0.55);
   }
@@ -17,7 +17,7 @@
   }
 
   .site-header {
-    background: rgba(37, 37, 64, 0.85);
+    background: rgba(28, 30, 40, 0.85);
   }
 }
 
