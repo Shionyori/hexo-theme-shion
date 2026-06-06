@@ -116,7 +116,7 @@ blockquote {
   border-left: 4px solid var(--color-primary);
   color: var(--color-text-secondary);
   background: var(--color-code-bg);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-radius: var(--radius-sm);
   font-style: italic;
 }
 
