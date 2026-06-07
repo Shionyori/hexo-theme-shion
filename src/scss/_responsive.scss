@@ -68,7 +68,7 @@
 
 @include respond-down('sm') {
   html {
-    font-size: 15px;
+    font-size: var(--font-size-root);
   }
 
   .post,
