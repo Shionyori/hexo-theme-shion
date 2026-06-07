@@ -29,7 +29,7 @@ menu:
 # --- Appearance ---
 appearance:
   default_mode: auto # auto | light | dark
-  font_size: null    # [deprecated] Use fonts.size_root instead
+  font_size: null # [deprecated] Use fonts.size_root instead
   code_theme: auto # auto | light | dark
   reading_progress: true # Show reading progress bar at top of page
 
