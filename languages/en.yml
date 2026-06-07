@@ -6,6 +6,8 @@ categories: Categories
 about: About
 search: Search
 search_placeholder: Type to search...
+nav_menu: Menu
+close: Close
 search_empty: No results found.
 search_found: 'Found {count} result(s) for «{query}»'
 search_not_found: 'No results found for «{query}»'

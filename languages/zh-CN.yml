@@ -6,6 +6,8 @@ categories: 分类
 about: 关于
 search: 搜索
 search_placeholder: 输入关键词搜索...
+nav_menu: 菜单
+close: 关闭
 search_empty: 未找到相关结果。
 search_found: '关于「{query}」，找到了 {count} 条记录'
 search_not_found: '关于「{query}」，没有找到任何记录呢'
