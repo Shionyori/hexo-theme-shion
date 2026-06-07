@@ -12,12 +12,18 @@ var isPost = page.layout === 'post';
       <span class="sidebar-toc-label"><%= page.title %></span>
     </div>
     <div class="sidebar-scroll">
-    <% if (page.toc || page.layout === 'post') { %>
+    <%
+    // Only show TOC if there are actual headings in the content.
+    // toc: false in frontmatter disables it even when headings exist.
+    var headingsExist = /<h[1-6]/.test(page.content || '');
+    var showToc = (page.toc !== false) && headingsExist;
+    %>
+    <% if (showToc) { %>
     <nav class="sidebar-toc">
       <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list', list_number: false }) %>
     </nav>
     <% } else { %>
-    <p class="toc-empty"><%= __('no_toc') || 'No headings found' %></p>
+    <p class="toc-empty"><%= __('no_toc') %></p>
     <% } %>
     </div>
     <a class="sidebar-back-home-bottom" href="<%= url_for('/') %>">← <%= __('home') %></a>

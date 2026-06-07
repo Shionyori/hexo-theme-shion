@@ -14,6 +14,7 @@ prev: 前へ
 next: 次へ
 posts: 件
 toc: 目次
+no_toc: 見出しがありません
 comment: コメント
 copyright: '&copy; %s %s. All rights reserved.'
 powered_by: 'Powered by %s'

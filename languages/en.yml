@@ -14,6 +14,7 @@ prev: Previous
 next: Next
 posts: posts
 toc: Table of Contents
+no_toc: No headings found
 comment: Comments
 copyright: '&copy; %s %s. All rights reserved.'
 powered_by: 'Powered by %s'
