@@ -101,7 +101,7 @@
   flex: 1;
   border: none;
   outline: none;
-  font-size: 17px;
+  font-size: var(--font-size-lg);
   font-family: inherit;
   background: transparent;
   color: var(--color-text);
@@ -135,7 +135,7 @@
 
 // ── Info bar (hidden when empty) ──────────────────────────────────
 .search-info {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
   text-align: left;
@@ -224,7 +224,7 @@
 }
 
 .search-result-title {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 500;
   color: var(--color-text);
   line-height: 1.4;
@@ -242,7 +242,7 @@
 
 .search-result-excerpt {
   width: 100%;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: 1.8;
   overflow: hidden;
