@@ -1,3 +1,6 @@
+/**
+ * Smart header hide/show — hides on scroll down, shows on scroll up with hysteresis.
+ */
 import { $ } from './utils';
 
 const HIDE_THRESHOLD = 80; // px scrolled before header can hide

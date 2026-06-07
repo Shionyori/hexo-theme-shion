@@ -1,3 +1,6 @@
+/**
+ * Image lightbox — medium-zoom integration for post/page content images.
+ */
 declare global {
   interface Window {
     mediumZoom?: (selector: string | Element, options?: Record<string, unknown>) => void;

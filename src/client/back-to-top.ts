@@ -1,3 +1,6 @@
+/**
+ * Back-to-top button — floating button that appears after scrolling past 400px.
+ */
 import { on } from './utils';
 
 export function initBackToTop(): void {

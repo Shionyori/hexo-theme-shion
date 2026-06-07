@@ -1,3 +1,6 @@
+/**
+ * Date formatting helpers.
+ */
 import Hexo from 'hexo';
 
 export function registerDateHelpers(hexo: Hexo): void {

@@ -1,3 +1,8 @@
+/**
+ * Heading anchor links — adds clickable "#" anchors to all headings in post/page content.
+ * Respects existing heading IDs (needed by TOC), generates slug-based IDs otherwise.
+ */
+
 function slugify(text: string): string {
   return text
     .toLowerCase()

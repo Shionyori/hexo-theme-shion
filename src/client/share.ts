@@ -1,3 +1,6 @@
+/**
+ * Share button — clipboard copy with fallback for older browsers.
+ */
 import { on } from './utils';
 
 export function initShare(): void {

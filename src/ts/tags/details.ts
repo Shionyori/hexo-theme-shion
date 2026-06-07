@@ -1,3 +1,6 @@
+/**
+ * Details/summary tag plugin — renders a collapsible <details> block.
+ */
 import Hexo from 'hexo';
 
 export function registerDetailsTag(hexo: Hexo): void {

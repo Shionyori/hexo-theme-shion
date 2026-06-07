@@ -1,3 +1,6 @@
+/**
+ * Note/callout tag plugin — renders color-coded info/warning/success/danger blocks.
+ */
 import Hexo from 'hexo';
 
 export function registerNoteTag(hexo: Hexo): void {

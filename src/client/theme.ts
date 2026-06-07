@@ -1,3 +1,7 @@
+/**
+ * Theme toggle — dark/light mode with localStorage persistence and system preference detection.
+ * Also syncs the Giscus comment widget theme when present.
+ */
 import { $, on } from './utils';
 
 const STORAGE_KEY = 'shion-theme';

@@ -1,3 +1,7 @@
+/**
+ * Post card click — makes entire post cards clickable while respecting inner links/buttons.
+ * Supports Ctrl/Cmd+click to open in new tab.
+ */
 export function initCardClick(): void {
   document.querySelectorAll('.post-card').forEach((card) => {
     card.addEventListener('click', (e) => {

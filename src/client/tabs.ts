@@ -1,3 +1,6 @@
+/**
+ * Tag plugin tabs — client-side interactivity for the {% tabs %} tag plugin.
+ */
 import { $$, on } from './utils';
 
 export function initTabs(): void {

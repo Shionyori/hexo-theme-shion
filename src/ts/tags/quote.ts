@@ -1,3 +1,6 @@
+/**
+ * Styled blockquote tag plugin — renders a styled <blockquote> with optional author and source.
+ */
 import Hexo from 'hexo';
 
 export function registerQuoteTag(hexo: Hexo): void {

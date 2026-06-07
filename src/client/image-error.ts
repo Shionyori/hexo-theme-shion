@@ -1,6 +1,7 @@
 /**
- * Handle broken images in post/page content.
- * Replaces failed images with a 404 fallback and adds .img-error class.
+ * Broken image handler — replaces failed post/page images with a Shion 404 fallback.
+ * Uses event delegation on document to catch dynamically loaded images.
+ * Adds .img-error and .no-zoom classes to prevent zoom cursor on fallback.
  */
 export function initImageError(): void {
   const fallback = '/images/shion/404.png';

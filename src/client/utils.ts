@@ -1,3 +1,6 @@
+/**
+ * Shared DOM utilities — query selectors, event binding, debounce, and device detection.
+ */
 export function $(selector: string, parent: Document | Element = document): Element | null {
   return parent.querySelector(selector);
 }

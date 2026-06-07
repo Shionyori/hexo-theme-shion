@@ -1,15 +1,15 @@
+/**
+ * Mobile navigation — slide-out navigation drawer with overlay and Escape-to-close.
+ */
 import { $, on } from './utils';
 
 export function initMobileNav(): void {
   const toggle = $('#sidebar-toggle');
-  const nav = $('#mobile-nav');
-  const overlay = $('#mobile-nav-overlay');
+  const mobileNav = $('#mobile-nav');
+  const mobileOverlay = $('#mobile-nav-overlay');
   const closeBtn = $('#mobile-nav-close');
 
-  if (!toggle || !nav || !overlay) return;
-
-  const mobileNav = nav;
-  const mobileOverlay = overlay;
+  if (!toggle || !mobileNav || !mobileOverlay) return;
 
   function open(): void {
     mobileNav.classList.add('is-open');

@@ -1,3 +1,6 @@
+/**
+ * Internal post link card tag plugin — renders a styled link preview for a site post.
+ */
 import Hexo from 'hexo';
 
 export function registerPostLinkCardTag(hexo: Hexo): void {

@@ -1,3 +1,6 @@
+/**
+ * Mobile sidebar toggle — slide-out overlay drawer triggered by hamburger button.
+ */
 import { $, on } from './utils';
 
 export function initSidebar(): void {

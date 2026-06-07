@@ -1,3 +1,6 @@
+/**
+ * Client-side entry point — initializes all browser modules on DOMContentLoaded.
+ */
 import { initTheme } from './theme';
 import { initSearch } from './search';
 import { initSidebar } from './sidebar';

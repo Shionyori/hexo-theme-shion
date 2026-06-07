@@ -1,9 +1,8 @@
 /**
- * Inject a "Copy" button into every figure.highlight code block.
- *
- * The button is placed in the top-right corner and appears on hover.
- * Clicking it copies the raw code text (excluding line numbers) to the
- * clipboard and briefly shows a "Copied!" state.
+ * Code copy button — injects a "Copy" button into every figure.highlight code block.
+ * The button appears on hover in the top-right corner. Clicking copies raw code text
+ * (excluding line numbers) to the clipboard with a "Copied!" feedback state.
+ * Falls back to document.execCommand('copy') for older browsers.
  */
 
 function getCodeText(figure: HTMLElement): string {

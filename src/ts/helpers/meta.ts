@@ -1,3 +1,6 @@
+/**
+ * SEO meta tag helpers — Open Graph, Twitter Cards, JSON-LD structured data, canonical URLs.
+ */
 import Hexo from 'hexo';
 
 export function registerMetaHelpers(hexo: Hexo): void {

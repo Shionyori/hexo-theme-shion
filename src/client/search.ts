@@ -1,3 +1,7 @@
+/**
+ * Local search overlay — Fuse.js full-text search with keyboard shortcuts (Ctrl/Cmd+K).
+ * Loads search.json asynchronously. Supports debounced input and animated results.
+ */
 import { $, on } from './utils';
 
 interface SearchItem {
@@ -69,18 +73,14 @@ function renderResultItems(results: { item: SearchItem }[]): string {
 }
 
 export function initSearch(): void {
-  const overlay = $('#search-overlay');
-  const input = $('#search-input') as HTMLInputElement | null;
-  const results = $('#search-results');
-  const info = $('#search-info');
-  const toggle = $('#search-toggle');
-  const close = $('#search-close');
+  const searchOverlay = $('#search-overlay');
+  const searchInput = $('#search-input') as HTMLInputElement | null;
+  const searchResults = $('#search-results');
+  const searchInfo = $('#search-info');
+  const searchToggle = $('#search-toggle');
+  const searchClose = $('#search-close');
 
-  if (!overlay || !input || !results) return;
-
-  const searchOverlay = overlay;
-  const searchInput = input;
-  const searchResults = results;
+  if (!searchOverlay || !searchInput || !searchResults) return;
 
   loadSearchIndex();
 
@@ -97,7 +97,7 @@ export function initSearch(): void {
       document.body.style.overflow = '';
       searchInput.value = '';
       searchResults.innerHTML = '';
-      if (info) info.innerHTML = '';
+      if (searchInfo) searchInfo.innerHTML = '';
       if (debounceTimer) {
         clearTimeout(debounceTimer);
         debounceTimer = null;
@@ -105,7 +105,7 @@ export function initSearch(): void {
     }, 200);
   }
 
-  on(toggle!, 'click', () => {
+  on(searchToggle!, 'click', () => {
     if (searchOverlay.classList.contains('is-closing')) return;
     searchOverlay.classList.remove('is-closing');
     searchOverlay.classList.add('is-open');
@@ -113,7 +113,7 @@ export function initSearch(): void {
     document.body.style.overflow = 'hidden';
   });
 
-  on(close!, 'click', closeSearch);
+  on(searchClose!, 'click', closeSearch);
 
   on(document, 'keydown', (e) => {
     if (e.key === 'Escape' && searchOverlay.classList.contains('is-open')) {
@@ -142,7 +142,7 @@ export function initSearch(): void {
         clearTimeout(debounceTimer);
         debounceTimer = null;
       }
-      if (info) info.innerHTML = '';
+      if (searchInfo) searchInfo.innerHTML = '';
       searchResults.innerHTML = '';
       return;
     }
@@ -153,8 +153,8 @@ export function initSearch(): void {
       debounceTimer = null;
       const fuseResults = fuseInstance ? fuseInstance.search(query).slice(0, 10) : [];
 
-      if (info) {
-        info.innerHTML = renderInfo(query, fuseResults.length);
+      if (searchInfo) {
+        searchInfo.innerHTML = renderInfo(query, fuseResults.length);
       }
 
       if (fuseResults.length > 0) {

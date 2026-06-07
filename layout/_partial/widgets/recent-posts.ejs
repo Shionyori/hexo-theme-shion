@@ -1,7 +1,7 @@
 <div class="widget">
   <h4 class="widget-title"><%= __('recent_posts') %></h4>
   <ul class="widget-list">
-    <% var count = 5; %>
+    <% var count = theme.sidebar.recent_posts_count || 5; %>
     <% site.posts.sort('date', -1).slice(0, count).forEach(function(post) { %>
       <li class="widget-item">
         <a href="<%= url_for(post.path) %>"><%= post.title %></a>

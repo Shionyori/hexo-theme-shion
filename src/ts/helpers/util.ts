@@ -1,3 +1,6 @@
+/**
+ * Utility helpers — current page detection, Shion image path resolution.
+ */
 import Hexo from 'hexo';
 
 export function registerUtilHelpers(hexo: Hexo): void {

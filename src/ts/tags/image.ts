@@ -1,3 +1,7 @@
+/**
+ * Image tag plugin — renders <figure> with named or positional arguments.
+ * Supports: src, alt, caption, size, align, nozoom, inline, class.
+ */
 import Hexo from 'hexo';
 
 export function registerImageTag(hexo: Hexo): void {
@@ -60,28 +64,30 @@ export function registerImageTag(hexo: Hexo): void {
     } else {
       // Positional mode (backward compatible):
       //   {% image src alt [caption...] [size] [class] %}
+      // Parse from right to left: last arg may be a CSS class, then optional
+      // height/width pixels, everything remaining is the caption text.
       src = args[0] || '';
       alt = args[1] || '';
-      const tail = args.slice(2);
-      let pos = tail.length - 1;
+      const trailingArgs = args.slice(2);
+      let cursor = trailingArgs.length - 1; // scan from rightmost argument
 
-      if (pos >= 0 && /^[a-zA-Z][\w-]*$/.test(tail[pos])) {
-        extraClass = tail[pos];
-        pos--;
+      if (cursor >= 0 && /^[a-zA-Z][\w-]*$/.test(trailingArgs[cursor])) {
+        extraClass = trailingArgs[cursor];
+        cursor--;
       }
-      if (pos >= 0 && /^\d+$/.test(tail[pos])) {
-        height = tail[pos];
-        pos--;
-        if (pos >= 0 && /^\d+$/.test(tail[pos])) {
-          width = tail[pos];
-          pos--;
+      if (cursor >= 0 && /^\d+$/.test(trailingArgs[cursor])) {
+        height = trailingArgs[cursor];
+        cursor--;
+        if (cursor >= 0 && /^\d+$/.test(trailingArgs[cursor])) {
+          width = trailingArgs[cursor];
+          cursor--;
         } else {
           width = height;
           height = '';
         }
       }
-      if (pos >= 0) {
-        caption = tail.slice(0, pos + 1).join(' ');
+      if (cursor >= 0) {
+        caption = trailingArgs.slice(0, cursor + 1).join(' ');
       }
     }
 

@@ -1,3 +1,6 @@
+/**
+ * External link card tag plugin — renders a styled link preview card for any URL.
+ */
 import Hexo from 'hexo';
 
 export function registerLinkCardTag(hexo: Hexo): void {

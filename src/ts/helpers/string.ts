@@ -1,3 +1,6 @@
+/**
+ * String/content helpers — excerpt, word count, reading time, HTML stripping.
+ */
 import Hexo from 'hexo';
 
 function decodeEntities(html: string): string {

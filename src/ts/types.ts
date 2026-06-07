@@ -1,3 +1,7 @@
+/**
+ * Type definitions for Hexo helper/theme context objects.
+ * Describes the shape of `this` inside Hexo helpers and theme configuration.
+ */
 export interface HexoHelperContext {
   config: {
     title: string;

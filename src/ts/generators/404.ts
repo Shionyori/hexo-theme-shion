@@ -1,3 +1,6 @@
+/**
+ * 404 page generator — creates the 404.html error page.
+ */
 import Hexo from 'hexo';
 
 export function register404Generator(hexo: Hexo): void {

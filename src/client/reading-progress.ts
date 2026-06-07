@@ -1,3 +1,6 @@
+/**
+ * Reading progress bar — thin bar at page top showing scroll progress as a percentage.
+ */
 import { on } from './utils';
 
 export function initReadingProgress(): void {

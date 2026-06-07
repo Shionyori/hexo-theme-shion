@@ -1,3 +1,6 @@
+/**
+ * Local search index generator — produces search.json consumed by client-side Fuse.js.
+ */
 import Hexo from 'hexo';
 
 interface SearchEntry {

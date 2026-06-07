@@ -1,3 +1,6 @@
+/**
+ * Post-render content filter — lazy loading, lightbox wrapping, external link handling.
+ */
 import Hexo from 'hexo';
 
 export function registerContentFilters(hexo: Hexo): void {

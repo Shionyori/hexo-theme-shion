@@ -1,3 +1,7 @@
+/**
+ * hexo-theme-shion — Main entry point.
+ * Registers all Hexo extensions: helpers, filters, generators, and tag plugins.
+ */
 import Hexo from 'hexo';
 import { registerStringHelpers } from './helpers/string.js';
 import { registerDateHelpers } from './helpers/date.js';

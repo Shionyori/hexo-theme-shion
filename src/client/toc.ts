@@ -1,3 +1,8 @@
+/**
+ * Table of Contents scroll spy — highlights active heading in the TOC sidebar.
+ * Uses IntersectionObserver as primary driver with scroll listener fallback.
+ * Animated expand/collapse of nested TOC levels.
+ */
 import { $$ } from './utils';
 
 export function initToc(): void {

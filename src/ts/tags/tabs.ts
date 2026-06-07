@@ -1,3 +1,6 @@
+/**
+ * Tabs tag plugin — renders a tabbed interface with headers and content panels.
+ */
 import Hexo from 'hexo';
 
 export function registerTabsTag(hexo: Hexo): void {
