@@ -51,8 +51,10 @@ function escapeHtml(text: string): string {
 function renderInfo(query: string, count: number, overlay: Element): string {
   const keyword = `<span class="search-highlight">${escapeHtml(query)}</span>`;
   const countHtml = `<span class="search-highlight">${count}</span>`;
-  const i18nFound = overlay.getAttribute('data-i18n-found') || 'Found {count} result(s) for «{query}»';
-  const i18nNotFound = overlay.getAttribute('data-i18n-not-found') || 'No results found for «{query}»';
+  const i18nFound =
+    overlay.getAttribute('data-i18n-found') || 'Found {count} result(s) for «{query}»';
+  const i18nNotFound =
+    overlay.getAttribute('data-i18n-not-found') || 'No results found for «{query}»';
 
   const template = count > 0 ? i18nFound : i18nNotFound;
   return template.replace('{query}', keyword).replace('{count}', countHtml);
