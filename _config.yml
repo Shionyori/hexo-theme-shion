@@ -52,7 +52,7 @@ post:
     line_numbers: true
     copy_button: true
   math:
-    enable: false
+    enable: true
     engine: katex
     delimiters:
       - left: '$$'
