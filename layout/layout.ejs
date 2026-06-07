@@ -10,7 +10,8 @@
 
   <% // Full-width page-top background — outside container, edge-to-edge %>
   <%
-    var pageCover = page.cover || (theme.post.cover && theme.post.cover.default);
+    var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
+    var pageCover = coverEnabled ? (page.cover || (theme.post.cover && theme.post.cover.default)) : null;
     var hasCover = (pageCover && page.layout === 'post');
   %>
   <% if (hasCover) { %>

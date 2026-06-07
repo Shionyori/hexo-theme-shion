@@ -27,8 +27,9 @@
 </article>
 
 <%
+  var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
   var prevCover = null;
-  if (page.prev) {
+  if (coverEnabled && page.prev) {
     if (page.prev.cover) {
       prevCover = (page.prev.cover.startsWith('/') || page.prev.cover.startsWith('http')) ? url_for(page.prev.cover) : url_for(page.prev.path + page.prev.cover);
     } else if (theme.post.cover && theme.post.cover.default) {
@@ -36,7 +37,7 @@
     }
   }
   var nextCover = null;
-  if (page.next) {
+  if (coverEnabled && page.next) {
     if (page.next.cover) {
       nextCover = (page.next.cover.startsWith('/') || page.next.cover.startsWith('http')) ? url_for(page.next.cover) : url_for(page.next.path + page.next.cover);
     } else if (theme.post.cover && theme.post.cover.default) {

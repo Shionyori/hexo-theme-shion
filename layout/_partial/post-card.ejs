@@ -7,10 +7,13 @@
     <div class="post-card-cover <%= direction %>">
       <%
         var coverSrc;
-        if (post.cover) {
-          coverSrc = (post.cover.startsWith('/') || post.cover.startsWith('http')) ? url_for(post.cover) : url_for(post.path + post.cover);
-        } else if (theme.post.cover && theme.post.cover.default) {
-          coverSrc = url_for(theme.post.cover.default);
+        var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
+        if (coverEnabled) {
+          if (post.cover) {
+            coverSrc = (post.cover.startsWith('/') || post.cover.startsWith('http')) ? url_for(post.cover) : url_for(post.path + post.cover);
+          } else if (theme.post.cover && theme.post.cover.default) {
+            coverSrc = url_for(theme.post.cover.default);
+          }
         }
       %>
       <% if (coverSrc) { %>
