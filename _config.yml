@@ -2,6 +2,16 @@
 # hexo-theme-shion Configuration
 # ============================================
 
+# --- Fonts ---
+# Font families and base size. Leave empty to use theme SCSS defaults.
+# External font loading (Google Fonts, CDN) must be handled by the user
+# via custom_css or injecting <link> tags into the site header.
+fonts:
+  heading: "'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
+  body: "'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+  code: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace"
+  size_root: 15px
+
 # --- Site Identity ---
 favicon: /images/shion/favicon.ico
 logo:
@@ -19,7 +29,7 @@ menu:
 # --- Appearance ---
 appearance:
   default_mode: auto # auto | light | dark
-  font_size: 16px
+  font_size: null    # [deprecated] Use fonts.size_root instead
   code_theme: auto # auto | light | dark
   reading_progress: true # Show reading progress bar at top of page
 
