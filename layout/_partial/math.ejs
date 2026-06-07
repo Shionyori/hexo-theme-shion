@@ -20,6 +20,18 @@ if (page.math === true) {
     var targets = document.querySelectorAll('.post-content, .page-content');
     if (!targets.length) return;
     targets.forEach(function(el) {
+      // Pre-process: Hexo's markdown renderer inserts <br> for newlines,
+      // which breaks KaTeX's delimiter matching for multi-line formulas.
+      // Replace <br> tags between math delimiters with literal newlines.
+      var html = el.innerHTML;
+      html = html.replace(/(\$\$)([\s\S]*?)(\$\$)/g, function(m, open, body, close) {
+        return open + body.replace(/<br\s*\/?>/gi, '\n') + close;
+      });
+      html = html.replace(/(\\\[)([\s\S]*?)(\\\])/g, function(m, open, body, close) {
+        return open + body.replace(/<br\s*\/?>/gi, '\n') + close;
+      });
+      el.innerHTML = html;
+
       renderMathInElement(el, {
         delimiters: <%- JSON.stringify(theme.post.math.delimiters) %>,
         ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
