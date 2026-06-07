@@ -53,6 +53,20 @@ post:
     copy_button: true
   math:
     enable: false
+    engine: katex
+    delimiters:
+      - left: '$$'
+        right: '$$'
+        display: true
+      - left: '$'
+        right: '$'
+        display: false
+      - left: '\('
+        right: '\)'
+        display: false
+      - left: '\['
+        right: '\]'
+        display: true
   image:
     lazy_load: true
     fancybox: true

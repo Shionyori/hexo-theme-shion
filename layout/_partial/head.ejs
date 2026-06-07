@@ -63,7 +63,21 @@
 <% } %>
 
 <%- partial('_partial/analytics') %>
-<%- partial('_partial/math') %>
+
+<% // Load KaTeX CSS in <head> to prevent FOUC on math pages %>
+<%
+var _mathCSS = false;
+if (page.math === true) {
+  _mathCSS = true;
+} else if (page.math === false) {
+  _mathCSS = false;
+} else {
+  _mathCSS = !!(theme.post && theme.post.math && theme.post.math.enable);
+}
+%>
+<% if (_mathCSS) { %>
+<link rel="stylesheet" href="<%= theme.cdn.katex %>/dist/katex.min.css">
+<% } %>
 
 <script>
   (function() {
