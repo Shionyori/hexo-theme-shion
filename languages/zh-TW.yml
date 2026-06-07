@@ -7,6 +7,8 @@ about: 關於
 search: 搜尋
 search_placeholder: 輸入關鍵詞搜尋...
 search_empty: 未找到相關結果。
+search_found: '關於「{query}」，找到了 {count} 條記錄'
+search_not_found: '關於「{query}」，沒有找到任何記錄呢'
 read_more: 閱讀全文
 prev: 上一篇
 next: 下一篇

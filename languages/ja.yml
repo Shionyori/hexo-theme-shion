@@ -7,6 +7,8 @@ about: 概要
 search: 検索
 search_placeholder: キーワードを入力...
 search_empty: 結果が見つかりません。
+search_found: '「{query}」について、{count} 件見つかりました'
+search_not_found: '「{query}」について、結果が見つかりませんでした'
 read_more: 続きを読む
 prev: 前へ
 next: 次へ

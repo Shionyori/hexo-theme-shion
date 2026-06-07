@@ -1,5 +1,7 @@
 <% if (theme.search.enable) { %>
-<div class="search-overlay" id="search-overlay">
+<div class="search-overlay" id="search-overlay"
+     data-i18n-found="<%= __('search_found') %>"
+     data-i18n-not-found="<%= __('search_not_found') %>">
   <div class="search-container">
     <img class="search-decoration" src="<%= url_for('/images/shion/search.png') %>" alt="">
     <div class="search-header">
