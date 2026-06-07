@@ -18,20 +18,30 @@
   %>
 
   <% if (type === 'giscus') { %>
-    <script src="https://giscus.app/client.js"
-      data-repo="<%= theme.comments.giscus.repo %>"
-      data-repo-id="<%= theme.comments.giscus.repo_id %>"
-      data-category="<%= theme.comments.giscus.category %>"
-      data-category-id="<%= theme.comments.giscus.category_id %>"
-      data-mapping="<%= theme.comments.giscus.mapping %>"
-      data-strict="<%= theme.comments.giscus.strict %>"
-      data-reactions-enabled="<%= theme.comments.giscus.reactions_enabled %>"
-      data-emit-metadata="<%= theme.comments.giscus.emit_metadata %>"
-      data-input-position="<%= theme.comments.giscus.input_position %>"
-      data-theme="<%= theme.appearance.default_mode === 'dark' ? 'dark' : 'light' %>"
-      data-lang="<%= theme.comments.giscus.lang %>"
-      crossorigin="anonymous"
-      async>
+    <script>
+      (function() {
+        var saved = localStorage.getItem('shion-theme');
+        var mode = saved || '<%= theme.appearance.default_mode %>';
+        if (mode === 'auto') {
+          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        var s = document.createElement('script');
+        s.src = 'https://giscus.app/client.js';
+        s.setAttribute('data-repo', '<%= theme.comments.giscus.repo %>');
+        s.setAttribute('data-repo-id', '<%= theme.comments.giscus.repo_id %>');
+        s.setAttribute('data-category', '<%= theme.comments.giscus.category %>');
+        s.setAttribute('data-category-id', '<%= theme.comments.giscus.category_id %>');
+        s.setAttribute('data-mapping', '<%= theme.comments.giscus.mapping %>');
+        s.setAttribute('data-strict', '<%= theme.comments.giscus.strict %>');
+        s.setAttribute('data-reactions-enabled', '<%= theme.comments.giscus.reactions_enabled %>');
+        s.setAttribute('data-emit-metadata', '<%= theme.comments.giscus.emit_metadata %>');
+        s.setAttribute('data-input-position', '<%= theme.comments.giscus.input_position %>');
+        s.setAttribute('data-theme', mode);
+        s.setAttribute('data-lang', '<%= theme.comments.giscus.lang %>');
+        s.crossOrigin = 'anonymous';
+        s.async = true;
+        document.currentScript.parentNode.insertBefore(s, document.currentScript.nextSibling);
+      })();
     </script>
   <% } else if (type === 'disqus') { %>
     <div id="disqus_thread"></div>

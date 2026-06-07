@@ -10,7 +10,7 @@
 
       container.innerHTML = '<div id="waline"></div>';
       var script = document.createElement('script');
-      script.src = 'https://unpkg.com/@waline/client@3/dist/waline.js';
+      script.src = 'https://cdn.jsdelivr.net/npm/@waline/client@3/dist/waline.js';
       script.async = true;
       script.onload = function() {
         Waline.init({
@@ -23,7 +23,7 @@
       document.head.appendChild(script);
       var link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = 'https://unpkg.com/@waline/client@3/dist/waline.css';
+      link.href = 'https://cdn.jsdelivr.net/npm/@waline/client@3/dist/waline.css';
       document.head.appendChild(link);
     }, { threshold: 0.1 });
 
