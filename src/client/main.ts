@@ -13,6 +13,7 @@ import { initHeaderScroll } from './header-scroll';
 import { initCardClick } from './card-click';
 import { initHeadingAnchors } from './heading-anchors';
 import { initCodeCopy } from './code-copy';
+import { initImageError } from './image-error';
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initShare();
   initMobileNav();
   initLightbox();
+  initImageError();
   initTagTabs();
   initAnimations();
   initHeaderScroll();

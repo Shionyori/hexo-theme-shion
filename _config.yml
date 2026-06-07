@@ -49,8 +49,8 @@ post:
   date_format: 'YYYY-MM-DD'
   cover:
     enable: true
-    # Default cover image when post has no cover set.
-    # If you use post_asset_folder, set this to an absolute path like /images/covers/default.jpg
+    # Post by default uses cover.png inside its own asset folder (post_asset_folder).
+    # Set this fallback only for posts without a cover file.
     default: /images/shion/default-cover.png
   share:
     enable: true
@@ -73,7 +73,7 @@ post:
         display: false
   image:
     lazy_load: true
-    fancybox: true
+    lightbox: true
 
 # --- Sidebar ---
 sidebar:

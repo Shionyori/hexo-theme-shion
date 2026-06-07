@@ -27,7 +27,7 @@
 - 💬 **Comments** — Giscus, Disqus, Waline, Twikoo, Valine, Gitalk, Utterances
 - 📊 **Analytics** — Google Analytics, Baidu Tongji, Busuanzi (site PV/UV)
 - 🔗 **SEO** — Open Graph, Twitter Cards, JSON-LD structured data, canonical URLs
-- 🏷️ **Tag plugins** — note, image, gallery, quote, details, tabs, link cards, post link cards
+- 🏷️ **Tag plugins** — note, image, quote, details, tabs, link cards, post link cards
 - 📖 **Reading time & word count** — auto-estimated per post
 - 📱 **Responsive** — mobile-first layout with slide-out sidebar
 - 🔼 **Back to top** — floating button with scroll-aware visibility
@@ -227,7 +227,7 @@ Add or remove items freely — key is the label, value is the URL path.
 | `post.code.copy_button`  | `boolean`  | `true`                                     | Show copy-to-clipboard button        |
 | `post.math.enable`       | `boolean`  | `false`                                    | Enable KaTeX math rendering          |
 | `post.image.lazy_load`   | `boolean`  | `true`                                     | Native lazy loading for images       |
-| `post.image.fancybox`    | `boolean`  | `true`                                     | Click-to-zoom image lightbox         |
+| `post.image.lightbox`    | `boolean`  | `true`                                     | Click-to-zoom image lightbox         |
 
 ### Sidebar
 
@@ -342,18 +342,12 @@ Critical: backup your data first.
 ### Image
 
 ```njk
-{% image /path/to/image.jpg "Alt text" "Optional caption" %}
+{% image src=cover.png alt=封面 caption=标题 %}
+{% image src=cover.png alt=封面 size=600 %}
+{% image src=cover.png alt=封面 align=center nozoom=true %}
 ```
 
-### Gallery
-
-```njk
-{% gallery %}
-{% asset_img photo1.jpg %}
-{% asset_img photo2.jpg %}
-{% asset_img photo3.jpg %}
-{% endgallery %}
-```
+> `{% image src=... alt=... caption=... size=... align=left|right|center nozoom=true inline=true %}`
 
 ### Quote
 

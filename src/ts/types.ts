@@ -23,7 +23,7 @@ export interface HexoHelperContext {
       date_format?: string;
       cover?: { enable?: boolean; default?: string };
       share?: { enable?: boolean; platforms?: string[] };
-      image?: { lazy_load?: boolean; fancybox?: boolean };
+      image?: { lazy_load?: boolean; lightbox?: boolean };
       copyright_license?: string;
       copyright_license_url?: string;
     };

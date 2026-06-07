@@ -11,14 +11,14 @@ export function registerContentFilters(hexo: Hexo): void {
       data.content = data.content.replace(/<img(?!.*?loading=)/g, '<img loading="lazy"');
     }
 
-    // Fancybox lightbox: wrap images in links
-    if (config?.post?.image?.fancybox) {
+    // Lightbox: wrap images in links for medium-zoom grouping
+    if (config?.post?.image?.lightbox) {
       data.content = data.content.replace(
         /<img(?: (?!loading=)[^>]*)? src="([^"]+)"(?: (?!loading=)[^>]*)?(?: alt="([^"]*)")?[^>]*>/g,
         (match: string, src: string, alt: string) => {
-          if (match.includes('data-fancybox')) return match;
+          if (match.includes('data-lightbox')) return match;
           const caption = alt || '';
-          return `<a href="${src}" data-fancybox="gallery" data-caption="${caption}">${match}</a>`;
+          return `<a href="${src}" data-lightbox="post" data-caption="${caption}">${match}</a>`;
         },
       );
     }

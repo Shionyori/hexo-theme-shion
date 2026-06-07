@@ -11,7 +11,7 @@ import { registerImageTag } from './tags/image.js';
 import { registerQuoteTag } from './tags/quote.js';
 import { registerTabsTag } from './tags/tabs.js';
 import { registerDetailsTag } from './tags/details.js';
-import { registerGalleryTag } from './tags/gallery.js';
+
 import { registerLinkCardTag } from './tags/linkCard.js';
 import { registerPostLinkCardTag } from './tags/postLinkCard.js';
 
@@ -32,6 +32,6 @@ registerImageTag(hexo);
 registerQuoteTag(hexo);
 registerTabsTag(hexo);
 registerDetailsTag(hexo);
-registerGalleryTag(hexo);
+
 registerLinkCardTag(hexo);
 registerPostLinkCardTag(hexo);
