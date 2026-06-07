@@ -90,9 +90,24 @@ if (page.math === true) {
     if (mode === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
-    <% if (theme.appearance.font_size) { %>
-    document.documentElement.style.setProperty('--font-size-root', '<%= theme.appearance.font_size %>');
-    <% } %>
+    (function() {
+      var fonts = <%- JSON.stringify(theme.fonts || {}) %>;
+      var legacySize = '<%= theme.appearance.font_size || "" %>';
+      var sizeRoot = fonts.size_root || legacySize;
+
+      if (fonts.heading) {
+        document.documentElement.style.setProperty('--font-heading', fonts.heading);
+      }
+      if (fonts.body) {
+        document.documentElement.style.setProperty('--font-body', fonts.body);
+      }
+      if (fonts.code) {
+        document.documentElement.style.setProperty('--font-code', fonts.code);
+      }
+      if (sizeRoot) {
+        document.documentElement.style.setProperty('--font-size-root', sizeRoot);
+      }
+    })();
   })();
 </script>
 
