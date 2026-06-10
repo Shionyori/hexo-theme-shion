@@ -26,6 +26,7 @@
   <% } %>
 
   <% // Hero area — above content, outside flex layout so sidebar sits below it %>
+  <% if (page.type !== '404') { %>
   <% if (is_post()) { %>
   <section class="page-hero">
     <h1 class="hero-title"><%= page.title %></h1>
@@ -53,7 +54,9 @@
     <h1 class="hero-title"><%= page.title || '' %></h1>
   </section>
   <% } %>
+  <% } %>
 
+  <% if (page.type !== '404') { %>
   <div class="container">
     <div class="content-wrapper">
       <% if (theme.sidebar.enable && theme.sidebar.position === 'left') { %>
@@ -69,6 +72,11 @@
       <% } %>
     </div>
   </div>
+  <% } else { %>
+  <div class="not-found-page">
+    <%- body %>
+  </div>
+  <% } %>
 
   <%- partial('_partial/mobile-nav') %>
   <%- partial('_partial/footer') %>
