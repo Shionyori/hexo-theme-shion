@@ -55,6 +55,10 @@ cd your-hexo-site
 
 # Via git (recommended)
 git clone https://github.com/Shionyori/hexo-theme-shion themes/shion
+
+# build
+cd themes/shion
+npm install & npm run build
 ```
 
 ### Enable
