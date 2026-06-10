@@ -1,5 +1,10 @@
 <%
 var isPost = page.layout === 'post';
+// Determine if the non-post sidebar has any content to show
+var hasProfile = (theme.sidebar.avatar && theme.sidebar.avatar.enable) || config.author || config.description || theme.sidebar.social;
+var hasWidgets = theme.sidebar.widgets && theme.sidebar.widgets.length > 0;
+// Only render the sidebar if there is content (post pages always have TOC)
+if (!isPost && !hasProfile && !hasWidgets) return;
 %>
 <aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
   <% if (isPost) { %>
