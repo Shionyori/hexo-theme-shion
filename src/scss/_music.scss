@@ -457,5 +457,8 @@
 
   > .sidebar-widgets {
     overflow-y: auto;
+    scrollbar-gutter: stable;
+    // tighter right padding — scrollbar sits close to content
+    padding-right: var(--spacing-sm);
   }
 }
