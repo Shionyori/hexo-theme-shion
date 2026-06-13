@@ -22,6 +22,34 @@
   // Sticky positioning and scrolling handled by parent .sidebar-sticky-group
 }
 
+// ── Sticky group wrapper (sidebar + music player) ─────────────
+
+.sidebar-sticky-group {
+  position: sticky;
+  top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-height: calc(100vh - var(--spacing-md) * 2);
+
+  > .music-player {
+    flex-shrink: 0;
+  }
+
+  > .sidebar-widgets,
+  > .sidebar-toc-only {
+    flex: 1;
+    min-height: 0;
+  }
+
+  > .sidebar-widgets {
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    // tighter right padding — scrollbar sits close to content
+    padding-right: var(--spacing-sm);
+  }
+}
+
 .sidebar-avatar {
   text-align: center;
 

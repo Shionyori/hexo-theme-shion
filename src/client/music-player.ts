@@ -13,8 +13,7 @@ type PlayMode = 'sequential' | 'loop-all' | 'loop-one' | 'shuffle';
 
 const STORAGE_KEY = 'shion-music';
 const MODE_ICONS: Record<PlayMode, string> = {
-  sequential:
-    '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+  sequential: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
   'loop-all':
     '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
   'loop-one':
@@ -59,7 +58,9 @@ export function initMusicPlayer(): void {
     if (typeof saved.time === 'number' && saved.time > 0) {
       audio.currentTime = saved.time;
     }
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 
   function persist(): void {
     try {
@@ -72,7 +73,9 @@ export function initMusicPlayer(): void {
           time: audio.currentTime,
         }),
       );
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }
 
   // save state periodically
@@ -178,13 +181,16 @@ export function initMusicPlayer(): void {
     el?.classList.add('is-loading');
     audio.src = track.url;
     audio.load();
-    audio.play().then(() => {
-      isPlaying = true;
-      el?.classList.add('is-playing');
-      el?.classList.remove('is-loading');
-    }).catch(() => {
-      el?.classList.remove('is-loading');
-    });
+    audio
+      .play()
+      .then(() => {
+        isPlaying = true;
+        el?.classList.add('is-playing');
+        el?.classList.remove('is-loading');
+      })
+      .catch(() => {
+        el?.classList.remove('is-loading');
+      });
   }
 
   function play(): void {
@@ -192,10 +198,13 @@ export function initMusicPlayer(): void {
       loadAndPlay();
       return;
     }
-    audio.play().then(() => {
-      isPlaying = true;
-      el?.classList.add('is-playing');
-    }).catch(() => {});
+    audio
+      .play()
+      .then(() => {
+        isPlaying = true;
+        el?.classList.add('is-playing');
+      })
+      .catch(() => {});
   }
 
   function pause(): void {
@@ -390,5 +399,7 @@ export function initMusicPlayer(): void {
     if (typeof saved.time === 'number' && saved.time > 0) {
       audio.currentTime = 0; // can't seek without src loaded
     }
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }

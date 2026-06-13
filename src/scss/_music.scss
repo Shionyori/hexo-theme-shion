@@ -44,7 +44,7 @@
     transition: transform var(--transition-slow);
 
     &:not([src]),
-    &[src=""] {
+    &[src=''] {
       display: none;
     }
   }
@@ -60,8 +60,13 @@
 }
 
 @keyframes coverFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
 }
 
 // ── Song info ──────────────────────────────────────────────
@@ -97,8 +102,14 @@
 }
 
 @keyframes musicTitleScroll {
-  0%, 20% { transform: translateX(0); }
-  80%, 100% { transform: translateX(calc(-100% + 100%)); }
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+  80%,
+  100% {
+    transform: translateX(calc(-100% + 100%));
+  }
 }
 
 .music-counter {
@@ -162,14 +173,21 @@
     background: var(--color-primary);
     opacity: 0;
     transform: scale(0.5);
-    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    transition:
+      opacity var(--transition-fast),
+      transform var(--transition-fast);
     box-shadow: 0 1px 3px var(--color-shadow-primary);
   }
 }
 
 @keyframes musicProgressIndeterminate {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.35; }
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
 
 .music-time {
@@ -238,9 +256,9 @@
     transform: rotate(30deg);
   }
 
-  &[data-mode="shuffle"],
-  &[data-mode="loop-one"],
-  &[data-mode="loop-all"] {
+  &[data-mode='shuffle'],
+  &[data-mode='loop-one'],
+  &[data-mode='loop-all'] {
     color: var(--color-primary);
   }
 }
@@ -288,8 +306,14 @@
 }
 
 @keyframes iconPopIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 // ── Playlist panel ─────────────────────────────────────────
@@ -336,8 +360,12 @@
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--color-primary-light) 55%, transparent) transparent;
 
-  &::-webkit-scrollbar { width: 6px; }
-  &::-webkit-scrollbar-button { display: none; }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
   &::-webkit-scrollbar-track {
     background: transparent;
   }
@@ -352,13 +380,21 @@
 }
 
 @keyframes playlistScrollUnlock {
-  from { overflow-y: hidden; }
-  to { overflow-y: auto; }
+  from {
+    overflow-y: hidden;
+  }
+  to {
+    overflow-y: auto;
+  }
 }
 
 @keyframes playlistScrollLock {
-  from { overflow-y: auto; }
-  to { overflow-y: hidden; }
+  from {
+    overflow-y: auto;
+  }
+  to {
+    overflow-y: hidden;
+  }
 }
 
 .music-playlist-item {
@@ -398,8 +434,14 @@
 }
 
 @keyframes playlistItemIn {
-  from { opacity: 0; transform: translateX(-12px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .music-playlist-name {
@@ -433,32 +475,4 @@
   padding: var(--spacing-md) 0;
   color: var(--color-text-tertiary);
   font-size: var(--font-size-sm);
-}
-
-// ── Sticky group wrapper ───────────────────────────────────
-
-.sidebar-sticky-group {
-  position: sticky;
-  top: var(--spacing-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  max-height: calc(100vh - var(--spacing-md) * 2);
-
-  > .music-player {
-    flex-shrink: 0;
-  }
-
-  > .sidebar-widgets,
-  > .sidebar-toc-only {
-    flex: 1;
-    min-height: 0;
-  }
-
-  > .sidebar-widgets {
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    // tighter right padding — scrollbar sits close to content
-    padding-right: var(--spacing-sm);
-  }
 }
