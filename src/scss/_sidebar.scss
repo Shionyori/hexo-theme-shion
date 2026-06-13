@@ -19,13 +19,7 @@
 }
 
 .sidebar-widgets {
-  position: sticky;
-  top: var(--spacing-md);
-  align-self: flex-start;
-  width: 100%;
-  max-height: calc(100vh - var(--spacing-md) * 2);
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+  // Sticky positioning and scrolling handled by parent .sidebar-sticky-group
 }
 
 .sidebar-avatar {
@@ -111,9 +105,7 @@
 .sidebar-toc-only {
   padding: 0;
   overflow: hidden;
-  position: sticky;
-  top: var(--spacing-md);
-  max-height: calc(100vh - var(--spacing-md) * 2);
+  // sticky positioning handled by parent .sidebar-sticky-group
   display: flex;
   flex-direction: column;
 

@@ -1,0 +1,65 @@
+<%
+var musicEnabled = theme.music && theme.music.enable;
+var playlist = theme.music && theme.music.playlist ? theme.music.playlist : [];
+var hasTracks = playlist.length > 0;
+if (!musicEnabled) return;
+%>
+<div class="music-player<%= hasTracks ? '' : ' is-empty' %>"<%- hasTracks ? " data-playlist='" + JSON.stringify(playlist) + "'" : "" %>>
+  <% if (hasTracks) { %>
+  <div class="music-body">
+    <div class="music-cover">
+      <% var firstCover = playlist[0].cover; %>
+      <% if (firstCover) { %>
+      <img src="<%= url_for(firstCover) %>" alt="cover" class="music-cover-img" onerror="if(!this.dataset.failed){this.dataset.failed='1';this.src='<%= url_for('/images/shion/404.png') %>'}">
+      <% } %>
+    </div>
+    <div class="music-info">
+      <div class="music-title-row">
+        <span class="music-title"><%= playlist[0].name %></span>
+        <span class="music-counter">1 / <%= playlist.length %></span>
+      </div>
+      <span class="music-artist"><%= playlist[0].artist %></span>
+      <div class="music-progress">
+        <div class="music-progress-bar">
+          <div class="music-progress-fill"></div>
+        </div>
+        <div class="music-time">
+          <span class="music-time-current">0:00</span>
+          <span class="music-time-total">0:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="music-controls">
+    <button class="music-btn music-btn-mode" aria-label="Play mode" data-mode="sequential" title="Sequential">
+      <svg class="music-mode-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <button class="music-btn music-btn-prev" aria-label="Previous track">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+    </button>
+    <button class="music-btn music-btn-play" aria-label="Play">
+      <svg class="music-icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <svg class="music-icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="6" height="16"/><rect x="14" y="4" width="6" height="16"/></svg>
+    </button>
+    <button class="music-btn music-btn-next" aria-label="Next track">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+    </button>
+    <button class="music-btn music-btn-list" aria-label="Playlist">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="music-playlist">
+    <% playlist.forEach(function(track, i) { %>
+    <button class="music-playlist-item<%= i === 0 ? ' active' : '' %>" data-index="<%= i %>">
+      <span class="music-playlist-name"><%= track.name %></span>
+      <span class="music-playlist-artist"><%= track.artist %></span>
+    </button>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <div class="music-empty">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    <span>No music configured</span>
+  </div>
+  <% } %>
+</div>

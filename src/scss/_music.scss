@@ -1,0 +1,461 @@
+// ── Music Player Card ──────────────────────────────────────
+
+.music-player {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+
+  &.is-playlist-open {
+    border-bottom-color: transparent;
+    box-shadow: 0 4px 20px -4px var(--color-shadow-strong);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.35s ease;
+  }
+}
+
+// ── Body: cover + info row ─────────────────────────────────
+
+.music-body {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.music-cover {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--color-code-bg);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: box-shadow var(--transition-base);
+
+  .music-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+
+    &:not([src]),
+    &[src=""] {
+      display: none;
+    }
+  }
+
+  &:hover .music-cover-img {
+    transform: scale(1.12);
+  }
+
+  // subtle float while playing
+  .music-player.is-playing & {
+    animation: coverFloat 3s ease-in-out infinite;
+  }
+}
+
+@keyframes coverFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+// ── Song info ──────────────────────────────────────────────
+
+.music-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.music-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.music-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+
+  .music-player:not(.is-paused-title) &.is-overflow {
+    animation: musicTitleScroll 6s linear infinite alternate;
+  }
+}
+
+@keyframes musicTitleScroll {
+  0%, 20% { transform: translateX(0); }
+  80%, 100% { transform: translateX(calc(-100% + 100%)); }
+}
+
+.music-counter {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.music-artist {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+// ── Progress bar ───────────────────────────────────────────
+
+.music-progress {
+  margin-top: 5px;
+}
+
+.music-progress-bar {
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+  overflow: visible;
+  position: relative;
+
+  .has-duration & {
+    cursor: pointer;
+
+    &:hover .music-progress-fill::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.music-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--color-primary);
+  border-radius: 2px;
+  position: relative;
+  transition: width 0.3s linear;
+
+  .music-player:not(.has-duration) & {
+    width: 100% !important;
+    opacity: 0.25;
+    animation: musicProgressIndeterminate 2s ease-in-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    box-shadow: 0 1px 3px var(--color-shadow-primary);
+  }
+}
+
+@keyframes musicProgressIndeterminate {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.35; }
+}
+
+.music-time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+// ── Controls ───────────────────────────────────────────────
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+// base icon button
+.music-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  color: var(--color-text-secondary);
+  background: transparent;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+// small icon buttons — uniform size
+.music-btn-mode,
+.music-btn-prev,
+.music-btn-next,
+.music-btn-list {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+
+  &:hover {
+    background: var(--color-code-bg);
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+// mode button active states
+.music-btn-mode {
+  .music-mode-icon {
+    transition: transform var(--transition-base);
+  }
+  &:active .music-mode-icon {
+    transform: rotate(30deg);
+  }
+
+  &[data-mode="shuffle"],
+  &[data-mode="loop-one"],
+  &[data-mode="loop-all"] {
+    color: var(--color-primary);
+  }
+}
+
+// playlist toggle active state
+.music-btn-list {
+  .music-player.is-playlist-open & {
+    color: var(--color-primary);
+    background: var(--color-primary-soft);
+  }
+}
+
+// play button — standout but restrained
+.music-btn-play {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  box-shadow: 0 2px 8px var(--color-shadow-primary);
+
+  &:hover {
+    color: var(--color-surface);
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px var(--color-shadow-primary);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// ── Play/pause icon swap ───────────────────────────────────
+
+.music-icon-pause {
+  display: none;
+}
+.music-player.is-playing .music-icon-play {
+  display: none;
+}
+.music-player.is-playing .music-icon-pause {
+  display: block;
+  animation: iconPopIn 0.2s ease;
+}
+
+@keyframes iconPopIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+// ── Playlist panel ─────────────────────────────────────────
+
+.music-playlist {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg));
+  border: 1px solid transparent;
+  border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--color-surface);
+  // reserve stable gutter for scrollbar so content never gets overlapped;
+  // left padding mirrors the gutter width for visual centering
+  padding-left: 6px;
+  scrollbar-gutter: stable;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    border-color 0.2s ease;
+
+  .music-player.is-playlist-open & {
+    max-height: 220px;
+    opacity: 1;
+    // overflow-y controlled by animation — delayed so scrollbar
+    // doesn't flash during the max-height transition
+    overflow-x: hidden;
+    border-color: var(--color-border-light);
+    border-top: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: 0 4px 16px -2px var(--color-shadow-strong);
+    animation: playlistScrollUnlock 0.01s 0.35s forwards;
+  }
+
+  .music-player:not(.is-playlist-open) & {
+    // hide scrollbar immediately when closing
+    animation: playlistScrollLock 0.01s forwards;
+  }
+
+  // themed scrollbar — match global style
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-primary-light) 55%, transparent) transparent;
+
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-button { display: none; }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-primary-light) 55%, transparent);
+    border-radius: 3px;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-primary) 70%, transparent);
+    }
+  }
+}
+
+@keyframes playlistScrollUnlock {
+  from { overflow-y: hidden; }
+  to { overflow-y: auto; }
+}
+
+@keyframes playlistScrollLock {
+  from { overflow-y: auto; }
+  to { overflow-y: hidden; }
+}
+
+.music-playlist-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+
+  &:hover {
+    background: var(--color-code-bg);
+  }
+
+  &.active {
+    color: var(--color-primary);
+    background: var(--color-primary-soft);
+  }
+
+  // stagger entrance
+  .music-player.is-playlist-open & {
+    animation: playlistItemIn 0.3s ease both;
+  }
+}
+
+@for $i from 1 through 30 {
+  .music-player.is-playlist-open .music-playlist-item:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.04}s;
+  }
+}
+
+@keyframes playlistItemIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.music-playlist-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+
+  .music-playlist-item.active & {
+    font-weight: 600;
+  }
+}
+
+.music-playlist-artist {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80px;
+}
+
+// ── Empty state ────────────────────────────────────────────
+
+.music-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 0;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+// ── Sticky group wrapper ───────────────────────────────────
+
+.sidebar-sticky-group {
+  position: sticky;
+  top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-height: calc(100vh - var(--spacing-md) * 2);
+
+  > .music-player {
+    flex-shrink: 0;
+  }
+
+  > .sidebar-widgets,
+  > .sidebar-toc-only {
+    flex: 1;
+    min-height: 0;
+  }
+
+  > .sidebar-widgets {
+    overflow-y: auto;
+  }
+}

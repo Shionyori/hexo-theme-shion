@@ -1,58 +1,28 @@
 <%
 var isPost = page.layout === 'post';
-// Determine if the non-post sidebar has any content to show
 var hasProfile = (theme.sidebar.avatar && theme.sidebar.avatar.enable) || config.author || config.description || theme.sidebar.social;
 var hasWidgets = theme.sidebar.widgets && theme.sidebar.widgets.length > 0;
-// Only render the sidebar if there is content (post pages always have TOC)
-if (!isPost && !hasProfile && !hasWidgets) return;
+var hasMusic = theme.music && theme.music.enable;
+if (!isPost && !hasProfile && !hasWidgets && !hasMusic) return;
 %>
 <aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
-  <% if (isPost) { %>
-  <% // Post/Page: compact TOC-only sidebar %>
-  <div class="sidebar-inner sidebar-toc-only">
-    <div class="sidebar-toc-header">
-      <a class="sidebar-back-home" href="<%= url_for('/') %>" title="<%= __('home') %>">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </a>
-      <span class="sidebar-toc-label"><%= page.title %></span>
-    </div>
-    <div class="sidebar-scroll">
-    <%
-    // Only show TOC if there are actual headings in the content.
-    // toc: false in frontmatter disables it even when headings exist.
-    var headingsExist = /<h[1-6]/.test(page.content || '');
-    var showToc = (page.toc !== false) && headingsExist;
-    %>
-    <% if (showToc) { %>
-    <nav class="sidebar-toc">
-      <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list', list_number: false }) %>
-    </nav>
-    <% } else { %>
-    <p class="toc-empty"><%= __('no_toc') %></p>
-    <% } %>
-    </div>
-    <a class="sidebar-back-home-bottom" href="<%= url_for('/') %>">← <%= __('home') %></a>
-  </div>
 
-  <% } else { %>
-  <% // Index/Archive/Category/Tag: full sidebar — split into two cards %>
+  <% if (!isPost) { %>
+  <% // ── Home/Archive/Category/Tag — three independent cards ── %>
 
-  <% if (theme.sidebar.avatar.enable || config.author || config.description || theme.sidebar.social) { %>
+  <% if (hasProfile) { %>
   <div class="sidebar-inner sidebar-profile">
     <% if (theme.sidebar.avatar.enable) { %>
     <div class="sidebar-avatar">
       <img src="<%= url_for(theme.sidebar.avatar.image) %>" alt="<%= config.author || config.title %>" width="96" height="96">
     </div>
     <% } %>
-
     <% if (config.author) { %>
     <div class="sidebar-author"><%= config.author %></div>
     <% } %>
-
     <% if (config.description) { %>
     <div class="sidebar-bio"><%= config.description %></div>
     <% } %>
-
     <% if (theme.sidebar.social) { %>
     <div class="sidebar-social">
       <% for (var name in theme.sidebar.social) { %>
@@ -65,13 +35,48 @@ if (!isPost && !hasProfile && !hasWidgets) return;
   </div>
   <% } %>
 
-  <% if (theme.sidebar.widgets && theme.sidebar.widgets.length) { %>
-  <div class="sidebar-inner sidebar-widgets">
-    <% theme.sidebar.widgets.forEach(function(widget) { %>
-      <%- partial('_partial/widgets/' + widget) %>
-    <% }) %>
+  <% if (hasMusic || hasWidgets) { %>
+  <div class="sidebar-sticky-group">
+    <%- partial('_partial/music-player') %>
+    <% if (hasWidgets) { %>
+    <div class="sidebar-inner sidebar-widgets">
+      <% theme.sidebar.widgets.forEach(function(widget) { %>
+        <%- partial('_partial/widgets/' + widget) %>
+      <% }) %>
+    </div>
+    <% } %>
   </div>
   <% } %>
+
+  <% } else { %>
+  <% // ── Post/Page — two cards in sticky group ── %>
+
+  <div class="sidebar-sticky-group">
+    <%- partial('_partial/music-player') %>
+
+    <div class="sidebar-inner sidebar-toc-only">
+      <div class="sidebar-toc-header">
+        <a class="sidebar-back-home" href="<%= url_for('/') %>" title="<%= __('home') %>">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </a>
+        <span class="sidebar-toc-label"><%= page.title %></span>
+      </div>
+      <div class="sidebar-scroll">
+      <%
+      var headingsExist = /<h[1-6]/.test(page.content || '');
+      var showToc = (page.toc !== false) && headingsExist;
+      %>
+      <% if (showToc) { %>
+      <nav class="sidebar-toc">
+        <%- toc(page.content, { max_depth: theme.post.toc_max_depth || 3, class: 'toc-list', list_number: false }) %>
+      </nav>
+      <% } else { %>
+      <p class="toc-empty"><%= __('no_toc') %></p>
+      <% } %>
+      </div>
+      <a class="sidebar-back-home-bottom" href="<%= url_for('/') %>">← <%= __('home') %></a>
+    </div>
+  </div>
 
   <% } %>
 </aside>

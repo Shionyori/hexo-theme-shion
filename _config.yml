@@ -92,6 +92,11 @@ sidebar:
   tagcloud_min_font: 1.2
   tagcloud_max_font: 2.8
 
+# --- Music Player ---
+music:
+  enable: false
+  playlist: []
+
 # --- Comments ---
 comments:
   enable: false
