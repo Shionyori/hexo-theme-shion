@@ -90,5 +90,5 @@ export function initAnimations(): void {
 
   // ── Comments, 404 ────────────────────────────────────────
   animate('.comments', 0);
-  animate('.not-found', 0);
+  animate('.not-found-content', 0);
 }

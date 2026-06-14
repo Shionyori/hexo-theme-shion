@@ -1,21 +1,20 @@
-/* 404 full-page layout — no sidebar, vertically centered */
-.not-found-page {
+/* 404 content — rendered inside .site-main, centered vertically and horizontally */
+.not-found-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--header-height) - 200px);
-  padding: var(--spacing-xl) var(--spacing-lg);
-}
-
-.not-found {
   text-align: center;
-  padding: var(--spacing-3xl) 0;
+  min-height: 50vh;
+  padding: var(--spacing-3xl) var(--spacing-lg);
 
   .not-found-image {
-    max-width: 280px;
-    margin: 0 auto var(--spacing-xl);
+    max-width: 240px;
+    margin: 0 auto var(--spacing-lg);
 
     img {
+      width: 100%;
+      height: auto;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
       transition: transform var(--transition-slow);
@@ -27,7 +26,7 @@
   }
 
   .not-found-title {
-    font-size: 6rem;
+    font-size: 5rem;
     font-family: var(--font-heading);
     font-weight: 800;
     background: linear-gradient(135deg, var(--color-primary), var(--color-accent));

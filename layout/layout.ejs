@@ -19,7 +19,7 @@
   <% var coverUrl = (pageCover.startsWith('/') || pageCover.startsWith('http')) ? url_for(pageCover) : url_for(page.path + pageCover); %>
     <img src="<%= coverUrl %>" alt="">
   </div>
-  <% } else if (theme.shion && theme.shion.background_image) { %>
+  <% } else if (theme.shion && theme.shion.background_image && page.type !== '404') { %>
   <div class="page-bg">
     <img src="<%= url_for(theme.shion.background_image) %>" alt="">
   </div>
@@ -56,7 +56,6 @@
   <% } %>
   <% } %>
 
-  <% if (page.type !== '404') { %>
   <div class="container">
     <div class="content-wrapper">
       <% if (theme.sidebar.enable && theme.sidebar.position === 'left') { %>
@@ -72,11 +71,6 @@
       <% } %>
     </div>
   </div>
-  <% } else { %>
-  <div class="not-found-page">
-    <%- body %>
-  </div>
-  <% } %>
 
   <%- partial('_partial/mobile-nav') %>
   <%- partial('_partial/footer') %>
