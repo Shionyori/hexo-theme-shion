@@ -1,5 +1,6 @@
 /**
  * Music player — HTML5 Audio with playlist panel, play modes, and persistence.
+ * Audio instance lives on window.__musicState so playback survives PJAX navigation.
  */
 
 interface Track {
@@ -10,6 +11,24 @@ interface Track {
 }
 
 type PlayMode = 'sequential' | 'loop-all' | 'loop-one' | 'shuffle';
+
+interface MusicState {
+  audio: HTMLAudioElement;
+  playlist: Track[];
+  currentIndex: number;
+  isPlaying: boolean;
+  playMode: PlayMode;
+  initialized: boolean;
+  durationKnown: boolean;
+  // Stored event handler references — removed and rebound after PJAX DOM swap
+  _timeUpdate?: () => void;
+  _metaLoaded?: () => void;
+  _durChange?: () => void;
+  _ended?: () => void;
+  _error?: () => void;
+  _docClick?: (e: Event) => void;
+  _keyDown?: (e: KeyboardEvent) => void;
+}
 
 const STORAGE_KEY = 'shion-music';
 const MODE_ICONS: Record<PlayMode, string> = {
@@ -24,71 +43,109 @@ const MODE_ICONS: Record<PlayMode, string> = {
 
 const MODE_ORDER: PlayMode[] = ['sequential', 'loop-all', 'loop-one', 'shuffle'];
 
-export function initMusicPlayer(): void {
-  const el = document.querySelector<HTMLElement>('.music-player');
-  if (!el || el.classList.contains('is-empty')) return;
+function getOrCreateState(): MusicState {
+  const win = window as any;
+  if (win.__musicState) return win.__musicState;
 
-  let playlist: Track[];
-  try {
-    playlist = JSON.parse(el.dataset.playlist || '[]');
-  } catch {
-    return;
-  }
-  if (!playlist.length) return;
+  const state: MusicState = {
+    audio: new Audio(),
+    playlist: [],
+    currentIndex: 0,
+    isPlaying: false,
+    playMode: 'sequential',
+    initialized: false,
+    durationKnown: false,
+  };
 
-  // ── State ─────────────────────────────────────────────
-
-  let currentIndex = 0;
-  let isPlaying = false;
-  let playMode: PlayMode = 'sequential';
-  const audio = new Audio();
-
-  // restore persisted state
+  // Restore persisted settings
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    if (typeof saved.index === 'number' && saved.index < playlist.length) {
-      currentIndex = saved.index;
-    }
-    if (saved.mode && MODE_ORDER.includes(saved.mode)) {
-      playMode = saved.mode;
+    if (typeof saved.mode === 'string' && MODE_ORDER.includes(saved.mode)) {
+      state.playMode = saved.mode;
     }
     if (typeof saved.volume === 'number') {
-      audio.volume = Math.max(0, Math.min(1, saved.volume));
-    }
-    if (typeof saved.time === 'number' && saved.time > 0) {
-      audio.currentTime = saved.time;
+      state.audio.volume = Math.max(0, Math.min(1, saved.volume));
     }
   } catch {
     /* ignore */
   }
 
-  function persist(): void {
+  win.__musicState = state;
+  return state;
+}
+
+function persist(state: MusicState): void {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        index: state.currentIndex,
+        mode: state.playMode,
+        volume: state.audio.volume,
+        time: state.audio.currentTime,
+      }),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
+function formatTime(seconds: number): string {
+  if (!isFinite(seconds) || seconds < 0) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+export function initMusicPlayer(): void {
+  const el = document.querySelector<HTMLElement>('.music-player');
+  if (!el || el.classList.contains('is-empty')) return;
+
+  const state = getOrCreateState();
+
+  // Update playlist from current page's data attribute
+  let newPlaylist: Track[];
+  try {
+    newPlaylist = JSON.parse(el.dataset.playlist || '[]');
+  } catch {
+    return;
+  }
+  if (!newPlaylist.length) return;
+
+  // If playlist changed, update and clamp index
+  state.playlist = newPlaylist;
+  if (state.currentIndex >= newPlaylist.length) {
+    state.currentIndex = 0;
+  }
+
+  // Restore saved index if we're on initial load (not yet initialized)
+  if (!state.initialized) {
     try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          index: currentIndex,
-          mode: playMode,
-          volume: audio.volume,
-          time: audio.currentTime,
-        }),
-      );
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if (typeof saved.index === 'number' && saved.index < state.playlist.length) {
+        state.currentIndex = saved.index;
+      }
+      if (typeof saved.time === 'number' && saved.time > 0) {
+        state.audio.currentTime = saved.time;
+      }
     } catch {
       /* ignore */
     }
   }
 
-  // save state periodically
+  // Persist timer
   let persistTimer: ReturnType<typeof setInterval>;
-  audio.addEventListener('play', () => {
-    persistTimer = setInterval(persist, 2000);
-  });
-  audio.addEventListener('pause', () => {
-    clearInterval(persistTimer);
-    persist();
-  });
+  if (!state.initialized) {
+    state.audio.addEventListener('play', () => {
+      persistTimer = setInterval(() => persist(state), 2000);
+    });
+    state.audio.addEventListener('pause', () => {
+      clearInterval(persistTimer);
+      persist(state);
+    });
+  }
 
-  // ── DOM refs ──────────────────────────────────────────
+  // ── DOM refs (always re-queried) ──────────────────────────
 
   const coverImg = el.querySelector<HTMLImageElement>('.music-cover-img');
   const titleEl = el.querySelector<HTMLElement>('.music-title');
@@ -105,43 +162,35 @@ export function initMusicPlayer(): void {
   const progressBar = el.querySelector<HTMLElement>('.music-progress-bar');
   const playlistPanel = el.querySelector<HTMLElement>('.music-playlist');
 
-  // ── Helpers ───────────────────────────────────────────
-
-  function formatTime(seconds: number): string {
-    if (!isFinite(seconds) || seconds < 0) return '0:00';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  }
+  // ── UI helpers ────────────────────────────────────────────
 
   function updateCounter(): void {
-    if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${playlist.length}`;
+    if (counterEl) counterEl.textContent = `${state.currentIndex + 1} / ${state.playlist.length}`;
   }
 
   function updateModeButton(): void {
     if (!btnMode) return;
-    btnMode.dataset.mode = playMode;
+    btnMode.dataset.mode = state.playMode;
     btnMode.title =
-      playMode === 'sequential'
+      state.playMode === 'sequential'
         ? 'Sequential'
-        : playMode === 'loop-all'
+        : state.playMode === 'loop-all'
           ? 'Loop All'
-          : playMode === 'loop-one'
+          : state.playMode === 'loop-one'
             ? 'Loop One'
             : 'Shuffle';
     const svg = btnMode.querySelector('.music-mode-icon');
     if (svg) {
-      svg.innerHTML = MODE_ICONS[playMode];
+      svg.innerHTML = MODE_ICONS[state.playMode];
     }
   }
 
   function renderTrack(): void {
-    const track = playlist[currentIndex];
+    const track = state.playlist[state.currentIndex];
     if (!track) return;
 
     if (titleEl) {
       titleEl.textContent = track.name;
-      // detect overflow for marquee
       titleEl.classList.remove('is-overflow');
       requestAnimationFrame(() => {
         if (titleEl && titleEl.scrollWidth > titleEl.clientWidth) {
@@ -160,31 +209,30 @@ export function initMusicPlayer(): void {
       coverImg.style.display = 'none';
     }
 
-    durationKnown = false;
+    state.durationKnown = false;
     el?.classList.remove('has-duration');
     if (timeTotal) timeTotal.textContent = '0:00';
     if (timeCurrent) timeCurrent.textContent = '0:00';
     if (progressFill) progressFill.style.width = '0%';
 
-    // highlight active playlist item
     playlistPanel?.querySelectorAll('.music-playlist-item').forEach((item) => {
       const idx = (item as HTMLElement).dataset.index;
-      item.classList.toggle('active', idx === String(currentIndex));
+      item.classList.toggle('active', idx === String(state.currentIndex));
     });
   }
 
-  // ── Playback ──────────────────────────────────────────
+  // ── Playback ──────────────────────────────────────────────
 
   function loadAndPlay(): void {
-    const track = playlist[currentIndex];
+    const track = state.playlist[state.currentIndex];
     if (!track) return;
     el?.classList.add('is-loading');
-    audio.src = track.url;
-    audio.load();
-    audio
+    state.audio.src = track.url;
+    state.audio.load();
+    state.audio
       .play()
       .then(() => {
-        isPlaying = true;
+        state.isPlaying = true;
         el?.classList.add('is-playing');
         el?.classList.remove('is-loading');
       })
@@ -194,78 +242,78 @@ export function initMusicPlayer(): void {
   }
 
   function play(): void {
-    if (!audio.src) {
+    if (!state.audio.src) {
       loadAndPlay();
       return;
     }
-    audio
+    state.audio
       .play()
       .then(() => {
-        isPlaying = true;
+        state.isPlaying = true;
         el?.classList.add('is-playing');
       })
       .catch(() => {});
   }
 
   function pause(): void {
-    audio.pause();
-    isPlaying = false;
+    state.audio.pause();
+    state.isPlaying = false;
     el?.classList.remove('is-playing');
   }
 
   function togglePlay(): void {
-    if (isPlaying) pause();
+    if (state.isPlaying) pause();
     else play();
   }
 
   function jumpTo(index: number): void {
-    if (index === currentIndex) return;
-    currentIndex = index;
+    if (index === state.currentIndex) return;
+    state.currentIndex = index;
     renderTrack();
     loadAndPlay();
-    persist();
+    persist(state);
   }
 
   function next(): void {
-    if (playMode === 'shuffle') {
-      if (playlist.length <= 1) {
-        currentIndex = 0;
+    if (state.playMode === 'shuffle') {
+      if (state.playlist.length <= 1) {
+        state.currentIndex = 0;
       } else {
         let nextIdx: number;
         do {
-          nextIdx = Math.floor(Math.random() * playlist.length);
-        } while (nextIdx === currentIndex);
-        currentIndex = nextIdx;
+          nextIdx = Math.floor(Math.random() * state.playlist.length);
+        } while (nextIdx === state.currentIndex);
+        state.currentIndex = nextIdx;
       }
     } else {
-      currentIndex = (currentIndex + 1) % playlist.length;
+      state.currentIndex = (state.currentIndex + 1) % state.playlist.length;
     }
     renderTrack();
-    if (isPlaying) {
+    if (state.isPlaying) {
       pause();
       loadAndPlay();
     }
-    persist();
+    persist(state);
   }
 
   function prev(): void {
-    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    state.currentIndex = (state.currentIndex - 1 + state.playlist.length) % state.playlist.length;
     renderTrack();
-    if (isPlaying) {
+    if (state.isPlaying) {
       pause();
       loadAndPlay();
     }
-    persist();
+    persist(state);
   }
 
   function cycleMode(): void {
-    const idx = MODE_ORDER.indexOf(playMode);
-    playMode = MODE_ORDER[(idx + 1) % MODE_ORDER.length];
+    const idx = MODE_ORDER.indexOf(state.playMode);
+    state.playMode = MODE_ORDER[(idx + 1) % MODE_ORDER.length];
     updateModeButton();
-    persist();
+    persist(state);
   }
 
-  // ── Playlist panel ────────────────────────────────────
+  // ── Playlist panel ────────────────────────────────────────
 
   function togglePlaylist(): void {
     el?.classList.toggle('is-playlist-open');
@@ -275,31 +323,29 @@ export function initMusicPlayer(): void {
     el?.classList.remove('is-playlist-open');
   }
 
-  // ── Progress ──────────────────────────────────────────
+  // ── Progress ──────────────────────────────────────────────
 
   function hasDuration(): boolean {
-    return isFinite(audio.duration) && audio.duration > 0;
+    return isFinite(state.audio.duration) && state.audio.duration > 0;
   }
 
-  let durationKnown = false;
-
   function updateProgress(): void {
-    if (timeCurrent) timeCurrent.textContent = formatTime(audio.currentTime);
+    if (timeCurrent) timeCurrent.textContent = formatTime(state.audio.currentTime);
 
     if (hasDuration()) {
-      if (!durationKnown) {
-        durationKnown = true;
+      if (!state.durationKnown) {
+        state.durationKnown = true;
         el?.classList.add('has-duration');
         updateTotalTime();
       }
-      const pct = (audio.currentTime / audio.duration) * 100;
+      const pct = (state.audio.currentTime / state.audio.duration) * 100;
       if (progressFill) progressFill.style.width = `${pct}%`;
     }
   }
 
   function updateTotalTime(): void {
     if (hasDuration() && timeTotal) {
-      timeTotal.textContent = formatTime(audio.duration);
+      timeTotal.textContent = formatTime(state.audio.duration);
     }
   }
 
@@ -307,11 +353,12 @@ export function initMusicPlayer(): void {
     if (!hasDuration() || !progressBar) return;
     const rect = progressBar.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
-    audio.currentTime = Math.max(0, Math.min(pct, 1)) * audio.duration;
+    state.audio.currentTime = Math.max(0, Math.min(pct, 1)) * state.audio.duration;
   }
 
-  // ── Events ────────────────────────────────────────────
+  // ── Event binding ─────────────────────────────────────────
 
+  // DOM events: rebind every time (elements are new after PJAX)
   btnPlay?.addEventListener('click', togglePlay);
   btnPrev?.addEventListener('click', prev);
   btnNext?.addEventListener('click', next);
@@ -319,7 +366,6 @@ export function initMusicPlayer(): void {
   btnList?.addEventListener('click', togglePlaylist);
   progressBar?.addEventListener('click', setProgress);
 
-  // playlist item clicks
   playlistPanel?.addEventListener('click', (e) => {
     const item = (e.target as HTMLElement).closest<HTMLElement>('.music-playlist-item');
     if (!item) return;
@@ -330,16 +376,45 @@ export function initMusicPlayer(): void {
     }
   });
 
-  // close playlist on outside click
-  document.addEventListener('click', (e) => {
+  // Audio + document events: always rebind (DOM refs change after PJAX navigation).
+  // Remove old handlers first so stale closures don't update detached DOM elements.
+  if (state._timeUpdate) {
+    state.audio.removeEventListener('timeupdate', state._timeUpdate);
+    state.audio.removeEventListener('loadedmetadata', state._metaLoaded!);
+    state.audio.removeEventListener('durationchange', state._durChange!);
+    state.audio.removeEventListener('ended', state._ended!);
+    state.audio.removeEventListener('error', state._error!);
+    document.removeEventListener('click', state._docClick!);
+    document.removeEventListener('keydown', state._keyDown!);
+  }
+
+  // Create handler closures with current DOM refs
+  const endedHandler = () => {
+    if (state.playMode === 'loop-one') {
+      state.audio.currentTime = 0;
+      state.audio.play().catch(() => {});
+    } else if (state.playMode === 'loop-all' || state.playMode === 'shuffle') {
+      next();
+    } else {
+      if (state.currentIndex >= state.playlist.length - 1) {
+        pause();
+      } else {
+        next();
+      }
+    }
+  };
+
+  const errorHandler = () => {
+    next();
+  };
+
+  const docClickHandler = (e: Event) => {
     if (el?.classList.contains('is-playlist-open') && !el.contains(e.target as Node)) {
       closePlaylist();
     }
-  });
+  };
 
-  // keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    // ignore when typing in inputs
+  const keydownHandler = (e: KeyboardEvent) => {
     if (
       e.target instanceof HTMLInputElement ||
       e.target instanceof HTMLTextAreaElement ||
@@ -348,7 +423,6 @@ export function initMusicPlayer(): void {
       return;
 
     if (e.key === ' ' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      // space toggles play/pause
       e.preventDefault();
       togglePlay();
     } else if (e.key === 'ArrowRight' && e.ctrlKey) {
@@ -358,48 +432,39 @@ export function initMusicPlayer(): void {
       e.preventDefault();
       prev();
     }
-  });
+  };
 
-  audio.addEventListener('timeupdate', updateProgress);
+  // Store references so they can be removed on the next init call
+  state._timeUpdate = updateProgress;
+  state._metaLoaded = updateTotalTime;
+  state._durChange = updateTotalTime;
+  state._ended = endedHandler;
+  state._error = errorHandler;
+  state._docClick = docClickHandler;
+  state._keyDown = keydownHandler;
 
-  function updateTotalTime(): void {
-    if (hasDuration() && timeTotal) {
-      timeTotal.textContent = formatTime(audio.duration);
-    }
+  // Bind fresh handlers
+  state.audio.addEventListener('timeupdate', updateProgress);
+  state.audio.addEventListener('loadedmetadata', updateTotalTime);
+  state.audio.addEventListener('durationchange', updateTotalTime);
+  state.audio.addEventListener('ended', endedHandler);
+  state.audio.addEventListener('error', errorHandler);
+  document.addEventListener('click', docClickHandler);
+  document.addEventListener('keydown', keydownHandler);
+
+  if (!state.initialized) {
+    state.initialized = true;
   }
-  audio.addEventListener('loadedmetadata', updateTotalTime);
-  audio.addEventListener('durationchange', updateTotalTime);
 
-  audio.addEventListener('ended', () => {
-    if (playMode === 'loop-one') {
-      audio.currentTime = 0;
-      audio.play().catch(() => {});
-    } else if (playMode === 'loop-all' || playMode === 'shuffle') {
-      next();
-    } else {
-      // sequential: stop at last track
-      if (currentIndex >= playlist.length - 1) {
-        pause();
-      } else {
-        next();
-      }
-    }
-  });
-  audio.addEventListener('error', () => {
-    next();
-  });
-
-  // ── Init ──────────────────────────────────────────────
+  // ── Init UI ───────────────────────────────────────────────
 
   updateModeButton();
   renderTrack();
-  // restore playback position
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    if (typeof saved.time === 'number' && saved.time > 0) {
-      audio.currentTime = 0; // can't seek without src loaded
-    }
-  } catch {
-    /* ignore */
+
+  // Reflect current playback state in UI
+  if (state.isPlaying) {
+    el?.classList.add('is-playing');
+    updateProgress();
+    updateTotalTime();
   }
 }
