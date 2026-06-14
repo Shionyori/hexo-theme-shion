@@ -2,12 +2,24 @@
 <html lang="<%= config.language %>">
 <head>
   <%- partial('_partial/head') %>
+  <script>
+    window.__shionConfig = {
+      katexCDN: '<%= theme.cdn && theme.cdn.katex ? theme.cdn.katex : "https://cdn.jsdelivr.net/npm/katex@0.16.9" %>',
+      katexDelimiters: <%- JSON.stringify((theme.post && theme.post.math && theme.post.math.delimiters) || [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '\\(', right: '\\)', display: false }
+      ]) %>
+    };
+  </script>
 </head>
 <body>
   <%- partial('_partial/header') %>
 
   <%- partial('_partial/reading-progress') %>
 
+<div id="pjax-container">
   <% // Full-width page-top background — outside container, edge-to-edge %>
   <%
     var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
@@ -71,6 +83,7 @@
       <% } %>
     </div>
   </div>
+</div>
 
   <%- partial('_partial/mobile-nav') %>
   <%- partial('_partial/footer') %>

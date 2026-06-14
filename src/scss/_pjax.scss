@@ -1,0 +1,27 @@
+// ── PJAX Progress Bar ───────────────────────────────────────
+
+.pjax-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--color-primary);
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  will-change: width, opacity;
+
+  &.is-active {
+    opacity: 1;
+  }
+
+  &.is-done {
+    width: 100%;
+    opacity: 0;
+    transition:
+      width 0.15s ease-out,
+      opacity 0.25s ease 0.15s;
+  }
+}

@@ -1,5 +1,6 @@
 /**
- * Client-side entry point — initializes all browser modules on DOMContentLoaded.
+ * Client-side entry point — initializes browser modules.
+ * Chrome inits run once. Content inits run on DOMContentLoaded + after each PJAX swap.
  */
 import { initTheme } from './theme';
 import { initSearch } from './search';
@@ -18,23 +19,45 @@ import { initHeadingAnchors } from './heading-anchors';
 import { initCodeCopy } from './code-copy';
 import { initImageError } from './image-error';
 import { initMusicPlayer } from './music-player';
+import { initPjax } from './pjax';
+import { initMath } from './math';
 
-document.addEventListener('DOMContentLoaded', () => {
+// ── Chrome: run once ────────────────────────────────────────
+
+function initChrome(): void {
   initTheme();
   initSearch();
   initSidebar();
-  initToc();
   initBackToTop();
   initReadingProgress();
-  initShare();
   initMobileNav();
+  initHeaderScroll();
+  initPjax(); // must be last — wires up link interception
+}
+
+// ── Content: run on every navigation ────────────────────────
+
+function initContent(): void {
+  initMusicPlayer();
+  initToc();
   initLightbox();
   initImageError();
   initTagTabs();
   initAnimations();
-  initHeaderScroll();
   initCardClick();
   initHeadingAnchors();
   initCodeCopy();
-  initMusicPlayer();
+  initShare();
+  initMath();
+}
+
+// ── Bootstrap ───────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  initChrome();
+  initContent();
+});
+
+document.addEventListener('pjax:complete', () => {
+  initContent();
 });
