@@ -6,7 +6,7 @@ All theme settings live in `_config.shion.yml` (or the theme's `_config.yml` for
 
 | Key          | Type     | Default                     | Description                                         |
 | ------------ | -------- | --------------------------- | --------------------------------------------------- |
-| `favicon`    | `string` | `/images/shion/favicon.ico` | Browser tab icon                                    |
+| `favicon`    | `string` | `/images/shion/favicon.png` | Browser tab icon                                    |
 | `logo.text`  | `string` | `null`                      | Site title in header (falls back to `config.title`) |
 | `logo.image` | `string` | `null`                      | Logo image in header (overrides text)               |
 
@@ -42,11 +42,12 @@ Theme defaults:
 
 ## Appearance
 
-| Key                           | Type                    | Default | Description                      |
-| ----------------------------- | ----------------------- | ------- | -------------------------------- |
-| `appearance.default_mode`     | `auto \| light \| dark` | `auto`  | Default color scheme             |
-| `appearance.code_theme`       | `auto \| light \| dark` | `auto`  | Code block color scheme          |
-| `appearance.reading_progress` | `boolean`               | `true`  | Reading progress bar at page top |
+| Key                           | Type                    | Default | Description                                   |
+| ----------------------------- | ----------------------- | ------- | --------------------------------------------- |
+| `appearance.default_mode`     | `auto \| light \| dark` | `auto`  | Default color scheme                          |
+| `appearance.code_theme`       | `auto \| light \| dark` | `auto`  | Code block color scheme                       |
+| `appearance.reading_progress` | `boolean`               | `true`  | Reading progress bar at page top              |
+| `appearance.font_size`        | `string`                | `null`  | **Deprecated.** Use `fonts.size_root` instead |
 
 ## Home Page
 
@@ -107,10 +108,10 @@ Theme defaults:
 
 ## Comments
 
-| Key               | Type      | Default  | Description                                                                      |
-| ----------------- | --------- | -------- | -------------------------------------------------------------------------------- |
-| `comments.enable` | `boolean` | `false`  | Enable comments                                                                  |
-| `comments.type`   | `string`  | `giscus` | System: `giscus`, `disqus`, `waline`, `twikoo`, `valine`, `gitalk`, `utterances` |
+| Key               | Type      | Default  | Description                                                                              |
+| ----------------- | --------- | -------- | ---------------------------------------------------------------------------------------- |
+| `comments.enable` | `boolean` | `false`  | Enable comments                                                                          |
+| `comments.type`   | `string`  | `giscus` | System: `giscus`, `disqus`, `waline`, `twikoo`, `valine`, `gitalk`, `utterances`, `none` |
 
 Each system has its own config block:
 
@@ -208,6 +209,48 @@ Keyboard shortcut: `Ctrl+K` / `Cmd+K`.
 | `busuanzi.enable`  | `boolean` | `false` | Enable visitor counting |
 | `busuanzi.site_uv` | `boolean` | `true`  | Show unique visitors    |
 | `busuanzi.site_pv` | `boolean` | `true`  | Show page views         |
+
+## Music Player
+
+| Key              | Type      | Default | Description                       |
+| ---------------- | --------- | ------- | --------------------------------- |
+| `music.enable`   | `boolean` | `false` | Enable the sidebar music player   |
+| `music.playlist` | `array`   | `[]`    | List of track objects (see below) |
+
+Each track in the playlist:
+
+| Track field | Type     | Required | Description                                 |
+| ----------- | -------- | -------- | ------------------------------------------- |
+| `name`      | `string` | yes      | Track title                                 |
+| `artist`    | `string` | yes      | Artist name                                 |
+| `url`       | `string` | yes      | Audio file URL (e.g. `/music/song.mp3`)     |
+| `cover`     | `string` | no       | Cover image URL (empty = gradient fallback) |
+
+Supported audio formats: MP3, OGG, WAV. The player uses the HTML5 `<audio>` element and supports native browser playback.
+
+How to add new tracks:
+
+```yaml
+music:
+  enable: true
+  playlist:
+    - name: 'Song Title'
+      artist: 'Artist'
+      url: '/music/song.mp3'
+      cover: '/music/cover.png'
+```
+
+The player appears in the sidebar on all pages. When `enable: false` or the playlist is empty, nothing is rendered.
+
+Keyboard shortcuts (global, ignored when an input is focused):
+
+| Shortcut | Action         |
+| -------- | -------------- |
+| `Space`  | Play / Pause   |
+| `Ctrl+→` | Next track     |
+| `Ctrl+←` | Previous track |
+
+Playback state (volume, current track, position, play mode) is saved to `localStorage` and restored on page load. Audio persists across PJAX navigation via a global `window.__musicState` instance.
 
 ## Advanced
 

@@ -40,6 +40,7 @@
 - 📡 **RSS ready** — auto-detects `hexo-generator-feed` and links Atom feed
 - ⚠️ **Outdate warning** — configurable notice on posts older than N days
 - ✨ **Entrance animations** — staggered fade-in for cards, sidebar, and post sections
+- 🎵 **Music player** — config-based playlist with 4 play modes, keyboard shortcuts and persistent playback across page navigation
 
 ## 📦 Quick Start
 
@@ -79,12 +80,6 @@ Edit `_config.shion.yml` to customize — Hexo merges this over the theme defaul
 
 ---
 
-## 📚 Documentation
-
-- **[Configuration Reference](docs/configuration.md)** — all theme settings with defaults and descriptions
-- **[Tag Plugins](docs/tag-plugins.md)** — `{% note %}`, `{% image %}`, `{% tabs %}`, and more
-- **[Development Guide](docs/development.md)** — project structure, build scripts, and contributing
-
 ### Content Organization
 
 Recommended structure for organizing your content with this theme:
@@ -98,6 +93,8 @@ source/
 │   │   ├── diagram.png              # inline illustration
 │   │   └── screenshot.jpg           # inline illustration
 │   └── ...
+├── fonts/...
+├── music/...
 ├── about/index.md
 ├── categories/index.md
 └── tags/index.md
@@ -112,7 +109,11 @@ post_asset_folder: true
 
 Cover images are resolved from the post's asset folder by default. Set `cover: cover.png` in frontmatter (or any relative path) — the theme resolves it to the post's permalink path automatically. See the [Configuration Reference](docs/configuration.md#post) for all cover-related options.
 
----
+## 📚 Documentation
+
+- **[Configuration Reference](docs/configuration.md)** — all theme settings with defaults and descriptions
+- **[Tag Plugins](docs/tag-plugins.md)** — `{% note %}`, `{% image %}`, `{% tabs %}`, and more
+- **[Development Guide](docs/development.md)** — project structure, build scripts, and contributing
 
 ## 🙏 Credits
 
