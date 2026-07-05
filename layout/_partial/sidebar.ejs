@@ -1,17 +1,18 @@
 <%
 var isPost = page.layout === 'post';
-var hasProfile = (theme.sidebar.avatar && theme.sidebar.avatar.enable) || config.author || config.description || theme.sidebar.social;
-var hasWidgets = theme.sidebar.widgets && theme.sidebar.widgets.length > 0;
+var profileEnabled = !theme.sidebar.profile || theme.sidebar.profile.enable !== false;
+var hasProfile = profileEnabled && ((theme.sidebar.avatar && theme.sidebar.avatar.enable) || config.author || config.description || theme.sidebar.social);
 var hasMusic = theme.music && theme.music.enable;
-if (!isPost && !hasProfile && !hasWidgets && !hasMusic) return;
+var hasWidgets = theme.sidebar.widgets && theme.sidebar.widgets.length > 0;
+if (!isPost && !hasProfile && !hasMusic && !hasWidgets) return;
 %>
 <aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
 
   <% if (!isPost) { %>
-  <% // ── Home/Archive/Category/Tag — three independent cards ── %>
+  <% // ── Non-post pages: profile card + sticky group ── %>
 
   <% if (hasProfile) { %>
-  <div class="sidebar-inner sidebar-profile">
+  <section class="sidebar-card sidebar-profile">
     <% if (theme.sidebar.avatar.enable) { %>
     <div class="sidebar-avatar">
       <img src="<%= url_for(theme.sidebar.avatar.image) %>" alt="<%= config.author || config.title %>" width="96" height="96">
@@ -32,29 +33,37 @@ if (!isPost && !hasProfile && !hasWidgets && !hasMusic) return;
       <% } %>
     </div>
     <% } %>
-  </div>
+  </section>
   <% } %>
 
   <% if (hasMusic || hasWidgets) { %>
   <div class="sidebar-sticky-group">
-    <%- partial('_partial/music-player') %>
+    <% if (hasMusic) { %>
+    <section class="sidebar-card sidebar-music">
+      <%- partial('_partial/music-player') %>
+    </section>
+    <% } %>
     <% if (hasWidgets) { %>
-    <div class="sidebar-inner sidebar-widgets">
-      <% theme.sidebar.widgets.forEach(function(widget) { %>
-        <%- partial('_partial/widgets/' + widget) %>
-      <% }) %>
-    </div>
+    <% theme.sidebar.widgets.forEach(function(widget) { %>
+    <section class="sidebar-card sidebar-widget">
+      <%- partial('_partial/widgets/' + widget) %>
+    </section>
+    <% }) %>
     <% } %>
   </div>
   <% } %>
 
   <% } else { %>
-  <% // ── Post/Page — two cards in sticky group ── %>
+  <% // ── Post pages: sticky group with music + TOC ── %>
 
   <div class="sidebar-sticky-group">
-    <%- partial('_partial/music-player') %>
+    <% if (hasMusic) { %>
+    <section class="sidebar-card sidebar-music">
+      <%- partial('_partial/music-player') %>
+    </section>
+    <% } %>
 
-    <div class="sidebar-inner sidebar-toc-only">
+    <section class="sidebar-card sidebar-toc">
       <div class="sidebar-toc-header">
         <a class="sidebar-back-home" href="<%= url_for('/') %>" title="<%= __('home') %>">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -75,7 +84,7 @@ if (!isPost && !hasProfile && !hasWidgets && !hasMusic) return;
       <% } %>
       </div>
       <a class="sidebar-back-home-bottom" href="<%= url_for('/') %>">← <%= __('home') %></a>
-    </div>
+    </section>
   </div>
 
   <% } %>

@@ -80,6 +80,8 @@ post:
 sidebar:
   enable: true
   position: left # left | right
+  profile:
+    enable: true
   avatar:
     enable: true
     image: /images/shion/avatar.png
@@ -87,8 +89,6 @@ sidebar:
     GitHub: https://github.com/
   widgets:
     - recent-posts
-    - categories-widget
-    - tags-widget
   recent_posts_count: 5
   tagcloud_min_font: 1.2
   tagcloud_max_font: 2.8

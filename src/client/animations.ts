@@ -62,7 +62,7 @@ export function initAnimations(): void {
   animate('.post-card-wrapper', 60);
 
   // ── Sidebar (all variants: profile, widgets, TOC-only on post pages) ──
-  animate('.sidebar-inner', 0);
+  animate('.sidebar-card', 0);
 
   // Widgets inside the sidebar widget card (staggered cascade)
   animate('.widget', 60);

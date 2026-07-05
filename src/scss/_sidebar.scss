@@ -1,3 +1,8 @@
+// ─── Sidebar ──────────────────────────────────────────────
+// Each element (profile, music, widget, TOC) is an independent
+// .sidebar-card. The .sidebar-sticky-group handles sticky
+// positioning only — no content grouping responsibilities.
+
 .site-sidebar {
   display: flex;
   flex-direction: column;
@@ -5,24 +10,27 @@
   min-height: 0;
 }
 
-.sidebar-inner {
+// ── Card base ────────────────────────────────────────────
+// Shared shell: surface, border, shadow, padding, gap.
+// Specific card variants override as needed.
+
+.sidebar-card {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  gap: var(--spacing-md);
   background: var(--color-surface);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   padding: var(--spacing-lg);
-  gap: var(--spacing-lg);
 }
 
-.sidebar-widgets {
-  // Sticky positioning and scrolling handled by parent .sidebar-sticky-group
-}
-
-// ── Sticky group wrapper (sidebar + music player) ─────────────
+// ── Sticky group ─────────────────────────────────────────
+// Positions cards as a sticky block. Scroll behavior differs
+// by page type: non-post pages scroll the group as a whole;
+// post pages delegate scrolling to the TOC card internally.
 
 .sidebar-sticky-group {
   position: sticky;
@@ -32,23 +40,27 @@
   gap: var(--spacing-md);
   max-height: calc(100vh - var(--spacing-md) * 2);
 
-  > .music-player {
+  > .sidebar-music {
     flex-shrink: 0;
+
+    // When music playlist panel is open, remove bottom border
+    // and strengthen shadow for a seamless expansion look.
+    &:has(.music-player.is-playlist-open) {
+      border-bottom-color: transparent;
+      box-shadow: 0 4px 20px -4px var(--color-shadow-strong);
+    }
   }
 
-  > .sidebar-widgets,
-  > .sidebar-toc-only {
+  // On post pages, the TOC card fills remaining space
+  // and handles its own internal scrolling via .sidebar-scroll.
+  > .sidebar-toc {
     flex: 1;
     min-height: 0;
-  }
-
-  > .sidebar-widgets {
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    // tighter right padding — scrollbar sits close to content
-    padding-right: var(--spacing-sm);
+    overflow: hidden;
   }
 }
+
+// ── Profile card ─────────────────────────────────────────
 
 .sidebar-avatar {
   text-align: center;
@@ -114,56 +126,19 @@
   }
 }
 
-// Post-only sidebar — compact TOC view
-.sidebar-post .sidebar-inner {
+// ── TOC card (post pages) ────────────────────────────────
+
+.sidebar-post .sidebar-toc {
   gap: 0;
   padding: 0;
-}
-
-.sidebar-scroll {
-  padding: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
-}
-
-.sidebar-toc-only {
-  padding: 0;
-  overflow: hidden;
-  // sticky positioning handled by parent .sidebar-sticky-group
-  display: flex;
-  flex-direction: column;
-
-  .sidebar-toc-header {
-    flex-shrink: 0;
-    padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
-    margin-bottom: 0;
-    border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .sidebar-back-home-bottom {
-    flex-shrink: 0;
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin-top: 0;
-    border-top: 1px solid var(--color-border-light);
-  }
-}
-
-.sidebar-toc-only .sidebar-scroll {
-  padding: var(--spacing-sm) var(--spacing-md);
-  flex: 1;
-  min-height: 0;
 }
 
 .sidebar-toc-header {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding-bottom: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  flex-shrink: 0;
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
   border-bottom: 1px solid var(--color-border-light);
 
   .sidebar-back-home {
@@ -196,13 +171,22 @@
   }
 }
 
+.sidebar-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
 .sidebar-back-home-bottom {
   display: block;
+  flex-shrink: 0;
   text-align: center;
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
-  margin-top: var(--spacing-md);
-  padding-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-top: 1px solid var(--color-border-light);
   transition: color var(--transition-fast);
 
@@ -218,15 +202,12 @@
   padding: var(--spacing-lg) 0;
 }
 
+// ── Widget content ───────────────────────────────────────
+// .widget is the inner content wrapper rendered by each
+// widget partial. Since each widget now lives in its own
+// .sidebar-card, there is no need for border separators.
+
 .widget {
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-border-light);
-
-  &:first-child {
-    border-top: none;
-    padding-top: 0;
-  }
-
   .widget-title {
     font-size: var(--font-size-xs);
     text-transform: uppercase;
@@ -293,69 +274,21 @@
     padding: var(--spacing-xs) 0;
   }
 
-  .widget-expand {
-    .expand-toggle {
-      display: none;
-    }
+  .widget-more {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-top: var(--spacing-xs);
+    transition: color var(--transition-fast);
 
-    .widget-hidden {
-      display: none;
-    }
-
-    .expand-toggle:checked ~ .widget-hidden {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-xs);
-      padding: var(--spacing-xs) 0;
-
-      // Staggered entrance: each item floats up one by one
-      > * {
-        animation: widgetItemIn 0.35s ease both;
-      }
-    }
-
-    @for $i from 1 through 25 {
-      .expand-toggle:checked ~ .widget-hidden > :nth-of-type(#{$i}) {
-        animation-delay: min($i * 0.03s, 0.3s);
-      }
-    }
-
-    .expand-toggle:checked ~ .widget-hidden.widget-list {
-      display: block;
-      // animation inherited from .expand-toggle:checked ~ .widget-hidden > *
-    }
-
-    .expand-btn {
-      display: inline-block;
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
-      cursor: pointer;
-      user-select: none;
-      margin-top: var(--spacing-xs);
-      transition: color var(--transition-fast);
-
-      &:hover {
-        color: var(--color-primary);
-      }
-
-      .expand-less {
-        display: none;
-      }
-    }
-
-    .expand-toggle:checked ~ .expand-btn .expand-more {
-      display: none;
-    }
-
-    .expand-toggle:checked ~ .expand-btn .expand-less {
-      display: inline;
+    &:hover {
+      color: var(--color-primary);
     }
   }
 }
 
-// ── Staggered entrance on page load ──────────────────────────────
+// ── Staggered entrance animations ────────────────────────
 
-// Category list items (visible batch, not inside .widget-hidden)
 .widget-list:not(.widget-hidden) > .widget-item {
   animation: widgetItemIn 0.35s ease both;
 }
@@ -365,7 +298,6 @@
   }
 }
 
-// Tag cloud pills (visible batch, not inside .widget-hidden)
 .widget-tagcloud:not(.widget-hidden) > .tag-link {
   animation: widgetItemIn 0.35s ease both;
 }
@@ -374,6 +306,8 @@
     animation-delay: min($i * 0.03s, 0.3s);
   }
 }
+
+// ── Mobile: slide-out drawer ─────────────────────────────
 
 @include respond-down('md') {
   .site-sidebar {
@@ -390,11 +324,9 @@
     box-shadow: var(--shadow-lg);
     transition: transform var(--transition-base);
 
-    // Default: slide from right
     right: 0;
     transform: translateX(100%);
 
-    // Slide from left when position is left
     &[data-position='left'] {
       right: auto;
       left: 0;
@@ -405,7 +337,7 @@
       transform: translateX(0);
     }
 
-    .sidebar-inner {
+    .sidebar-card {
       background: transparent;
       border: none;
       box-shadow: none;

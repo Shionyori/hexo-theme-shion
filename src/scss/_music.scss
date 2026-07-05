@@ -1,21 +1,14 @@
-// ── Music Player Card ──────────────────────────────────────
+// ── Music Player ──────────────────────────────────────────
+// .sidebar-card provides the card shell (background, border,
+// shadow, padding). .music-player is the internal layout.
 
 .music-player {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 
   &.is-playlist-open {
-    border-bottom-color: transparent;
-    box-shadow: 0 4px 20px -4px var(--color-shadow-strong);
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.35s ease;
+    // Visual shift delegated to parent .sidebar-card via :has()
   }
 }
 

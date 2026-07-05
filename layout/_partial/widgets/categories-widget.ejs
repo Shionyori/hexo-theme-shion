@@ -11,20 +11,6 @@
   </ul>
   <% var remaining = cats.length - 6; %>
   <% if (remaining > 0) { %>
-  <div class="widget-expand">
-    <input type="checkbox" id="expand-cats" class="expand-toggle">
-    <ul class="widget-list widget-hidden">
-      <% cats.slice(6).forEach(function(cat) { %>
-        <li class="widget-item">
-          <a href="<%= url_for(cat.path) %>"><%= cat.name %></a>
-          <span class="widget-count"><%= cat.posts.length %></span>
-        </li>
-      <% }) %>
-    </ul>
-    <label for="expand-cats" class="expand-btn">
-      <span class="expand-more">+ <%= remaining %> more</span>
-      <span class="expand-less">collapse</span>
-    </label>
-  </div>
+  <a class="widget-more" href="<%= url_for(config.category_dir) %>">+ <%= remaining %> more</a>
   <% } %>
 </div>

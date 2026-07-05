@@ -11,17 +11,6 @@
   </div>
   <% var remaining = tags.length - visible; %>
   <% if (remaining > 0) { %>
-  <div class="widget-expand">
-    <input type="checkbox" id="expand-tags" class="expand-toggle">
-    <div class="widget-tagcloud widget-hidden">
-      <% tags.slice(visible).forEach(function(tag) { %>
-        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
-      <% }) %>
-    </div>
-    <label for="expand-tags" class="expand-btn">
-      <span class="expand-more">+ <%= remaining %> more</span>
-      <span class="expand-less">collapse</span>
-    </label>
-  </div>
+  <a class="widget-more" href="<%= url_for(config.tag_dir) %>">+ <%= remaining %> more</a>
   <% } %>
 </div>
