@@ -39,17 +39,17 @@ hexo-theme-shion/
 
 ### Layout Templates
 
-| Template                     | Purpose                                       |
-| ---------------------------- | --------------------------------------------- |
-| `layout.ejs`                 | Root HTML shell (doctype, head, body, PJAX)   |
-| `index.ejs`                  | Home page — post list                         |
-| `post.ejs`                   | Single post — content, TOC, share, copyright |
-| `page.ejs`                   | Generic page — title + Markdown content       |
-| `friends.ejs`                | Friends links page — card grid (see below)    |
-| `archive.ejs`                | Post archive — timeline by year               |
-| `category.ejs` / `tag.ejs`   | Single category/tag — post list              |
-| `categories.ejs` / `tags.ejs`| Category/tag index — list or cloud           |
-| `404.ejs`                    | Not-found page with illustration              |
+| Template                      | Purpose                                      |
+| ----------------------------- | -------------------------------------------- |
+| `layout.ejs`                  | Root HTML shell (doctype, head, body, PJAX)  |
+| `index.ejs`                   | Home page — post list                        |
+| `post.ejs`                    | Single post — content, TOC, share, copyright |
+| `page.ejs`                    | Generic page — title + Markdown content      |
+| `friends.ejs`                 | Friends links page — card grid (see below)   |
+| `archive.ejs`                 | Post archive — timeline by year              |
+| `category.ejs` / `tag.ejs`    | Single category/tag — post list              |
+| `categories.ejs` / `tags.ejs` | Category/tag index — list or cloud           |
+| `404.ejs`                     | Not-found page with illustration             |
 
 ### Client Modules (`src/client/`)
 
@@ -78,37 +78,37 @@ hexo-theme-shion/
 
 ### SCSS Partials (`src/scss/`)
 
-| Partial              | Purpose                                                      |
-| -------------------- | ------------------------------------------------------------ |
-| `main.scss`          | Entry point — imports all partials                           |
-| `_variables.scss`    | CSS custom properties, colors, spacing, typography           |
-| `_reset.scss`        | CSS reset                                                    |
-| `_typography.scss`   | Base typography                                              |
-| `_layout.scss`       | Page layout, container, content wrapper                      |
-| `_header.scss`       | Site header with blur/scroll effects                         |
-| `_sidebar.scss`      | Sidebar cards — layout, profile, TOC, widgets                |
-| `_post.scss`         | Post article content and metadata                            |
-| `_post-list.scss`    | Post cards with cover images, excerpt, tags                  |
-| `_code.scss`         | Code blocks — gutter, line numbers, syntax highlighting      |
-| `_music.scss`        | Music player — controls, progress, playlist panel            |
-| `_friends.scss`      | Friends links page — card grid with avatars                  |
-| `_archive.scss`      | Archive timeline                                             |
-| `_tag.scss`          | Tag cloud and tag links                                      |
-| `_animation.scss`    | Entrance and transition animations                           |
-| `_pjax.scss`         | PJAX loading bar animation                                   |
-| `_search.scss`       | Search modal overlay and results                             |
-| `_toc.scss`          | Table of contents with active heading highlight              |
-| `_tabs.scss`         | Tab component styling                                        |
-| `_comments.scss`     | Comment system containers                                    |
-| `_footer.scss`       | Site footer                                                  |
-| `_mobile-nav.scss`   | Mobile slide-out navigation                                  |
-| `_shion.scss`        | Shion character hero section                                 |
-| `_dark.scss`         | Dark mode overrides (auto-applied via `[data-theme="dark"]`) |
-| `_responsive.scss`   | Responsive breakpoints and mobile layout                     |
-| `_utilities.scss`    | Utility classes                                              |
-| `_reading-progress.scss` | Reading progress bar                                      |
-| `_content-elements.scss` | Rich content inside posts                                |
-| `_katex.scss`        | KaTeX math rendering                                         |
+| Partial                  | Purpose                                                      |
+| ------------------------ | ------------------------------------------------------------ |
+| `main.scss`              | Entry point — imports all partials                           |
+| `_variables.scss`        | CSS custom properties, colors, spacing, typography           |
+| `_reset.scss`            | CSS reset                                                    |
+| `_typography.scss`       | Base typography                                              |
+| `_layout.scss`           | Page layout, container, content wrapper                      |
+| `_header.scss`           | Site header with blur/scroll effects                         |
+| `_sidebar.scss`          | Sidebar cards — layout, profile, TOC, widgets                |
+| `_post.scss`             | Post article content and metadata                            |
+| `_post-list.scss`        | Post cards with cover images, excerpt, tags                  |
+| `_code.scss`             | Code blocks — gutter, line numbers, syntax highlighting      |
+| `_music.scss`            | Music player — controls, progress, playlist panel            |
+| `_friends.scss`          | Friends links page — card grid with avatars                  |
+| `_archive.scss`          | Archive timeline                                             |
+| `_tag.scss`              | Tag cloud and tag links                                      |
+| `_animation.scss`        | Entrance and transition animations                           |
+| `_pjax.scss`             | PJAX loading bar animation                                   |
+| `_search.scss`           | Search modal overlay and results                             |
+| `_toc.scss`              | Table of contents with active heading highlight              |
+| `_tabs.scss`             | Tab component styling                                        |
+| `_comments.scss`         | Comment system containers                                    |
+| `_footer.scss`           | Site footer                                                  |
+| `_mobile-nav.scss`       | Mobile slide-out navigation                                  |
+| `_shion.scss`            | Shion character hero section                                 |
+| `_dark.scss`             | Dark mode overrides (auto-applied via `[data-theme="dark"]`) |
+| `_responsive.scss`       | Responsive breakpoints and mobile layout                     |
+| `_utilities.scss`        | Utility classes                                              |
+| `_reading-progress.scss` | Reading progress bar                                         |
+| `_content-elements.scss` | Rich content inside posts                                    |
+| `_katex.scss`            | KaTeX math rendering                                         |
 
 ---
 
@@ -149,16 +149,16 @@ aside.site-sidebar.sidebar-post
 
 ```yaml
 sidebar:
-  enable: true                # Master switch for entire sidebar
-  position: left              # left | right
+  enable: true # Master switch for entire sidebar
+  position: left # left | right
   profile:
-    enable: true              # Toggle profile card
+    enable: true # Toggle profile card
   avatar:
     enable: true
     image: /images/shion/avatar.png
   social:
     GitHub: https://github.com/
-  widgets:                    # Toggle widget cards — list the ones you want
+  widgets: # Toggle widget cards — list the ones you want
     - recent-posts
     # - categories-widget    # Uncomment to add categories card
     # - tags-widget          # Uncomment to add tag cloud card
@@ -166,30 +166,30 @@ sidebar:
   recent_posts_count: 5
 
 music:
-  enable: false               # Toggle music player card
+  enable: false # Toggle music player card
 ```
 
 ### Available Widgets
 
-| Widget key          | Partial file              | Shows                                |
-| ------------------- | ------------------------- | ------------------------------------ |
-| `recent-posts`      | `widgets/recent-posts.ejs` | N most recent posts with dates       |
+| Widget key          | Partial file                    | Shows                                            |
+| ------------------- | ------------------------------- | ------------------------------------------------ |
+| `recent-posts`      | `widgets/recent-posts.ejs`      | N most recent posts with dates                   |
 | `categories-widget` | `widgets/categories-widget.ejs` | Top 6 categories, "+N more" link to /categories/ |
-| `tags-widget`       | `widgets/tags-widget.ejs`       | Top 9 tags as pills, "+N more" link to /tags/ |
-| `archives-widget`   | `widgets/archives-widget.ejs`   | Last 12 months with post counts      |
+| `tags-widget`       | `widgets/tags-widget.ejs`       | Top 9 tags as pills, "+N more" link to /tags/    |
+| `archives-widget`   | `widgets/archives-widget.ejs`   | Last 12 months with post counts                  |
 
 Overflow items (categories beyond 6, tags beyond 9) link to their full index page rather than expanding in-place. The sidebar is designed to be lightweight — full browsing happens on dedicated pages.
 
 ### Card Class Reference
 
-| Class              | Role                                  |
-| ------------------ | ------------------------------------- |
-| `.sidebar-card`    | Base card — surface, border, shadow, padding, entrance animation |
-| `.sidebar-profile` | Profile card variant                  |
-| `.sidebar-music`   | Music player card variant             |
-| `.sidebar-widget`  | Widget card variant                   |
-| `.sidebar-toc`     | TOC card variant (post pages only)    |
-| `.sidebar-sticky-group` | Sticky positioning wrapper        |
+| Class                   | Role                                                             |
+| ----------------------- | ---------------------------------------------------------------- |
+| `.sidebar-card`         | Base card — surface, border, shadow, padding, entrance animation |
+| `.sidebar-profile`      | Profile card variant                                             |
+| `.sidebar-music`        | Music player card variant                                        |
+| `.sidebar-widget`       | Widget card variant                                              |
+| `.sidebar-toc`          | TOC card variant (post pages only)                               |
+| `.sidebar-sticky-group` | Sticky positioning wrapper                                       |
 
 ### Entrance Animations
 
@@ -224,12 +224,12 @@ friends:
 
 ### Data Fields
 
-| Field         | Required | Notes                                               |
-| ------------- | -------- | --------------------------------------------------- |
+| Field         | Required | Notes                                                |
+| ------------- | -------- | ---------------------------------------------------- |
 | `name`        | Yes      | Display name                                         |
 | `url`         | Yes      | Link target. Cards without URL render as static text |
 | `avatar`      | No       | Image URL. Falls back to first-character placeholder |
-| `description` | No       | One-line description below the name                 |
+| `description` | No       | One-line description below the name                  |
 
 ### Behavior
 
@@ -241,10 +241,10 @@ friends:
 
 ### Files
 
-| File                      | Purpose                              |
-| ------------------------- | ------------------------------------ |
-| `layout/friends.ejs`      | Layout — reads `page.friends`, renders card grid |
-| `src/scss/_friends.scss`  | Responsive grid, avatar fallback, hover, dark mode |
+| File                     | Purpose                                            |
+| ------------------------ | -------------------------------------------------- |
+| `layout/friends.ejs`     | Layout — reads `page.friends`, renders card grid   |
+| `src/scss/_friends.scss` | Responsive grid, avatar fallback, hover, dark mode |
 
 ---
 
