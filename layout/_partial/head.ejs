@@ -89,6 +89,8 @@ if (page.math === true) {
     }
     if (mode === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
     }
     (function() {
       var fonts = <%- JSON.stringify(theme.fonts || {}) %>;

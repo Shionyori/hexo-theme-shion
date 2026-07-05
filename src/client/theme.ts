@@ -16,11 +16,7 @@ function getPreferredMode(): 'dark' | 'light' {
 }
 
 function applyTheme(mode: 'dark' | 'light'): void {
-  if (mode === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  document.documentElement.setAttribute('data-theme', mode);
 }
 
 function updateGiscusTheme(mode: 'dark' | 'light'): void {
@@ -33,7 +29,7 @@ function updateGiscusTheme(mode: 'dark' | 'light'): void {
 
 function toggleTheme(): void {
   const html = document.documentElement;
-  const current = html.hasAttribute('data-theme') ? 'dark' : 'light';
+  const current = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   const next = current === 'dark' ? 'light' : 'dark';
 
   // Add transition class for smooth color animation
