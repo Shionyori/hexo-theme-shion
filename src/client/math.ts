@@ -26,7 +26,7 @@ function renderMathInTargets(): void {
 
   targets.forEach((el) => {
     if (!hasMathDelimiters(el)) return;
-    // Pre-process <br> tags within math blocks (same as server-side math.ejs)
+    // Pre-process <br> tags within math blocks
     let html = el.innerHTML;
     html = html.replace(
       /(\$\$)([\s\S]*?)(\$\$)/g,
