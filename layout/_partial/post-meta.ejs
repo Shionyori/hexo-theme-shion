@@ -5,6 +5,12 @@
     </time>
     <% } %>
 
+    <% if (post.updated) { %>
+    <time class="post-updated" datetime="<%= date(post.updated, 'YYYY-MM-DDTHH:mm:ssZ') %>">
+      <%= __('updated') %> <%= date(post.updated, theme.post.date_format || 'YYYY-MM-DD') %>
+    </time>
+    <% } %>
+
     <% if (theme.post.word_count && post.content) { %>
     <span class="post-word-count"><%= word_count(post.content) %></span>
     <% } %>

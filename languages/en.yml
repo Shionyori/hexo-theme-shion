@@ -32,6 +32,7 @@ share_on: 'Share on %s'
 copy_link: Copy link
 link_copied: Link copied!
 outdate_warning: 'This post was published %s days ago and may be outdated.'
+updated: Updated
 recent_posts: Recent Posts
 category_list: Categories
 tag_list: Tags

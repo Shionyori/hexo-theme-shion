@@ -32,6 +32,7 @@ share_on: '分享到 %s'
 copy_link: 複製連結
 link_copied: 連結已複製！
 outdate_warning: '本文已於 %s 天前發布，內容可能已過時。'
+updated: 更新於
 recent_posts: 最新文章
 category_list: 分類
 tag_list: 標籤

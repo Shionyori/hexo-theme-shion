@@ -1,5 +1,6 @@
 <% if (theme.outdate && theme.outdate.enable) { %>
-  <% var daysAgo = Math.floor((Date.now() - post.date) / (1000 * 60 * 60 * 24)); %>
+  <% var referenceDate = post.updated ? new Date(post.updated) : post.date; %>
+  <% var daysAgo = Math.floor((Date.now() - referenceDate) / (1000 * 60 * 60 * 24)); %>
   <% if (daysAgo > (theme.outdate.days || 365)) { %>
   <div class="outdate-warning">
     <%- __('outdate_warning', daysAgo) %>

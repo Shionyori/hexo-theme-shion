@@ -12,32 +12,7 @@ if (page.math === true) {
 %>
 
 <% if (loadMath) { %>
+<link rel="stylesheet" href="<%= theme.cdn.katex %>/dist/katex.min.css">
 <script src="<%= theme.cdn.katex %>/dist/katex.min.js"></script>
 <script src="<%= theme.cdn.katex %>/dist/contrib/auto-render.min.js"></script>
-<script>
-  (function() {
-    if (typeof renderMathInElement !== 'function') return;
-    var targets = document.querySelectorAll('.post-content, .page-content');
-    if (!targets.length) return;
-    targets.forEach(function(el) {
-      // Pre-process: Hexo's markdown renderer inserts <br> for newlines,
-      // which breaks KaTeX's delimiter matching for multi-line formulas.
-      // Replace <br> tags between math delimiters with literal newlines.
-      var html = el.innerHTML;
-      html = html.replace(/(\$\$)([\s\S]*?)(\$\$)/g, function(m, open, body, close) {
-        return open + body.replace(/<br\s*\/?>/gi, '\n') + close;
-      });
-      html = html.replace(/(\\\[)([\s\S]*?)(\\\])/g, function(m, open, body, close) {
-        return open + body.replace(/<br\s*\/?>/gi, '\n') + close;
-      });
-      el.innerHTML = html;
-
-      renderMathInElement(el, {
-        delimiters: <%- JSON.stringify(theme.post.math.delimiters) %>,
-        ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-        throwOnError: false
-      });
-    });
-  })();
-</script>
 <% } %>

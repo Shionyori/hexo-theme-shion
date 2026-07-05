@@ -32,6 +32,7 @@ share_on: '%s で共有'
 copy_link: リンクをコピー
 link_copied: リンクをコピーしました！
 outdate_warning: 'この記事は %s 日前に公開されました。内容が古い可能性があります。'
+updated: 更新日
 recent_posts: 最近の投稿
 category_list: カテゴリ
 tag_list: タグ

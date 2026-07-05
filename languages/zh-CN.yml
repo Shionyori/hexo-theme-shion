@@ -32,6 +32,7 @@ share_on: '分享到 %s'
 copy_link: 复制链接
 link_copied: 链接已复制！
 outdate_warning: '本文已于 %s 天前发布，内容可能已过时。'
+updated: 更新于
 recent_posts: 最新文章
 category_list: 分类
 tag_list: 标签
