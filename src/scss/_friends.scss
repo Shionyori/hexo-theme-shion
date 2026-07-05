@@ -1,0 +1,143 @@
+// ─── Friends Links Page ────────────────────────────────
+// Responsive card grid for friends/buddy links
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+// ── Empty state ──────────────────────────────────────
+.friends-empty {
+  text-align: center;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+// ── Friend Card ──────────────────────────────────────
+.friend-card {
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  // Non-link card (missing URL) — no hover lift
+  &--no-link {
+    &:hover {
+      transform: none;
+      box-shadow: var(--shadow-sm);
+    }
+  }
+}
+
+.friend-card__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+// ── Avatar ───────────────────────────────────────────
+.friend-card__avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.friend-card__avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+// ── Card body ────────────────────────────────────────
+.friend-card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.friend-card__name {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-card__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ── Dark mode ────────────────────────────────────────
+[data-theme='dark'] {
+  .friend-card {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// ── Responsive ───────────────────────────────────────
+@include respond-down('md') {
+  .friends-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .friend-card__inner {
+    padding: var(--spacing-md);
+  }
+
+  .friend-card__avatar,
+  .friend-card__avatar-fallback {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@include respond-down('sm') {
+  .friends-grid {
+    grid-template-columns: 1fr;
+  }
+}

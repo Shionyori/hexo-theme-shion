@@ -1,0 +1,44 @@
+<% var friends = page.friends; %>
+
+<% if (!friends || !friends.length) { %>
+  <div class="friends-empty content-card">
+    <p><%= __('no_friends') %></p>
+  </div>
+<% } else { %>
+  <div class="friends-grid">
+    <% friends.forEach(function(friend) { %>
+      <% var hasUrl = friend.url && friend.url.trim(); %>
+      <div class="friend-card<%= hasUrl ? '' : ' friend-card--no-link' %>">
+        <% if (hasUrl) { %>
+        <a class="friend-card__inner" href="<%= friend.url %>" target="_blank" rel="noopener noreferrer" title="<%= friend.name %>">
+        <% } else { %>
+        <div class="friend-card__inner">
+        <% } %>
+          <div class="friend-card__avatar">
+            <% if (friend.avatar) { %>
+            <img src="<%= friend.avatar.startsWith('/') ? url_for(friend.avatar) : friend.avatar %>"
+                 alt="<%= friend.name %>"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='';">
+            <span class="friend-card__avatar-fallback" style="display:none"><%= friend.name.charAt(0) %></span>
+            <% } else { %>
+            <span class="friend-card__avatar-fallback"><%= friend.name.charAt(0) %></span>
+            <% } %>
+          </div>
+          <div class="friend-card__body">
+            <span class="friend-card__name"><%= friend.name %></span>
+            <% if (friend.description) { %>
+            <span class="friend-card__desc"><%= friend.description %></span>
+            <% } %>
+          </div>
+        <% if (hasUrl) { %>
+        </a>
+        <% } else { %>
+        </div>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- partial('_partial/comments') %>

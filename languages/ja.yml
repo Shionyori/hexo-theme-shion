@@ -39,6 +39,9 @@ tagcloud: タグクラウド
 archive_list: アーカイブ
 page: '%d ページ'
 posts_count: '%s 件の投稿'
+friends: 友達リンク
+no_friends: まだ友達リンクがありません
+visit_site: サイトを見る
 pagination:
   prev: 前へ
   next: 次へ

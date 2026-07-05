@@ -39,6 +39,9 @@ tagcloud: Tag Cloud
 archive_list: Archives
 page: Page
 posts_count: '%s posts'
+friends: Friends
+no_friends: No friends yet
+visit_site: Visit site
 pagination:
   prev: Prev
   next: Next
