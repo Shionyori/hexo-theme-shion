@@ -5,14 +5,35 @@
  */
 import { $$ } from './utils';
 
+// Module-level state to allow cleanup on re-initialization (PJAX)
+let observer: IntersectionObserver | null = null;
+let onScroll: (() => void) | null = null;
+
+function cleanup(): void {
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
+  if (onScroll) {
+    window.removeEventListener('scroll', onScroll);
+    onScroll = null;
+  }
+}
+
 export function initToc(): void {
-  const tocNav = document.querySelector('.sidebar-toc');
+  cleanup();
+
+  const tocSection = document.querySelector('.sidebar-card.sidebar-toc');
+  if (!tocSection) return;
+
+  const tocNav = tocSection.querySelector('nav.sidebar-toc');
   if (!tocNav) return;
 
-  const tocLinks = $$('.sidebar-toc .toc-list-link');
+  const tocLinks = tocNav.querySelectorAll('.toc-list-link');
   if (tocLinks.length === 0) return;
 
-  const tocContainer = tocNav.closest('.sidebar-scroll');
+  const tocContainer = tocSection.querySelector('.sidebar-scroll');
+
   const headings = $$('.post-content h1[id], .post-content h2[id], .post-content h3[id]');
   if (headings.length === 0) return;
 
@@ -32,8 +53,6 @@ export function initToc(): void {
   let suppressObserver = false;
 
   // Find the heading closest to the reading line.
-  // Prefers the last heading above the threshold (current section),
-  // falls back to the first heading below (before any heading).
   function findActiveHeading(): Element | null {
     let lastAbove: Element | null = null;
     let lastAboveTop = -Infinity;
@@ -59,7 +78,7 @@ export function initToc(): void {
   }
 
   function updateChildHeights(): void {
-    const allChildren = document.querySelectorAll('.sidebar-toc .toc-list-child');
+    const allChildren = tocNav.querySelectorAll('.toc-list-child');
     allChildren.forEach((el) => {
       const child = el as HTMLElement;
       const parent = child.parentElement;
@@ -67,7 +86,6 @@ export function initToc(): void {
 
       const hasActive = parent.querySelector('.toc-list-link.active') !== null;
 
-      // Temporarily lift height to measure natural content height
       child.style.height = '';
       const naturalH = child.scrollHeight;
 
@@ -75,9 +93,7 @@ export function initToc(): void {
         child.style.height = naturalH + 'px';
         child.classList.add('is-expanded');
       } else {
-        // Re-apply current height (or 0) so transition starts from a known value
         child.style.height = child.clientHeight + 'px';
-        // Force layout then set to 0 for collapse animation
         requestAnimationFrame(() => {
           child.style.height = '0px';
           child.classList.remove('is-expanded');
@@ -113,7 +129,6 @@ export function initToc(): void {
 
     const desired = getActiveLinks(currentLink);
 
-    // Check if the active set actually changed
     const currentActive = new Set<Element>();
     tocLinks.forEach((l) => {
       if (l.classList.contains('active')) currentActive.add(l);
@@ -135,36 +150,30 @@ export function initToc(): void {
     updateTimer = setTimeout(pickAndApplyActive, DEBOUNCE_MS);
   }
 
-  // Primary driver: IntersectionObserver with a broad detection zone
-  const observer = new IntersectionObserver(() => scheduleUpdate(), {
+  observer = new IntersectionObserver(() => scheduleUpdate(), {
     rootMargin: '-80px 0px -20% 0px',
   });
 
-  headings.forEach((h) => observer.observe(h));
+  headings.forEach((h) => observer!.observe(h));
 
-  // Fallback: scroll listener catches edge cases (top/bottom of page)
-  // where IntersectionObserver may not fire
   let scrollTicking = false;
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!scrollTicking) {
-        scrollTicking = true;
-        requestAnimationFrame(() => {
-          scheduleUpdate();
-          scrollTicking = false;
-        });
-      }
-    },
-    { passive: true },
-  );
+  onScroll = () => {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        scheduleUpdate();
+        scrollTicking = false;
+      });
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Smooth scroll to heading on TOC link click.
-  // Uses scroll-end detection instead of a fixed timeout, so long-distance
-  // jumps wait for the actual scroll animation to finish before updating.
+  pickAndApplyActive();
+
+  // Smooth scroll to heading on TOC link click
   let scrollEndTimer: ReturnType<typeof setTimeout> | null = null;
-  const SCROLL_END_WAIT = 120; // ms of no scroll → animation finished
-  const SCROLL_MAX_WAIT = 3000; // safety cap
+  const SCROLL_END_WAIT = 120;
+  const SCROLL_MAX_WAIT = 3000;
 
   function onScrollStopped(): void {
     window.removeEventListener('scroll', handleClickScroll);
@@ -174,8 +183,6 @@ export function initToc(): void {
 
   function handleClickScroll(): void {
     if (scrollEndTimer) clearTimeout(scrollEndTimer);
-    // Renew the timer each time a scroll event fires;
-    // only when events stop for SCROLL_END_WAIT ms do we consider it done.
     scrollEndTimer = setTimeout(onScrollStopped, SCROLL_END_WAIT);
   }
 
@@ -196,9 +203,7 @@ export function initToc(): void {
       window.scrollTo({ top, behavior: 'smooth' });
       history.pushState(null, '', '#' + target.id);
 
-      // Listen for scroll events until the smooth animation finishes
       window.addEventListener('scroll', handleClickScroll, { passive: true, once: false });
-      // Safety: force unlock after SCROLL_MAX_WAIT even if scroll events keep firing
       if (scrollEndTimer) clearTimeout(scrollEndTimer);
       scrollEndTimer = setTimeout(() => {
         window.removeEventListener('scroll', handleClickScroll);

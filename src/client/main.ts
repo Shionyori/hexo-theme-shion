@@ -39,6 +39,9 @@ function initChrome(): void {
 
 function initContent(): void {
   initMusicPlayer();
+  // initMath must run BEFORE initToc because it modifies .post-content innerHTML,
+  // which would detach heading elements that initToc has already captured.
+  initMath();
   initToc();
   initLightbox();
   initImageError();
@@ -48,7 +51,6 @@ function initContent(): void {
   initHeadingAnchors();
   initCodeCopy();
   initShare();
-  initMath();
 }
 
 // ── Bootstrap ───────────────────────────────────────────────

@@ -65,8 +65,9 @@ function shouldIntercept(link: HTMLAnchorElement): boolean {
   if (link.target === '_blank') return false;
   // Not with data-no-pjax
   if (link.getAttribute('data-no-pjax') !== null) return false;
-  // Hash-only navigation on the same page — let browser handle
-  if (link.href === location.href && link.hash) return false;
+  // Hash-only navigation on the same page — let browser handle.
+  // Compare URLs without hash: #heading on current page should not trigger PJAX.
+  if (link.href.split('#')[0] === location.href.split('#')[0] && link.hash) return false;
   // Exclude links inside music player (they have their own behavior)
   if (link.closest('.music-player')) return false;
 

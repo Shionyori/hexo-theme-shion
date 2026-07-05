@@ -35,7 +35,7 @@ export function initHeadingAnchors(): void {
     anchor.className = 'heading-anchor';
     anchor.href = `#${id}`;
     anchor.textContent = '#';
-    anchor.setAttribute('aria-hidden', 'true');
+    anchor.setAttribute('aria-label', 'Link to section');
     h.appendChild(anchor);
   });
 }
