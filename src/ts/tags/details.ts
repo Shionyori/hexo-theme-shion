@@ -8,7 +8,8 @@ export function registerDetailsTag(hexo: Hexo): void {
     'details',
     function (args: string[], content: string) {
       const summary = args[0] || 'Details';
-      return `<details class="tag-details"><summary>${summary}</summary>${content}</details>`;
+      const rendered = hexo.render.renderSync({ text: content, engine: 'markdown' });
+      return `<details class="tag-details"><summary>${summary}</summary>${rendered}</details>`;
     },
     { ends: true },
   );
