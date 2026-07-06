@@ -11,7 +11,9 @@ export function registerNoteTag(hexo: Hexo): void {
       const validTypes = ['info', 'warning', 'success', 'danger'];
       const noteType = validTypes.includes(type) ? type : 'info';
 
-      return `<div class="note note-${noteType}">${content}</div>`;
+      // Render inner markdown content
+      const rendered = hexo.render.renderSync({ text: content, engine: 'markdown' });
+      return `<div class="note note-${noteType}">${rendered}</div>`;
     },
     { ends: true },
   );
