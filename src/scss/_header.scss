@@ -29,10 +29,10 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .site-logo {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -53,14 +53,19 @@
 }
 
 .site-nav {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-xs);
 
   .nav-item {
+    display: inline-flex;
+    align-items: center;
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
     font-weight: 500;
+    line-height: 1;
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-md);
     transition:
@@ -80,8 +85,10 @@
 }
 
 .header-actions {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--spacing-xs);
 }
 

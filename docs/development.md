@@ -169,9 +169,9 @@ music:
   enable: false # Toggle music player card
 ```
 
-### Per-Page Sidebar Override
+### Per-Page Sidebar Configuration
 
-Sidebar components can be configured at three levels, resolved in `layout/_partial/sidebar.ejs`:
+Sidebar components are configured at three levels, resolved in `layout/_partial/sidebar.ejs`. The **primary** configuration is `sidebar.layouts` in `_config.shion.yml`:
 
 ```ejs
 // Page type via Hexo helpers (page.layout is empty for generated pages)
@@ -182,46 +182,42 @@ var type = is_post()   ? 'post'
          : is_tag()    ? 'tags'
          : page.layout || 'page';
 
-var P = page.sidebar || {};                                // frontmatter
-var L = (((theme.sidebar || {}).layouts) || {})[type] || {}; // layout-level
+var P = page.sidebar || {};                                // frontmatter (one-off override)
+var L = (((theme.sidebar || {}).layouts) || {})[type] || {}; // layout-level (primary config)
 var G = theme.sidebar || {};                               // global defaults
 
 var cfg = function(key, fallback) {
-  if (P[key] !== undefined) return P[key];
-  if (L[key] !== undefined) return L[key];
-  return fallback;
+  if (P[key] !== undefined) return P[key];                 // 1. frontmatter overrides all
+  if (L[key] !== undefined) return L[key];                 // 2. layout-level config
+  return fallback;                                         // 3. global default
 };
 ```
 
 The `enable` override is also checked in `layout/layout.ejs` to prevent rendering the `<aside>` element entirely when disabled.
 
-**Why `is_*()` helpers?** Auto-generated pages (home via index generator, archive via archive generator) have no explicit `page.layout` value, so `page.layout` is empty and can't be used for type detection. Hexo's built-in helper functions (`is_home()`, `is_archive()`, etc.) correctly identify these pages.
+**Why `is_*()` helpers?** Auto-generated pages (home, archive) have no `page.layout` — their page object comes from Hexo generators, not a `.md` file. The helpers correctly identify them.
 
-**Page frontmatter example** (for pages with `.md` source files like friends, about, categories, tags):
-
-```yaml
----
-title: Friends
-sidebar:
-  enable: false       # Completely hide sidebar on this page
-  profile: false      # Hide profile card
-  music: true         # Force music player on
-  widgets:            # Custom widget set
-    - recent-posts
----
-```
-
-**Layout config example** (for auto-generated pages like home, archive):
+**Primary config** — `_config.shion.yml` `sidebar.layouts` for all pages:
 
 ```yaml
-# _config.shion.yml
 sidebar:
   layouts:
-    archive:
-      widgets: []
-    index:
-      widgets:
-        - recent-posts
+    archive:      { widgets: [] }
+    friends:      { widgets: [] }
+    tags:         { widgets: [] }
+    categories:   { widgets: [] }
+    about:        { widgets: [] }
+    # index:      # unset = uses global widgets
+```
+
+**One-off override** — page frontmatter `sidebar:` (takes priority over layouts):
+
+```yaml
+---
+title: Special
+sidebar:
+  music: false
+---
 ```
 
 ### Available Widgets

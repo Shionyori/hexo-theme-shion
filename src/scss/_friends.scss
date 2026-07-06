@@ -20,9 +20,16 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
+  opacity: 0;
   transition:
+    opacity 0.35s ease-out,
     transform var(--transition-base),
     box-shadow var(--transition-base);
+
+  &.is-visible {
+    opacity: 1;
+    animation: friendCardIn 0.45s ease-out;
+  }
 
   &:hover {
     transform: translateY(-4px);
@@ -92,6 +99,7 @@
 }
 
 .friend-card__name {
+  font-family: var(--font-heading);
   font-size: var(--font-size-base);
   font-weight: 600;
   color: var(--color-text);
@@ -102,6 +110,7 @@
 }
 
 .friend-card__desc {
+  font-family: var(--font-body);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: var(--line-height-normal);

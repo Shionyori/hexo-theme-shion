@@ -27,6 +27,17 @@
   }
 }
 
+@keyframes friendCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 // ============================================================
 // Entrance animations — all cards fade in from below on load
 //

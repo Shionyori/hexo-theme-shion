@@ -88,6 +88,9 @@ export function initAnimations(): void {
   // ── List items (archive, categories, tag cloud) ──────────
   animate('.archive-item', 40);
 
+  // ── Friends page cards (staggered cascade) ─────────────
+  animate('.friend-card', 80);
+
   // ── Comments, 404 ────────────────────────────────────────
   animate('.comments', 0);
   animate('.not-found-content', 0);

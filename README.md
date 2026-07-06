@@ -43,7 +43,7 @@
 - 🎵 **Music player** — config-based playlist with 4 play modes, keyboard shortcuts and persistent playback across page navigation
 - 👥 **Friends links page** — dedicated `/friends/` page with responsive card grid, avatar fallback, and frontmatter-driven data
 - 🧩 **Sidebar widgets** — configurable widget system (recent posts, categories, tags, tagcloud, archives)
-- ⚙️ **Per-page sidebar** — override sidebar components per page via frontmatter (profile, music, widgets, full disable)
+- ⚙️ **Per-page sidebar** — configure sidebar components per page via `sidebar.layouts` in config
 
 ## 📦 Quick Start
 
