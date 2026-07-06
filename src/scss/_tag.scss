@@ -48,7 +48,7 @@
 
   @for $i from 1 through 120 {
     a:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.04s, 2.0s);
+      animation-delay: min($i * 0.025s, 1s);
     }
   }
 }
@@ -88,7 +88,7 @@
 
   @for $i from 1 through 120 {
     .tag-cloud-item:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.04s, 2.0s);
+      animation-delay: min($i * 0.025s, 1s);
     }
   }
 }
@@ -145,7 +145,7 @@
 
   @for $i from 1 through 60 {
     .category-item:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.04s, 1.5s);
+      animation-delay: min($i * 0.03s, 1s);
     }
   }
 }

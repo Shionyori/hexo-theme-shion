@@ -2,7 +2,7 @@
   <h4 class="widget-title"><%= __('tag_list') %></h4>
   <%
     var tags = site.tags.sort('length').reverse();
-    var visible = 9;
+    var visible = 10;
   %>
   <div class="widget-tagcloud">
     <% tags.slice(0, visible).forEach(function(tag) { %>
