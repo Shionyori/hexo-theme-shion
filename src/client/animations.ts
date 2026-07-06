@@ -89,7 +89,7 @@ export function initAnimations(): void {
   animate('.archive-item', 40);
 
   // ── Friends page cards (staggered cascade) ─────────────
-  animate('.friend-card', 80);
+  animate('.friend-card-wrapper', 80);
 
   // ── Comments, 404 ────────────────────────────────────────
   animate('.comments', 0);

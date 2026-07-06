@@ -8,6 +8,7 @@
   <div class="friends-grid">
     <% friends.forEach(function(friend) { %>
       <% var hasUrl = friend.url && friend.url.trim(); %>
+      <div class="friend-card-wrapper">
       <div class="friend-card<%= hasUrl ? '' : ' friend-card--no-link' %>">
         <% if (hasUrl) { %>
         <a class="friend-card__inner" href="<%= friend.url %>" target="_blank" rel="noopener noreferrer" title="<%= friend.name %>">
@@ -36,6 +37,7 @@
         <% } else { %>
         </div>
         <% } %>
+      </div>
       </div>
     <% }) %>
   </div>
