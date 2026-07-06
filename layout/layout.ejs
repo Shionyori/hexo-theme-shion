@@ -68,9 +68,21 @@
   <% } %>
   <% } %>
 
-  <div class="container">
+  <%
+  // Sidebar enable: page frontmatter > layouts config > global
+  var type = is_post()   ? 'post'
+           : is_home()   ? 'index'
+           : is_archive()? 'archive'
+           : is_category()? 'categories'
+           : is_tag()    ? 'tags'
+           : page.layout || 'page';
+  var P = page.sidebar || {};
+  var L = (((theme.sidebar || {}).layouts) || {})[type] || {};
+  var sidebarEnabled = P.enable !== undefined ? P.enable : (L.enable !== undefined ? L.enable : theme.sidebar.enable);
+%>
+<div class="container">
     <div class="content-wrapper">
-      <% if (theme.sidebar.enable && theme.sidebar.position === 'left') { %>
+      <% if (sidebarEnabled && theme.sidebar.position === 'left') { %>
       <%- partial('_partial/sidebar') %>
       <% } %>
 
@@ -78,7 +90,7 @@
         <%- body %>
       </main>
 
-      <% if (theme.sidebar.enable && theme.sidebar.position !== 'left') { %>
+      <% if (sidebarEnabled && theme.sidebar.position !== 'left') { %>
       <%- partial('_partial/sidebar') %>
       <% } %>
     </div>

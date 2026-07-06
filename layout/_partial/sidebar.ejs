@@ -1,14 +1,38 @@
 <%
-var isPost = page.layout === 'post';
-var profileEnabled = !theme.sidebar.profile || theme.sidebar.profile.enable !== false;
-var hasProfile = profileEnabled && ((theme.sidebar.avatar && theme.sidebar.avatar.enable) || config.author || config.description || theme.sidebar.social);
-var hasMusic = theme.music && theme.music.enable;
-var hasWidgets = theme.sidebar.widgets && theme.sidebar.widgets.length > 0;
-if (!isPost && !hasProfile && !hasMusic && !hasWidgets) return;
-%>
-<aside class="site-sidebar<%= isPost ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
+// ── Sidebar config — three-level fallback ──────────
+//   page frontmatter  >  sidebar.layouts.<type>  >  global sidebar
+//
+// Determine page type via Hexo helpers (page.layout is empty for generated pages)
+var type = is_post()   ? 'post'
+         : is_home()   ? 'index'
+         : is_archive()? 'archive'
+         : is_category()? 'categories'
+         : is_tag()    ? 'tags'
+         : page.layout || 'page';
 
-  <% if (!isPost) { %>
+var P = page.sidebar || {};                                // page frontmatter override
+var L = (((theme.sidebar || {}).layouts) || {})[type] || {}; // layout-level override
+var G = theme.sidebar || {};                               // global defaults
+
+var cfg = function(key, fallback) {                        // three-level resolver
+  if (P[key] !== undefined) return P[key];
+  if (L[key] !== undefined) return L[key];
+  return fallback;
+};
+
+var show      = cfg('enable',   G.enable);
+var hasProfile = cfg('profile', !G.profile || G.profile.enable !== false)
+                 && ((G.avatar && G.avatar.enable) || config.author || config.description || G.social);
+var hasMusic   = cfg('music',   !!(theme.music && theme.music.enable));
+var widgets    = cfg('widgets', G.widgets || []);
+var hasWidgets = widgets.length > 0;
+
+if (!show) return;
+if (type !== 'post' && !hasProfile && !hasMusic && !hasWidgets) return;
+%>
+<aside class="site-sidebar<%= type === 'post' ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
+
+  <% if (type !== 'post') { %>
   <% // ── Non-post pages: profile card + sticky group ── %>
 
   <% if (hasProfile) { %>
@@ -44,7 +68,7 @@ if (!isPost && !hasProfile && !hasMusic && !hasWidgets) return;
     </section>
     <% } %>
     <% if (hasWidgets) { %>
-    <% theme.sidebar.widgets.forEach(function(widget) { %>
+    <% widgets.forEach(function(widget) { %>
     <section class="sidebar-card sidebar-widget">
       <%- partial('_partial/widgets/' + widget) %>
     </section>

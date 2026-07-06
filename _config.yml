@@ -92,6 +92,9 @@ sidebar:
   recent_posts_count: 5
   tagcloud_min_font: 1.2
   tagcloud_max_font: 2.8
+  # Per-layout sidebar overrides (higher priority than global, lower than page frontmatter)
+  # Layout keys: index, archive, friends, categories, tags, about, page, post
+  layouts: {}
 
 # --- Music Player ---
 music:

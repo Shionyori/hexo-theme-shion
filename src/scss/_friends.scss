@@ -3,7 +3,7 @@
 
 .friends-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-lg);
 }
 
@@ -55,8 +55,8 @@
 // ── Avatar ───────────────────────────────────────────
 .friend-card__avatar {
   flex-shrink: 0;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
 
   img {
     width: 100%;
@@ -71,12 +71,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   border-radius: var(--radius-full);
   background: var(--color-primary-soft);
   color: var(--color-primary);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   font-family: var(--font-heading);
   text-transform: uppercase;
@@ -121,7 +121,7 @@
 // ── Responsive ───────────────────────────────────────
 @include respond-down('md') {
   .friends-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
   }
 
@@ -131,13 +131,19 @@
 
   .friend-card__avatar,
   .friend-card__avatar-fallback {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 }
 
 @include respond-down('sm') {
   .friends-grid {
     grid-template-columns: 1fr;
+  }
+
+  .friend-card__avatar,
+  .friend-card__avatar-fallback {
+    width: 48px;
+    height: 48px;
   }
 }

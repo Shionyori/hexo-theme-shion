@@ -169,6 +169,61 @@ music:
   enable: false # Toggle music player card
 ```
 
+### Per-Page Sidebar Override
+
+Sidebar components can be configured at three levels, resolved in `layout/_partial/sidebar.ejs`:
+
+```ejs
+// Page type via Hexo helpers (page.layout is empty for generated pages)
+var type = is_post()   ? 'post'
+         : is_home()   ? 'index'
+         : is_archive()? 'archive'
+         : is_category()? 'categories'
+         : is_tag()    ? 'tags'
+         : page.layout || 'page';
+
+var P = page.sidebar || {};                                // frontmatter
+var L = (((theme.sidebar || {}).layouts) || {})[type] || {}; // layout-level
+var G = theme.sidebar || {};                               // global defaults
+
+var cfg = function(key, fallback) {
+  if (P[key] !== undefined) return P[key];
+  if (L[key] !== undefined) return L[key];
+  return fallback;
+};
+```
+
+The `enable` override is also checked in `layout/layout.ejs` to prevent rendering the `<aside>` element entirely when disabled.
+
+**Why `is_*()` helpers?** Auto-generated pages (home via index generator, archive via archive generator) have no explicit `page.layout` value, so `page.layout` is empty and can't be used for type detection. Hexo's built-in helper functions (`is_home()`, `is_archive()`, etc.) correctly identify these pages.
+
+**Page frontmatter example** (for pages with `.md` source files like friends, about, categories, tags):
+
+```yaml
+---
+title: Friends
+sidebar:
+  enable: false       # Completely hide sidebar on this page
+  profile: false      # Hide profile card
+  music: true         # Force music player on
+  widgets:            # Custom widget set
+    - recent-posts
+---
+```
+
+**Layout config example** (for auto-generated pages like home, archive):
+
+```yaml
+# _config.shion.yml
+sidebar:
+  layouts:
+    archive:
+      widgets: []
+    index:
+      widgets:
+        - recent-posts
+```
+
 ### Available Widgets
 
 | Widget key          | Partial file                    | Shows                                            |
