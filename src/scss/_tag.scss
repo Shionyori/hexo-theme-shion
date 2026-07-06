@@ -36,6 +36,23 @@
   font-size: 0.7rem;
 }
 
+// Sidebar tag cloud widget — each tag fades in with staggered delay
+.tagcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-sm);
+
+  a {
+    animation: widgetItemIn 0.3s ease both;
+  }
+
+  @for $i from 1 through 120 {
+    a:nth-of-type(#{$i}) {
+      animation-delay: min($i * 0.04s, 2.0s);
+    }
+  }
+}
+
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
@@ -69,9 +86,9 @@
     }
   }
 
-  @for $i from 1 through 50 {
+  @for $i from 1 through 120 {
     .tag-cloud-item:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.03s, 0.6s);
+      animation-delay: min($i * 0.04s, 2.0s);
     }
   }
 }
@@ -126,9 +143,9 @@
     }
   }
 
-  @for $i from 1 through 30 {
+  @for $i from 1 through 60 {
     .category-item:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.04s, 0.6s);
+      animation-delay: min($i * 0.04s, 1.5s);
     }
   }
 }
