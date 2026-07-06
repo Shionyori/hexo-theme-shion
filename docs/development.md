@@ -202,11 +202,11 @@ The `enable` override is also checked in `layout/layout.ejs` to prevent renderin
 ```yaml
 sidebar:
   layouts:
-    archive:      { widgets: [] }
-    friends:      { widgets: [] }
-    tags:         { widgets: [] }
-    categories:   { widgets: [] }
-    about:        { widgets: [] }
+    archive: { widgets: [] }
+    friends: { widgets: [] }
+    tags: { widgets: [] }
+    categories: { widgets: [] }
+    about: { widgets: [] }
     # index:      # unset = uses global widgets
 ```
 

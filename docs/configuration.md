@@ -86,17 +86,17 @@ Theme defaults:
 
 ## Sidebar
 
-| Key                          | Type            | Default                                              | Description                   |
-| ---------------------------- | --------------- | ---------------------------------------------------- | ----------------------------- |
-| `sidebar.enable`             | `boolean`       | `true`                                               | Show sidebar                  |
-| `sidebar.position`           | `left \| right` | `left`                                               | Sidebar position              |
-| `sidebar.avatar.enable`      | `boolean`       | `true`                                               | Show author avatar            |
-| `sidebar.avatar.image`       | `string`        | `/images/shion/avatar.png`                           | Avatar image path             |
-| `sidebar.social`             | `object`        | `{ GitHub: '...' }`                                  | Social links (key → URL)      |
-| `sidebar.widgets`            | `string[]`      | `['recent-posts']`                                   | Widget display order          |
-| `sidebar.recent_posts_count` | `number`        | `5`                                                  | Recent posts to show          |
-| `sidebar.tagcloud_min_font`  | `number`        | `1.2`                                                | Tag cloud min font size (rem) |
-| `sidebar.tagcloud_max_font`  | `number`        | `2.8`                                                | Tag cloud max font size (rem) |
+| Key                          | Type            | Default                    | Description                   |
+| ---------------------------- | --------------- | -------------------------- | ----------------------------- |
+| `sidebar.enable`             | `boolean`       | `true`                     | Show sidebar                  |
+| `sidebar.position`           | `left \| right` | `left`                     | Sidebar position              |
+| `sidebar.avatar.enable`      | `boolean`       | `true`                     | Show author avatar            |
+| `sidebar.avatar.image`       | `string`        | `/images/shion/avatar.png` | Avatar image path             |
+| `sidebar.social`             | `object`        | `{ GitHub: '...' }`        | Social links (key → URL)      |
+| `sidebar.widgets`            | `string[]`      | `['recent-posts']`         | Widget display order          |
+| `sidebar.recent_posts_count` | `number`        | `5`                        | Recent posts to show          |
+| `sidebar.tagcloud_min_font`  | `number`        | `1.2`                      | Tag cloud min font size (rem) |
+| `sidebar.tagcloud_max_font`  | `number`        | `2.8`                      | Tag cloud max font size (rem) |
 
 ### Social Icon Keys
 
@@ -112,45 +112,46 @@ Configure which sidebar components appear on each page type via `sidebar.layouts
 
 ```yaml
 sidebar:
-  widgets:                          # 全局默认
+  widgets: # 全局默认
     - recent-posts
-  layouts:                          # 按页面覆盖
-    index:                          # 主页 /
-    archive:                        # 归档 /archives/
+  layouts: # 按页面覆盖
+    index: # 主页 /
+    archive: # 归档 /archives/
       widgets: []
-    friends:                        # 友链 /friends/
+    friends: # 友链 /friends/
       widgets: []
-    tags:                           # 标签 /tags/
+    tags: # 标签 /tags/
       widgets: []
-    categories:                     # 分类 /categories/
+    categories: # 分类 /categories/
       widgets: []
-    about:                          # 关于 /about/
+    about: # 关于 /about/
       widgets: []
 ```
 
 **Layout keys:**
 
-| Key | Page |
-|-----|------|
-| `index` | Home `/` |
-| `archive` | Archives `/archives/` |
-| `friends` | Friends `/friends/` |
-| `tags` | Tags `/tags/` |
+| Key          | Page                      |
+| ------------ | ------------------------- |
+| `index`      | Home `/`                  |
+| `archive`    | Archives `/archives/`     |
+| `friends`    | Friends `/friends/`       |
+| `tags`       | Tags `/tags/`             |
 | `categories` | Categories `/categories/` |
-| `about` | About `/about/` |
-| `post` | Blog posts |
-| `page` | Other custom pages |
+| `about`      | About `/about/`           |
+| `post`       | Blog posts                |
+| `page`       | Other custom pages        |
 
 Each entry supports the same 4 keys:
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `enable` | `boolean` | Show/hide entire sidebar |
-| `profile` | `boolean` | Show/hide profile card |
-| `music` | `boolean` | Show/hide music player |
+| Key       | Type       | Description                            |
+| --------- | ---------- | -------------------------------------- |
+| `enable`  | `boolean`  | Show/hide entire sidebar               |
+| `profile` | `boolean`  | Show/hide profile card                 |
+| `music`   | `boolean`  | Show/hide music player                 |
 | `widgets` | `string[]` | Widgets to display (empty `[]` = none) |
 
 **Resolution priority:**
+
 1. Page frontmatter `sidebar:` (for one-off overrides in `.md` files)
 2. `sidebar.layouts.<type>` (primary config location)
 3. Global `sidebar.widgets` / `sidebar.enable` etc. (fallback)
@@ -197,12 +198,12 @@ Add `Friends: /friends/` to your `menu` config.
 
 ### Data Fields
 
-| Field         | Required | Notes                                                    |
-| ------------- | -------- | -------------------------------------------------------- |
-| `name`        | Yes      | Display name                                             |
-| `url`         | Yes      | Link target. Cards without URL render as static text     |
-| `avatar`      | No       | Image URL. Falls back to first-character placeholder     |
-| `description` | No       | Short description below the name                         |
+| Field         | Required | Notes                                                |
+| ------------- | -------- | ---------------------------------------------------- |
+| `name`        | Yes      | Display name                                         |
+| `url`         | Yes      | Link target. Cards without URL render as static text |
+| `avatar`      | No       | Image URL. Falls back to first-character placeholder |
+| `description` | No       | Short description below the name                     |
 
 ### Behavior
 
