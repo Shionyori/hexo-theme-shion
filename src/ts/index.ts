@@ -18,6 +18,7 @@ import { registerDetailsTag } from './tags/details.js';
 
 import { registerLinkCardTag } from './tags/linkCard.js';
 import { registerPostLinkCardTag } from './tags/postLinkCard.js';
+import { registerMarkExtension } from './extensions/mark.js';
 
 declare const hexo: Hexo;
 
@@ -39,3 +40,4 @@ registerDetailsTag(hexo);
 
 registerLinkCardTag(hexo);
 registerPostLinkCardTag(hexo);
+registerMarkExtension(hexo);

@@ -130,6 +130,10 @@
   --note-danger-bg: #faecec;
   --note-danger-border: #d85448;
   --note-danger-text: #882820;
+
+  // ── Mark / highlight ────────────────────────────────────
+  --mark-bg: #f0e4c8;
+  --mark-text: inherit;
 }
 
 // ─── Dark mode ─────────────────────────────────────────────
@@ -196,6 +200,10 @@
   --note-danger-bg: #341c1a;
   --note-danger-border: #e87060;
   --note-danger-text: #f0a098;
+
+  // ── Mark / highlight (dark) ─────────────────────────────
+  --mark-bg: #5a4835;
+  --mark-text: inherit;
 }
 
 // ─── Responsive breakpoints ─────────────────────────────────

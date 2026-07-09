@@ -2,11 +2,11 @@
 
 .post-content,
 .page-content {
-  // Highlighted text — gold highlighter effect
+  // Highlighted text — warm gold background, like ::selection but softer
   mark {
-    background: linear-gradient(180deg, transparent 60%, var(--color-accent-light) 60%);
-    color: inherit;
-    padding: 0.1em 0.2em;
+    background: var(--mark-bg);
+    color: var(--mark-text);
+    padding: 0.1em 0.15em;
     border-radius: 2px;
   }
 
