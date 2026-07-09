@@ -31,6 +31,12 @@ export function initMobileNav(): void {
 
   on(mobileOverlay, 'click', close);
 
+  // Auto-close when a nav link is clicked
+  const navLinks = mobileNav.querySelectorAll('.mobile-nav-link');
+  navLinks.forEach((link) => {
+    on(link as HTMLElement, 'click', close);
+  });
+
   on(document, 'keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
       close();

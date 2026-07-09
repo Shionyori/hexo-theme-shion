@@ -33,12 +33,6 @@
     }
   }
 
-  .content-wrapper {
-    flex-direction: column;
-    gap: var(--spacing-xl);
-    padding-top: var(--header-height);
-  }
-
   .page-bg {
     height: 50vh;
     max-height: 450px;
@@ -71,10 +65,16 @@
     font-size: var(--font-size-root);
   }
 
+  .content-wrapper {
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-xl);
+  }
+
   .post,
   .page,
   .content-card {
     padding: var(--spacing-md);
+    border-radius: var(--radius-md);
   }
 
   .post-title,
@@ -90,6 +90,16 @@
   }
   h3 {
     font-size: var(--font-size-lg);
+  }
+
+  .post-nav {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .archive-item {
+    flex-direction: column;
+    gap: var(--spacing-xs);
   }
 
   .container {

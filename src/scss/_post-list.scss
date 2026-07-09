@@ -269,7 +269,7 @@
 // Responsive — stack vertically on mobile
 @include respond-down('md') {
   .post-list {
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 
   .post-card-wrapper {
@@ -295,7 +295,7 @@
 
   .post-card-cover {
     width: 100%;
-    height: 200px;
+    height: 180px;
     flex-shrink: 0;
 
     &.left,
@@ -307,21 +307,20 @@
   }
 
   .post-card-body {
-    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    padding: var(--spacing-md);
     min-height: auto;
   }
 
   .post-card-title {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
   }
 
-  .shion-hero {
-    height: 200px;
-    margin-left: calc(-1 * var(--spacing-md));
-    margin-right: calc(-1 * var(--spacing-md));
+  .post-card-excerpt {
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-sm);
+  }
 
-    .hero-content .hero-title {
-      font-size: var(--font-size-2xl);
-    }
+  .post-card-meta-top {
+    font-size: var(--font-size-xs);
   }
 }

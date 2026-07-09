@@ -106,32 +106,6 @@
   }
 }
 
-// Legacy animation classes (kept for any inline usage)
-.anim-fade-in-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.35s ease-out,
-    transform 0.35s ease-out;
-  will-change: transform, opacity;
-
-  &.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.anim-fade-in {
-  opacity: 0;
-  transition: opacity 0.25s ease-out;
-  will-change: opacity;
-
-  &.is-visible {
-    opacity: 1;
-  }
-}
-
-// Note: overflow clipping of transforms is handled per-container.
 // Setting overflow:visible globally would break scroll containers like .sidebar-widgets.
 
 // Stagger delays
@@ -196,5 +170,48 @@
 
   &:hover {
     color: var(--color-primary);
+  }
+
+  // On mobile, move up to sit above the always-visible sidebar button
+  @include respond-down('md') {
+    bottom: calc(var(--spacing-xl) + 54px);
+  }
+}
+
+// ── Floating sidebar toggle (mobile only) ──────────────────
+
+.sidebar-float-btn {
+  position: fixed;
+  bottom: var(--spacing-xl); // below back-to-top on mobile
+  right: var(--spacing-xl);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  display: none; // hidden on desktop
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  z-index: var(--z-sticky);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  &.is-active {
+    color: var(--color-primary);
+    background: var(--color-primary-soft);
+    border-color: var(--color-primary-light);
+  }
+
+  // Show only on mobile, always visible (no scroll hide)
+  @include respond-down('md') {
+    display: flex;
   }
 }

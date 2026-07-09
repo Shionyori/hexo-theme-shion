@@ -314,16 +314,24 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 300px;
-    max-width: 80vw;
-    z-index: var(--z-overlay);
+    width: 320px;
+    max-width: 85vw;
+    z-index: calc(var(--z-overlay) + 2);
     background: var(--color-surface);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
     border-radius: 0;
     border: none;
     box-shadow: var(--shadow-lg);
     transition: transform var(--transition-base);
+    overflow-y: auto;
+    overscroll-behavior: contain;
 
+    // Switch from flex to block so children stack naturally and overflow triggers
+    display: block;
+    gap: 0;
+
+    // Right side by default
     right: 0;
     transform: translateX(100%);
 
@@ -337,11 +345,23 @@
       transform: translateX(0);
     }
 
+    // Cards inside the drawer drop their card chrome
     .sidebar-card {
       background: transparent;
       border: none;
       box-shadow: none;
       padding: 0;
+      margin-bottom: var(--spacing-md);
+      overflow: visible; // undo base .sidebar-card overflow:hidden
+      // Prevent flex shrinking from squeezing card content
+      flex-shrink: 0;
+    }
+
+    // Sticky group is unnecessary in the drawer (already scrollable)
+    .sidebar-sticky-group {
+      position: static;
+      max-height: none;
+      display: block;
     }
   }
 
@@ -349,7 +369,7 @@
     position: fixed;
     inset: 0;
     background: var(--color-overlay);
-    z-index: calc(var(--z-overlay) - 1);
+    z-index: calc(var(--z-overlay) + 1);
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--transition-base);

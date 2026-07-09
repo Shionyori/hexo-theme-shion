@@ -69,3 +69,17 @@
     font-weight: 500;
   }
 }
+
+@include respond-down('md') {
+  .site-footer {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .footer-inner {
+    padding: 0 var(--spacing-md);
+  }
+
+  .footer-social {
+    gap: var(--spacing-md);
+  }
+}
