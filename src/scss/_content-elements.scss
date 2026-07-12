@@ -2,6 +2,11 @@
 
 .post-content,
 .page-content {
+  // Bold / strong — themed blue-purple emphasis
+  strong {
+    color: var(--color-primary);
+  }
+
   // Highlighted text — warm gold background, like ::selection but softer
   mark {
     background: var(--mark-bg);
