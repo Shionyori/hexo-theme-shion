@@ -45,6 +45,13 @@
     <div class="hero-subtitle">
       <%- partial('_partial/post-meta', { post: page }) %>
     </div>
+    <% if (page.tags && page.tags.length) { %>
+    <div class="hero-tags">
+      <% page.tags.forEach(function(tag) { %>
+        <a class="tag-link" href="<%= url_for(tag.path) %>"><%= tag.name %></a>
+      <% }) %>
+    </div>
+    <% } %>
   </section>
   <% } else if (is_archive()) { %>
   <section class="page-hero">
