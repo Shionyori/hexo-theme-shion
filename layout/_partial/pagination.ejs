@@ -1,4 +1,7 @@
-<% if (page.total > 1) { %>
+<%
+  var total = page.total_pages || Math.ceil(page.total / page.per_page);
+%>
+<% if (total > 1) { %>
 <%
   var base = page.path
     .replace(/page\/\d+\//, '')
@@ -14,7 +17,6 @@
   <div class="page-numbers">
     <%
     var current = page.current;
-    var total = page.total;
     var start = Math.max(1, current - 2);
     var end = Math.min(total, current + 2);
     %>
