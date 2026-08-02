@@ -38,6 +38,14 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.post-categories {
+  .category-link + .category-link::before {
+    content: '/';
+    margin-right: 2px;
+    opacity: 0.5;
+  }
+}
+
 .outdate-warning {
   padding: var(--spacing-md) var(--spacing-lg);
   background: #fffbeb;
