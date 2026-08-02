@@ -17,6 +17,7 @@ export interface HexoHelperContext {
       excerpt_length?: number;
       display_excerpt?: boolean;
       show_read_more?: boolean;
+      sticky_badge?: boolean;
     };
     post?: {
       toc?: boolean;

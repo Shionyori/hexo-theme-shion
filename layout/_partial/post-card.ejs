@@ -2,6 +2,9 @@
 <% var direction = even ? 'left' : 'right'; %>
 <div class="post-card-wrapper">
   <article class="post-card post-card-<%= direction %>">
+    <% if (post.sticky && typeof show_sticky !== 'undefined' && show_sticky && theme.home.sticky_badge !== false) { %>
+    <div class="post-card-sticky">置顶</div>
+    <% } %>
     <a class="post-card-link" href="<%= url_for(post.path) %>" aria-label="<%= post.title %>"></a>
 
     <div class="post-card-cover <%= direction %>">

@@ -39,6 +39,7 @@ home:
   posts_per_page: 10
   display_excerpt: true
   excerpt_length: 280
+  sticky_badge: true
 
 # --- Post ---
 post:
