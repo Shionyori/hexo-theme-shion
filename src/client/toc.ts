@@ -26,7 +26,7 @@ export function initToc(): void {
   const tocSection = document.querySelector('.sidebar-card.sidebar-toc');
   if (!tocSection) return;
 
-  const tocNav = tocSection.querySelector('nav.sidebar-toc');
+  const tocNav = tocSection.querySelector('nav.sidebar-toc') as HTMLElement;
   if (!tocNav) return;
 
   const tocLinks = tocNav.querySelectorAll('.toc-list-link');
@@ -81,52 +81,44 @@ export function initToc(): void {
     const childEls = Array.from(tocNav.querySelectorAll('.toc-list-child')) as HTMLElement[];
     if (childEls.length === 0) return;
 
-    // Snapshot every level's *current* rendered height — the animation start
-    // value (keeps mid-flight animations smooth). Must be read before
-    // transitions are frozen below.
-    const from = new Map<HTMLElement, number>();
-    childEls.forEach((child) => from.set(child, child.clientHeight));
+    // Snapshot each level's current rendered height as the animation start
+    // (keeps mid-flight animations smooth), then freeze transitions so the
+    // measurement below sees *target* heights. An active transition would
+    // report its starting height, leaving ancestors locked to a stale size —
+    // the blank space after collapsing a 3rd-level heading.
+    const states = childEls.map((child) => {
+      const from = child.clientHeight;
+      child.style.transition = 'none';
+      return { child, from, to: 0, hasActive: false };
+    });
 
-    // Freeze transitions while repositioning. During measurement a level's box
-    // must jump straight to its *target* height so an ancestor's scrollHeight
-    // reflects it; an active transition would instead report the transition's
-    // starting height, leaving the ancestor locked to the stale (expanded)
-    // height — the blank space seen after expanding and collapsing a 3rd-level
-    // heading, or switching between two 2nd-level drawers under one 1st-level.
-    childEls.forEach((child) => (child.style.transition = 'none'));
-
-    // Compute the target height for each level, innermost first. A level's
-    // natural height is only correct if its nested levels already sit at
-    // their targets (collapsed = 0, expanded = full).
-    const targets = new Map<HTMLElement, number>();
-    const active = new Map<HTMLElement, boolean>();
-    for (let i = childEls.length - 1; i >= 0; i--) {
-      const child = childEls[i];
-      const parent = child.parentElement;
+    // Measure targets innermost first: a level's natural height is only
+    // correct once its nested levels already sit at their targets
+    // (collapsed = 0, expanded = full). Ancestors are always marked active,
+    // so checking the direct child link's `.active` is equivalent to scanning
+    // the whole subtree.
+    for (let i = states.length - 1; i >= 0; i--) {
+      const s = states[i];
+      const parent = s.child.parentElement;
       if (!parent) continue;
 
-      const hasActive = parent.querySelector('.toc-list-link.active') !== null;
-      active.set(child, hasActive);
+      s.hasActive = parent.querySelector(':scope > .toc-list-link')?.classList.contains('active') ?? false;
 
-      child.style.height = '';
-      const to = hasActive ? child.scrollHeight : 0;
-      targets.set(child, to);
-      child.style.height = to + 'px';
+      s.child.style.height = '';
+      s.to = s.hasActive ? s.child.scrollHeight : 0;
+      s.child.style.height = s.to + 'px';
     }
 
-    // Back out of the measured state: park every level at its pre-update
-    // height and force a reflow, so the change below animates *from* the
-    // previous height rather than from the measured target.
-    childEls.forEach((child) => {
-      child.style.height = (from.get(child) ?? 0) + 'px';
-    });
-    void (tocNav as HTMLElement).offsetHeight;
+    // Park every level at its start height and force a reflow, so the final
+    // change animates *from* the previous height rather than the target.
+    states.forEach((s) => (s.child.style.height = s.from + 'px'));
+    void tocNav.offsetHeight;
 
     // Re-enable transitions and animate every level to its target in one pass.
-    childEls.forEach((child) => {
-      child.style.transition = '';
-      child.style.height = (targets.get(child) ?? 0) + 'px';
-      child.classList.toggle('is-expanded', active.get(child) ?? false);
+    states.forEach((s) => {
+      s.child.style.transition = '';
+      s.child.style.height = s.to + 'px';
+      s.child.classList.toggle('is-expanded', s.hasActive);
     });
   }
 
