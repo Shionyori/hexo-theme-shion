@@ -102,7 +102,8 @@ export function initToc(): void {
       const parent = s.child.parentElement;
       if (!parent) continue;
 
-      s.hasActive = parent.querySelector(':scope > .toc-list-link')?.classList.contains('active') ?? false;
+      s.hasActive =
+        parent.querySelector(':scope > .toc-list-link')?.classList.contains('active') ?? false;
 
       s.child.style.height = '';
       s.to = s.hasActive ? s.child.scrollHeight : 0;
