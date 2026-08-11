@@ -78,27 +78,55 @@ export function initToc(): void {
   }
 
   function updateChildHeights(): void {
-    const allChildren = tocNav.querySelectorAll('.toc-list-child');
-    allChildren.forEach((el) => {
-      const child = el as HTMLElement;
+    const childEls = Array.from(tocNav.querySelectorAll('.toc-list-child')) as HTMLElement[];
+    if (childEls.length === 0) return;
+
+    // Snapshot every level's *current* rendered height — the animation start
+    // value (keeps mid-flight animations smooth). Must be read before
+    // transitions are frozen below.
+    const from = new Map<HTMLElement, number>();
+    childEls.forEach((child) => from.set(child, child.clientHeight));
+
+    // Freeze transitions while repositioning. During measurement a level's box
+    // must jump straight to its *target* height so an ancestor's scrollHeight
+    // reflects it; an active transition would instead report the transition's
+    // starting height, leaving the ancestor locked to the stale (expanded)
+    // height — the blank space seen after expanding and collapsing a 3rd-level
+    // heading, or switching between two 2nd-level drawers under one 1st-level.
+    childEls.forEach((child) => (child.style.transition = 'none'));
+
+    // Compute the target height for each level, innermost first. A level's
+    // natural height is only correct if its nested levels already sit at
+    // their targets (collapsed = 0, expanded = full).
+    const targets = new Map<HTMLElement, number>();
+    const active = new Map<HTMLElement, boolean>();
+    for (let i = childEls.length - 1; i >= 0; i--) {
+      const child = childEls[i];
       const parent = child.parentElement;
-      if (!parent) return;
+      if (!parent) continue;
 
       const hasActive = parent.querySelector('.toc-list-link.active') !== null;
+      active.set(child, hasActive);
 
       child.style.height = '';
-      const naturalH = child.scrollHeight;
+      const to = hasActive ? child.scrollHeight : 0;
+      targets.set(child, to);
+      child.style.height = to + 'px';
+    }
 
-      if (hasActive) {
-        child.style.height = naturalH + 'px';
-        child.classList.add('is-expanded');
-      } else {
-        child.style.height = child.clientHeight + 'px';
-        requestAnimationFrame(() => {
-          child.style.height = '0px';
-          child.classList.remove('is-expanded');
-        });
-      }
+    // Back out of the measured state: park every level at its pre-update
+    // height and force a reflow, so the change below animates *from* the
+    // previous height rather than from the measured target.
+    childEls.forEach((child) => {
+      child.style.height = (from.get(child) ?? 0) + 'px';
+    });
+    void (tocNav as HTMLElement).offsetHeight;
+
+    // Re-enable transitions and animate every level to its target in one pass.
+    childEls.forEach((child) => {
+      child.style.transition = '';
+      child.style.height = (targets.get(child) ?? 0) + 'px';
+      child.classList.toggle('is-expanded', active.get(child) ?? false);
     });
   }
 
