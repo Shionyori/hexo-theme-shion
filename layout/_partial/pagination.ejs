@@ -1,15 +1,25 @@
 <%
-  var total = page.total_pages || Math.ceil(page.total / page.per_page);
+  // `total` = number of pages. The custom index generator sets `total_pages`;
+  // hexo-pagination (tag/category/archive) sets `total` = page count instead.
+  var total = page.total_pages || page.total;
 %>
 <% if (total > 1) { %>
 <%
   var base = page.path
     .replace(/page\/\d+\//, '')
     .replace(/index\.html$/, '');
+
+  // `prev` / `next` are page numbers (0 = absent) in both the custom index
+  // generator and hexo-pagination, so we build links from the number + base
+  // instead of relying on `prev_link` / `next_link`, which only hexo-pagination
+  // provides.
+  var prevPage = page.prev || 0;
+  var nextPage = page.next || 0;
+  var pageUrl = function (n) { return n === 1 ? url_for(base) : url_for(base + 'page/' + n + '/'); };
 %>
 <nav class="pagination">
-  <% if (page.prev) { %>
-    <a class="page-item prev" href="<%= url_for(page.prev_link) %>"><%= __('pagination.prev') %></a>
+  <% if (prevPage) { %>
+    <a class="page-item prev" href="<%= pageUrl(prevPage) %>"><%= __('pagination.prev') %></a>
   <% } else { %>
     <span class="page-item prev disabled"><%= __('pagination.prev') %></span>
   <% } %>
@@ -31,10 +41,8 @@
     <% for (var i = start; i <= end; i++) { %>
       <% if (i === current) { %>
         <span class="page-item page-num current"><%= i %></span>
-      <% } else if (i === 1) { %>
-        <a class="page-item page-num" href="<%= url_for(base) %>">1</a>
       <% } else { %>
-        <a class="page-item page-num" href="<%= url_for(base + 'page/' + i + '/') %>"><%= i %></a>
+        <a class="page-item page-num" href="<%= pageUrl(i) %>"><%= i %></a>
       <% } %>
     <% } %>
 
@@ -42,12 +50,12 @@
       <% if (end < total - 1) { %>
         <span class="page-ellipsis">&hellip;</span>
       <% } %>
-      <a class="page-item page-num" href="<%= url_for(base + 'page/' + total + '/') %>"><%= total %></a>
+      <a class="page-item page-num" href="<%= pageUrl(total) %>"><%= total %></a>
     <% } %>
   </div>
 
-  <% if (page.next) { %>
-    <a class="page-item next" href="<%= url_for(page.next_link) %>"><%= __('pagination.next') %></a>
+  <% if (nextPage) { %>
+    <a class="page-item next" href="<%= pageUrl(nextPage) %>"><%= __('pagination.next') %></a>
   <% } else { %>
     <span class="page-item next disabled"><%= __('pagination.next') %></span>
   <% } %>
