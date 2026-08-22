@@ -109,9 +109,11 @@
   padding: var(--spacing-lg) var(--spacing-xl);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .post-card-title {
+  flex-shrink: 0;
   font-size: var(--font-size-2xl);
   margin-bottom: var(--spacing-sm);
   line-height: var(--line-height-tight);
@@ -132,7 +134,11 @@
 }
 
 .post-card-excerpt {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: calc(
+    var(--font-size-sm) * var(--line-height-relaxed) * 3
+  ); // hard cap = 3 lines, prevents flex-stretch from exposing a 4th line
   margin: var(--spacing-md) 0 0;
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
@@ -146,6 +152,7 @@
 
 // Top-right: date · words · time
 .post-card-meta-top {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -160,17 +167,22 @@
   }
 }
 
-// Tags below title
+// Tags below title — single line, truncated with ellipsis when overflowing
 .post-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
+  flex-shrink: 0;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
   margin-bottom: 0;
 
   a {
+    display: inline-block;
     font-size: var(--font-size-xs);
     color: var(--color-primary);
     opacity: 0.8;
+    margin-right: var(--spacing-xs);
 
     &:hover {
       opacity: 1;
