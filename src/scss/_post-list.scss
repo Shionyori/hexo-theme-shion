@@ -116,7 +116,11 @@
   flex-shrink: 0;
   font-size: var(--font-size-2xl);
   margin-bottom: var(--spacing-sm);
-  line-height: var(--line-height-tight);
+  // Noto Serif SC / Source Han Serif SC report ascent+descent ≈ 1.44em (hhea),
+  // larger than var(--line-height-tight) (1.25). With the 2-line clamp below
+  // (overflow: hidden) descender ink of letters like "g"/"y" used to overflow
+  // the line box and get sliced off. 1.5 keeps every glyph inside the box.
+  line-height: 1.5;
   display: -webkit-box;
   line-clamp: 2; // compatibility for non-webkit browsers
   -webkit-line-clamp: 2;

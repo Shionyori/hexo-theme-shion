@@ -299,6 +299,14 @@
     }
   }
 
+  // An <ol> nested inside a <ul> (markdown like "- 1. 2.") must keep its plain
+  // decimal markers. Without this reset the descendant selector `ul li::before`
+  // above also matches those ordered items, drawing a custom dot in front of the
+  // number ("• 1. …") and breaking the layout.
+  ul ol li::before {
+    content: none;
+  }
+
   // Task list checkboxes
   li input[type='checkbox'] {
     appearance: none;
