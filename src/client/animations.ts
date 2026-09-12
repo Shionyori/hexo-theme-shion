@@ -58,8 +58,10 @@ export function initAnimations(): void {
     });
   }
 
-  // ── Home page: post cards cascade in ─────────────────────
-  animate('.post-card-wrapper', 60);
+  // ── Home page: post cards cascade in, paginator last ─────
+  // The paginator is matched after the cards in DOM order, so it inherits the
+  // next staggered delay and always trails the last article card.
+  animate('.post-card-wrapper, .pagination', 60);
 
   // ── Sidebar (all variants: profile, widgets, TOC-only on post pages) ──
   animate('.sidebar-card', 0);
@@ -84,9 +86,6 @@ export function initAnimations(): void {
   animate('.post-share', 80);
   animate('.post-copyright', 100);
   animate('.post-nav', 120);
-
-  // ── Pagination ───────────────────────────────────────────
-  animate('.pagination', 0);
 
   // ── List items (archive, categories, tag cloud) ──────────
   animate('.archive-item', 40);

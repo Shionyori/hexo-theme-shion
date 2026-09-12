@@ -4,7 +4,7 @@
 //   1. Theme toggle — circular reveal (View Transitions)
 //   2. Button press feedback
 //   3. Reading-progress glow
-//   4. Pagination / tag micro-motion
+//   4. Tag micro-motion
 //   5. Code-block hover edge
 //   6. Image focus fade-in
 //   7. Hero copy stagger
@@ -38,28 +38,7 @@
   box-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 55%, transparent);
 }
 
-// ─── 4a. Pagination micro-motion ────────────────────────────
-.pagination .page-num.current {
-  box-shadow: 0 6px 16px -8px var(--color-primary);
-}
-
-.pagination .page-item {
-  transition:
-    transform var(--transition-base) var(--ease-out-expo),
-    color var(--transition-fast),
-    background var(--transition-fast),
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .pagination .page-item:not(.disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-  }
-}
-
-// ─── 4b. Tag pill micro-motion ──────────────────────────────
+// ─── 4. Tag pill micro-motion ──────────────────────────────
 .tag-link:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
@@ -119,8 +98,8 @@ figure.highlight {
 // ─── 2. Button press feedback ───────────────────────────────
 // Kept last so :active wins over the same-specificity :hover rules above.
 $press-targets:
-  '.btn-icon', '.share-btn', '.page-item', '.page-num', '.btn-home', '.tag-link', '.social-icon',
-  '.code-copy-btn', '.search-close';
+  '.btn-icon', '.share-btn', '.btn-home', '.tag-link', '.social-icon', '.code-copy-btn',
+  '.search-close';
 
 #{$press-targets} {
   transition:
