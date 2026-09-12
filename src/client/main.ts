@@ -18,6 +18,7 @@ import { initCardClick } from './card-click';
 import { initHeadingAnchors } from './heading-anchors';
 import { initCodeCopy } from './code-copy';
 import { initImageError } from './image-error';
+import { initImageReveal } from './image-reveal';
 import { initMusicPlayer } from './music-player';
 import { initPjax } from './pjax';
 import { initMath } from './math';
@@ -45,6 +46,7 @@ function initContent(): void {
   initToc();
   initLightbox();
   initImageError();
+  initImageReveal();
   initTagTabs();
   initAnimations();
   initCardClick();

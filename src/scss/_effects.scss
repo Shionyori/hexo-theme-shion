@@ -1,0 +1,154 @@
+// ============================================================
+// Selective effects layer
+// Contains only the effects that are explicitly kept:
+//   1. Theme toggle — circular reveal (View Transitions)
+//   2. Button press feedback
+//   3. Reading-progress glow
+//   4. Pagination / tag micro-motion
+//   5. Code-block hover edge
+//   6. Image focus fade-in
+//   7. Hero copy stagger
+// Imported last so it can gently override component defaults.
+// ============================================================
+
+// ─── 1. Theme toggle: circular reveal (View Transitions) ────
+// pointer-events:none lets clicks reach the toggle while the reveal runs, so
+// repeated toggles stay responsive instead of feeling locked.
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+// ─── 3. Reading progress: soft glow ─────────────────────────
+.reading-progress-bar {
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 55%, transparent);
+}
+
+// ─── 4a. Pagination micro-motion ────────────────────────────
+.pagination .page-num.current {
+  box-shadow: 0 6px 16px -8px var(--color-primary);
+}
+
+.pagination .page-item {
+  transition:
+    transform var(--transition-base) var(--ease-out-expo),
+    color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pagination .page-item:not(.disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+// ─── 4b. Tag pill micro-motion ──────────────────────────────
+.tag-link:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+// ─── 5. Code blocks: hover edge ─────────────────────────────
+figure.highlight {
+  transition:
+    border-color 0.3s var(--ease-standard),
+    box-shadow 0.3s var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  figure.highlight:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+// ─── 6. Image focus fade-in ─────────────────────────────────
+// JS (image-reveal.ts) adds .img-reveal only to images that have not finished
+// loading, then .is-loaded on load — a soft focus-pull instead of a hard pop.
+.img-reveal {
+  opacity: 0;
+  transform: scale(1.015);
+  filter: blur(6px);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo),
+    filter 0.7s var(--ease-out-expo);
+
+  &.is-loaded {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+// ─── 7. Hero copy stagger ───────────────────────────────────
+// animations.ts adds .is-visible (title → subtitle → tags).
+.hero-title,
+.hero-subtitle,
+.hero-tags {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s var(--ease-out-expo),
+    transform 0.6s var(--ease-out-expo);
+  will-change: transform, opacity;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─── 2. Button press feedback ───────────────────────────────
+// Kept last so :active wins over the same-specificity :hover rules above.
+$press-targets:
+  '.btn-icon', '.share-btn', '.page-item', '.page-num', '.btn-home', '.tag-link', '.social-icon',
+  '.code-copy-btn', '.search-close';
+
+#{$press-targets} {
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+@each $target in $press-targets {
+  #{$target}:active {
+    transform: scale(0.94);
+  }
+}
+
+// ─── Reduced motion ─────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .img-reveal,
+  .hero-title,
+  .hero-subtitle,
+  .hero-tags {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .reading-progress-bar {
+    transition: none;
+  }
+}

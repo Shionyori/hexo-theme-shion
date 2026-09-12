@@ -70,6 +70,9 @@ export function initAnimations(): void {
   // ── Content cards (archive, tag page, category page, about page) ──
   animate('.content-card', 0);
 
+  // ── Page hero copy (title → subtitle → tags) ─────────────
+  animate('.hero-title, .hero-subtitle, .hero-tags', 90);
+
   // ── Post & Page ──────────────────────────────────────────
   animate('.post', 0);
   animate('.page', 0);

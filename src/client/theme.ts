@@ -1,12 +1,25 @@
 /**
  * Theme toggle — dark/light mode with localStorage persistence and system preference detection.
- * Also syncs the Giscus comment widget theme when present.
+ * Uses the View Transitions API for a circular reveal expanding from the toggle button where
+ * supported, falling back to a smooth colour cross-fade. Also syncs the Giscus widget theme.
  */
 import { $, on } from './utils';
 
 const STORAGE_KEY = 'shion-theme';
 const TRANSITION_CLASS = 'theme-transitioning';
 const TRANSITION_DURATION = 400;
+
+interface ViewTransitionHandle {
+  ready: Promise<void>;
+  finished: Promise<void>;
+}
+
+type DocumentWithViewTransition = Document & {
+  startViewTransition?: (callback: () => void) => ViewTransitionHandle;
+};
+
+// Guards against starting a second View Transition while one is animating.
+let viewTransitionBusy = false;
 
 function getPreferredMode(): 'dark' | 'light' {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -27,22 +40,84 @@ function updateGiscusTheme(mode: 'dark' | 'light'): void {
   iframe.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
 }
 
+function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+/** Fallback: temporarily enable colour transitions on every element. */
+function crossFadeTheme(apply: () => void): void {
+  const html = document.documentElement;
+  html.classList.add(TRANSITION_CLASS);
+  apply();
+  setTimeout(() => html.classList.remove(TRANSITION_CLASS), TRANSITION_DURATION);
+}
+
 function toggleTheme(): void {
   const html = document.documentElement;
   const current = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   const next = current === 'dark' ? 'light' : 'dark';
 
-  // Add transition class for smooth color animation
-  html.classList.add(TRANSITION_CLASS);
+  const apply = (): void => {
+    applyTheme(next);
+    localStorage.setItem(STORAGE_KEY, next);
+    updateGiscusTheme(next);
+  };
 
-  applyTheme(next);
-  localStorage.setItem(STORAGE_KEY, next);
-  updateGiscusTheme(next);
+  const doc = document as DocumentWithViewTransition;
+  const toggle = $('#theme-toggle') as HTMLElement | null;
 
-  // Remove transition class after animation completes
-  setTimeout(() => {
-    html.classList.remove(TRANSITION_CLASS);
-  }, TRANSITION_DURATION);
+  // Circular reveal expanding from the toggle button.
+  if (
+    !prefersReducedMotion() &&
+    !viewTransitionBusy &&
+    typeof doc.startViewTransition === 'function' &&
+    toggle
+  ) {
+    const rect = toggle.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    viewTransitionBusy = true;
+    try {
+      const transition = doc.startViewTransition(apply);
+      transition.finished.finally(() => {
+        viewTransitionBusy = false;
+      });
+      transition.ready
+        .then(() => {
+          html.animate(
+            {
+              clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`],
+            },
+            {
+              duration: 420,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              pseudoElement: '::view-transition-new(root)',
+            },
+          );
+        })
+        .catch(() => {
+          /* animation interrupted — theme already applied */
+        });
+      return;
+    } catch {
+      // Fall through to the cross-fade if a transition is already running.
+      viewTransitionBusy = false;
+    }
+  }
+
+  // A reveal is already in flight — apply instantly so rapid clicks stay
+  // responsive instead of being swallowed by the locked snapshot.
+  if (viewTransitionBusy) {
+    apply();
+    return;
+  }
+
+  crossFadeTheme(apply);
 }
 
 export function initTheme(): void {
@@ -58,13 +133,7 @@ export function initTheme(): void {
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     if (!localStorage.getItem(STORAGE_KEY)) {
-      const html = document.documentElement;
-      html.classList.add(TRANSITION_CLASS);
-      const nextMode = e.matches ? 'dark' : 'light';
-      applyTheme(nextMode);
-      setTimeout(() => {
-        html.classList.remove(TRANSITION_CLASS);
-      }, TRANSITION_DURATION);
+      crossFadeTheme(() => applyTheme(e.matches ? 'dark' : 'light'));
     }
   });
 }

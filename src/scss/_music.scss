@@ -216,6 +216,12 @@
     box-shadow var(--transition-fast);
   color: var(--color-text-secondary);
   background: transparent;
+  // Promote to its own layer so scaling never re-lays-out the icon (which
+  // used to make the glyph drift by a sub-pixel on hover).
+  // NB: do NOT set `display` on descendant svgs here — it would out-specify
+  // the .music-icon-play/.music-icon-pause swap rules and show both at once.
+  will-change: transform;
+  backface-visibility: hidden;
 
   &:hover {
     color: var(--color-text);
@@ -273,6 +279,8 @@
   background: var(--color-primary);
   color: var(--color-surface);
   box-shadow: 0 2px 8px var(--color-shadow-primary);
+  transform-origin: center;
+  backface-visibility: hidden;
 
   &:hover {
     color: var(--color-surface);
