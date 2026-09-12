@@ -284,6 +284,10 @@ Each system has its own config block:
 
 Keyboard shortcut: `Ctrl+K` / `Cmd+K`.
 
+The local index (`search.json`) covers titles, categories, tags, excerpts **and the full
+plain-text body** of every post and page, so keywords anywhere in an article are matched.
+Results show a context snippet with the matched keyword highlighted.
+
 ## Footer
 
 | Key                 | Type      | Default | Description                                        |

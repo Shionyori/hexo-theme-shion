@@ -24,7 +24,7 @@
 
 - 🌗 **Dark / Light mode** — auto-detect system preference with manual toggle (localStorage)
 - 🌐 **Multi-language** — English, 简体中文, 繁體中文, 日本語
-- 🔍 **Local search** — Fuse.js full-text search via `Ctrl+K` / `Cmd+K`
+- 🔍 **Full-text search** — Fuse.js search across titles, taxonomies and full article content via `Ctrl+K` / `Cmd+K`
 - 📑 **Table of contents** — auto-generated with IntersectionObserver scroll spy
 - 💻 **Code highlighting** — highlight.js with light/dark themes, line numbers, copy-to-clipboard
 - 📐 **KaTeX math** — LaTeX rendering with per-post toggle

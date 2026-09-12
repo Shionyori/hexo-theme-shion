@@ -1,5 +1,6 @@
 <% if (theme.search.enable) { %>
 <div class="search-overlay" id="search-overlay"
+     data-index-url="<%= url_for('/search.json') %>"
      data-i18n-found="<%= __('search_found') %>"
      data-i18n-not-found="<%= __('search_not_found') %>">
   <div class="search-container">

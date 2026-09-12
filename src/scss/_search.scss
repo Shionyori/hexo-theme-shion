@@ -248,8 +248,22 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2; // compatibility for non-webkit browsers
+  -webkit-line-clamp: 3;
+  line-clamp: 3; // compatibility for non-webkit browsers
+}
+
+// ── In-result keyword highlight ───────────────────────────────────
+.search-result-title mark,
+.search-result-excerpt mark {
+  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  color: var(--color-text);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.search-result-item:hover .search-result-title mark {
+  background: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  color: var(--color-primary);
 }
 
 // ── Responsive ────────────────────────────────────────────────────
