@@ -18,6 +18,15 @@ posts: 篇
 toc: 目錄
 no_toc: 暫無標題
 comment: 留言
+comments_setup_title: 留言功能尚未就緒
+comments_unconfigured_desc: '此留言服務尚未完成設定。請在主題設定中補齊必填項目後重新產生網站。'
+comments_error_title: 留言載入失敗
+comments_error_desc: '請檢查網路或留言服務設定後重試。'
+comments_retry: 重試
+giscus_setup_desc: '目前倉庫尚未安裝 giscus GitHub App，暫時無法發送留言。完成一次安裝後重新整理本頁即可。'
+giscus_setup_action: 安裝 giscus App
+waline_setup_desc: 'Waline 服務尚未設定。請在主題設定中填寫 comments.waline.serverURL（例如 https://waline.example.com），然後重新產生網站。'
+waline_setup_action: Waline 部署文件
 copyright: '&copy; %s %s. 保留所有權利。'
 powered_by: '由 %s 驅動'
 theme_by: '主題 %s'

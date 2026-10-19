@@ -18,6 +18,15 @@ posts: 件
 toc: 目次
 no_toc: 見出しがありません
 comment: コメント
+comments_setup_title: コメント機能の準備ができていません
+comments_unconfigured_desc: 'このコメントサービスはまだ設定されていません。テーマ設定で必須項目を入力してから、サイトを再生成してください。'
+comments_error_title: コメントの読み込みに失敗しました
+comments_error_desc: 'ネットワークまたはコメントサービスの設定を確認して、もう一度お試しください。'
+comments_retry: 再試行
+giscus_setup_desc: 'このリポジトリには giscus GitHub App がまだインストールされていないため、コメントを送信できません。一度インストールしてからページを再読み込みしてください。'
+giscus_setup_action: giscus App をインストール
+waline_setup_desc: 'Waline サービスがまだ設定されていません。テーマ設定の comments.waline.serverURL に Waline サーバーの URL を入力し、サイトを再生成してください。'
+waline_setup_action: Waline デプロイガイド
 copyright: '&copy; %s %s. All rights reserved.'
 powered_by: 'Powered by %s'
 theme_by: 'Theme by %s'

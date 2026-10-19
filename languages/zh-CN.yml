@@ -18,6 +18,15 @@ posts: 篇
 toc: 目录
 no_toc: 暂无标题
 comment: 评论
+comments_setup_title: 评论功能尚未就绪
+comments_unconfigured_desc: '该评论服务尚未完成配置。请在主题配置中补充必填项后重新生成站点。'
+comments_error_title: 评论加载失败
+comments_error_desc: '请检查网络或评论服务配置后重试。'
+comments_retry: 重试
+giscus_setup_desc: '当前仓库还未安装 giscus GitHub App，暂时无法发送评论。完成一次安装后刷新本页即可。'
+giscus_setup_action: 安装 giscus App
+waline_setup_desc: 'Waline 服务尚未配置。请在主题配置中填写 comments.waline.serverURL（例如 https://waline.example.com），然后重新生成站点。'
+waline_setup_action: Waline 部署文档
 copyright: '&copy; %s %s. 保留所有权利。'
 powered_by: '由 %s 驱动'
 theme_by: '主题 %s'

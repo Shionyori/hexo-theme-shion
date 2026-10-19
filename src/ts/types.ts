@@ -51,8 +51,15 @@ export interface HexoHelperContext {
     comments?: {
       enable?: boolean;
       type?: string;
+      lazy?: boolean;
+      placeholder?: string;
       giscus?: Record<string, unknown>;
       disqus?: Record<string, unknown>;
+      waline?: Record<string, unknown>;
+      twikoo?: Record<string, unknown>;
+      valine?: Record<string, unknown>;
+      gitalk?: Record<string, unknown>;
+      utterances?: Record<string, unknown>;
     };
     search?: { enable?: boolean };
     outdate?: { enable?: boolean; days?: number };

@@ -1,32 +1,15 @@
-<div id="waline-container"></div>
-<script>
-  (function() {
-    var container = document.getElementById('waline-container');
-    if (!container) return;
+<div class="comments-waline" data-comments-mount>
+  <div id="waline"></div>
+</div>
 
-    var observer = new IntersectionObserver(function(entries) {
-      if (!entries[0].isIntersecting) return;
-      observer.disconnect();
-
-      container.innerHTML = '<div id="waline"></div>';
-      var script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@waline/client@3/dist/waline.js';
-      script.async = true;
-      script.onload = function() {
-        Waline.init({
-          el: '#waline',
-          serverURL: '<%= theme.comments.waline.serverURL %>',
-          lang: '<%= theme.comments.waline.lang || "auto" %>',
-          dark: 'html[data-theme="dark"]',
-        });
-      };
-      document.head.appendChild(script);
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://cdn.jsdelivr.net/npm/@waline/client@3/dist/waline.css';
-      document.head.appendChild(link);
-    }, { threshold: 0.1 });
-
-    observer.observe(container);
-  })();
-</script>
+<%# Shown by comments.ts when comments.waline.serverURL is empty. %>
+<div class="comments-setup" data-comments-setup="waline" hidden>
+  <p class="comments-setup-title"><%= __('comments_setup_title') %></p>
+  <p class="comments-setup-desc"><%= __('waline_setup_desc') %></p>
+  <a
+    class="comments-setup-action"
+    href="https://waline.js.org/guide/get-started/"
+    target="_blank"
+    rel="noopener noreferrer"
+  ><%= __('waline_setup_action') %></a>
+</div>

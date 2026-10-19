@@ -99,13 +99,40 @@ sidebar:
 
 # --- Music Player ---
 music:
-  enable: false
+  enable: true
   playlist: []
 
 # --- Comments ---
 comments:
-  enable: false
-  type: giscus # giscus | disqus | waline | twikoo | valine | gitalk | utterances | none
+  enable: true
+  # waline | giscus | disqus | twikoo | valine | gitalk | utterances | none
+  # `none` renders nothing at all — useful for disabling comments on a branch.
+  type: waline
+  # Defer provider scripts until the comment section scrolls into view.
+  lazy: true
+  # Input placeholder for providers that support it (Waline, Valine).
+  placeholder: ''
+  # Waline client options are passed through to Waline.init().
+  # The theme owns `el`, `dark`, `path` (default) and `lang` (auto).
+  waline:
+    serverURL: '' # e.g. https://waline.example.com
+    lang: auto # auto | en | zh-CN | zh-TW | ja | ...
+    # path: '' # defaults to location.pathname (recommended)
+    # meta: ['nick', 'mail', 'link']
+    # requiredMeta: ['nick']
+    # login: enable # enable | disable | force
+    # pageSize: 10
+    # commentSorting: latest # latest | oldest | hottest
+    # wordLimit: 0
+    # noCopyright: false
+    # noRss: false
+    # imageUploader: false
+    # search: false
+    # reaction: false
+    # emoji: ['//unpkg.com/@waline/emojis@1.4.0/weibo']
+    # recaptchaV3Key: ''
+    # turnstileKey: ''
+    # locale: { placeholder: 'Leave a comment...' }
   giscus:
     repo: ''
     repo_id: ''
@@ -115,27 +142,40 @@ comments:
     strict: false
     reactions_enabled: '1'
     emit_metadata: '0'
-    input_position: bottom
+    input_position: top
     lang: auto
   disqus:
     shortname: ''
-  waline:
-    serverURL: ''
-    lang: auto
   twikoo:
     envId: ''
+    # lang: auto
+    # region: ap-shanghai
+    # path: '' # defaults to location.pathname
   valine:
     appId: ''
     appKey: ''
+    # lang: auto
+    # path: '' # defaults to location.pathname
+    # placeholder: ''
+    # meta: ['nick', 'mail', 'link']
+    # requiredFields: ['nick']
+    # pageSize: 10
+    # avatar: 'mp'
   gitalk:
     clientID: ''
     clientSecret: ''
     repo: ''
     owner: ''
     admin: []
+    # id: '' # defaults to decodeURI(location.pathname)
+    # title: '' # defaults to the page title
+    # language: zh-CN
+    # proxy: ''
+    # distractionFreeMode: false
   utterances:
     repo: ''
     issue_term: pathname
+    # label: ''
 
 # --- Analytics ---
 analytics:
@@ -169,8 +209,8 @@ outdate:
 # --- Busuanzi ---
 busuanzi:
   enable: false
-  site_uv: true
-  site_pv: true
+  site_uv: true # Enable site UV (unique visitor) counter
+  site_pv: true # Enable site PV (page view) counter
 
 # --- Advanced ---
 custom_css: null

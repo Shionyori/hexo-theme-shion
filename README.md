@@ -30,7 +30,7 @@
 - 📐 **KaTeX math** — LaTeX rendering with per-post toggle
 - 🖼️ **Image features** — lazy loading, click-to-zoom lightbox, flexible `{% image %}` tag plugin
 - 🏷️ **Rich tag plugins** — note, image, quote, details, tabs, link cards, post link cards
-- 💬 **Comments** — Giscus, Disqus, Waline, Twikoo, Valine, Gitalk, Utterances (lazy-loaded)
+- 💬 **Comments** — Waline (default), Giscus, Disqus, Twikoo, Valine, Gitalk, Utterances (lazy-loaded, PJAX-aware, live theme sync)
 - 📊 **Analytics** — Google Analytics, Baidu Tongji, Busuanzi (site PV/UV)
 - 🔗 **SEO** — Open Graph, Twitter Cards, JSON-LD structured data, canonical URLs
 - 📖 **Reading time & word count** — CJK-aware estimation per post

@@ -1,0 +1,14 @@
+<%# giscus injects its iframe right after the client script, so the mount must stay empty. %>
+<div class="comments-giscus" data-comments-mount></div>
+
+<%# Shown by comments.ts when giscus reports that the GitHub App is not installed. %>
+<div class="comments-setup" data-comments-setup="giscus" hidden>
+  <p class="comments-setup-title"><%= __('comments_setup_title') %></p>
+  <p class="comments-setup-desc"><%= __('giscus_setup_desc') %></p>
+  <a
+    class="comments-setup-action"
+    href="https://github.com/apps/giscus/installations/new"
+    target="_blank"
+    rel="noopener noreferrer"
+  ><%= __('giscus_setup_action') %></a>
+</div>

@@ -1,7 +1,8 @@
 /**
  * Theme toggle — dark/light mode with localStorage persistence and system preference detection.
  * Uses the View Transitions API for a circular reveal expanding from the toggle button where
- * supported, falling back to a smooth colour cross-fade. Also syncs the Giscus widget theme.
+ * supported, falling back to a smooth colour cross-fade. Emits a `themeChanged` event so
+ * embedded widgets (comments, etc.) can follow the active theme.
  */
 import { $, on } from './utils';
 
@@ -30,14 +31,7 @@ function getPreferredMode(): 'dark' | 'light' {
 
 function applyTheme(mode: 'dark' | 'light'): void {
   document.documentElement.setAttribute('data-theme', mode);
-}
-
-function updateGiscusTheme(mode: 'dark' | 'light'): void {
-  const iframe = document.querySelector<HTMLIFrameElement>('.giscus-frame');
-  if (!iframe) return;
-
-  const theme = mode === 'dark' ? 'dark' : 'light';
-  iframe.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
+  document.dispatchEvent(new CustomEvent<string>('themeChanged', { detail: mode }));
 }
 
 function prefersReducedMotion(): boolean {
@@ -60,7 +54,6 @@ function toggleTheme(): void {
   const apply = (): void => {
     applyTheme(next);
     localStorage.setItem(STORAGE_KEY, next);
-    updateGiscusTheme(next);
   };
 
   const doc = document as DocumentWithViewTransition;

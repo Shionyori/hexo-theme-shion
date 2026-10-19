@@ -4,6 +4,7 @@
   <%- partial('_partial/head') %>
   <script>
     window.__shionConfig = {
+      comments: <%- JSON.stringify(theme.comments || {}) %>,
       katexCDN: '<%= theme.cdn && theme.cdn.katex ? theme.cdn.katex : "https://cdn.jsdelivr.net/npm/katex@0.16.9" %>',
       katexDelimiters: <%- JSON.stringify((theme.post && theme.post.math && theme.post.math.delimiters) || [
         { left: '$$', right: '$$', display: true },

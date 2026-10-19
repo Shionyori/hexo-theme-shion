@@ -215,17 +215,84 @@ Add `Friends: /friends/` to your `menu` config.
 
 ## Comments
 
-| Key               | Type      | Default  | Description                                                                              |
-| ----------------- | --------- | -------- | ---------------------------------------------------------------------------------------- |
-| `comments.enable` | `boolean` | `false`  | Enable comments                                                                          |
-| `comments.type`   | `string`  | `giscus` | System: `giscus`, `disqus`, `waline`, `twikoo`, `valine`, `gitalk`, `utterances`, `none` |
+| Key                    | Type      | Default  | Description                                                                              |
+| ---------------------- | --------- | -------- | ---------------------------------------------------------------------------------------- |
+| `comments.enable`      | `boolean` | `false`  | Enable comments                                                                          |
+| `comments.type`        | `string`  | `waline` | System: `waline`, `giscus`, `disqus`, `twikoo`, `valine`, `gitalk`, `utterances`, `none` |
+| `comments.lazy`        | `boolean` | `true`   | Load the provider only when the section scrolls into view                                |
+| `comments.placeholder` | `string`  | `''`     | Input placeholder (Waline / Valine, mapped to `locale.placeholder` for Waline)           |
+
+> `type: none` (or `enable: false`) renders no comment section at all. Individual posts can
+> opt out with `comments: false` in their front-matter.
+>
+> If a provider's required options are missing, the theme renders a themed setup notice
+> instead of an empty comment box. If a provider script fails to load, it renders a retry
+> card.
+
+Comments are rebuilt after every PJAX navigation and follow the active light/dark theme.
+Waline switches automatically through its `dark` selector; Giscus and Utterances switch
+live via `postMessage`; Gitalk, Valine and Twikoo are re-coloured through the theme's
+SCSS tokens.
 
 Each system has its own config block:
 
 <details>
 <summary>Per-system options</summary>
 
+### Waline (default)
+
+Waline is a self-hosted comment system: deploy the server and database first, then point
+the theme at it.
+
+1. Deploy Waline by following the [official quick start](https://waline.js.org/guide/get-started/)
+   (Vercel, Docker, or any Node.js host).
+2. Set `comments.waline.serverURL` to the deployed address, e.g. `https://waline.example.com`.
+3. Set `comments.enable: true`.
+
+If `serverURL` is empty, the theme shows a themed setup notice with a link to the Waline
+deployment guide instead of rendering an empty comment box.
+
+| Key              | Type      | Default             | Description                                        |
+| ---------------- | --------- | ------------------- | -------------------------------------------------- |
+| `serverURL`      | `string`  | `''`                | Waline server URL (required)                       |
+| `lang`           | `string`  | `auto`              | `auto` resolves from the page language             |
+| `path`           | `string`  | `location.pathname` | Comment path key; leave empty for per-URL comments |
+| `meta`           | `array`   | Waline default      | Commenter fields, e.g. `['nick', 'mail', 'link']`  |
+| `requiredMeta`   | `array`   | `[]`                | Required fields, e.g. `['nick']`                   |
+| `login`          | `string`  | `enable`            | `enable` / `disable` / `force`                     |
+| `pageSize`       | `number`  | `10`                | Comments per page                                  |
+| `commentSorting` | `string`  | `latest`            | `latest` / `oldest` / `hottest`                    |
+| `wordLimit`      | `number`  | `0`                 | Max comment length (0 = unlimited)                 |
+| `noCopyright`    | `boolean` | `false`             | Hide the "Powered by Waline" footer                |
+| `noRss`          | `boolean` | `false`             | Hide the RSS link                                  |
+| `imageUploader`  | `boolean` | server default      | `false` disables image upload                      |
+| `search`         | `boolean` | `false`             | Enable the emoji / image search panel              |
+| `reaction`       | `boolean` | `false`             | Enable comment reactions                           |
+| `emoji`          | `array`   | Waline default      | Emoji CDN URLs                                     |
+| `recaptchaV3Key` | `string`  | `''`                | reCAPTCHA v3 key                                   |
+| `turnstileKey`   | `string`  | `''`                | Cloudflare Turnstile key                           |
+| `locale`         | `object`  | `{}`                | Override UI strings, e.g. `{ placeholder: '...' }` |
+
+All options are passed straight through to `Waline.init()`. The theme always owns `el`,
+`dark` (`html[data-theme="dark"]`) and resolves `lang`; it defaults `path` to the current
+URL unless you set one explicitly. `comments.placeholder` is a shortcut for
+`waline.locale.placeholder`.
+
 ### Giscus
+
+Giscus is backed by GitHub Discussions, so the repository needs three things before
+visitors can post comments:
+
+1. The repository is **public**.
+2. **Discussions** is enabled under _Settings → General → Features_.
+3. The [giscus GitHub App](https://github.com/apps/giscus/installations/new) is installed
+   on the repository.
+
+`repo_id`, `category` and `category_id` are shown by the
+[giscus configuration page](https://giscus.app/) once the app is installed;
+`repo_id` is also the repository's `R_...` node ID. If the app is missing, the theme
+replaces the embed with a themed setup notice containing the install link instead of
+showing a broken iframe.
 
 | Key                 | Type      | Default    |
 | ------------------- | --------- | ---------- |
@@ -237,34 +304,66 @@ Each system has its own config block:
 | `strict`            | `boolean` | `false`    |
 | `reactions_enabled` | `string`  | `'1'`      |
 | `emit_metadata`     | `string`  | `'0'`      |
-| `input_position`    | `string`  | `bottom`   |
+| `input_position`    | `string`  | `top`      |
 | `lang`              | `string`  | `auto`     |
 
 ### Disqus
 
-`disqus.shortname` — your Disqus shortname.
-
-### Waline
-
-`waline.serverURL` — Waline server URL.
-`waline.lang` — language (default: `auto`).
+| Key         | Type     | Default | Description      |
+| ----------- | -------- | ------- | ---------------- |
+| `shortname` | `string` | `''`    | Disqus shortname |
 
 ### Twikoo
 
-`twikoo.envId` — Tencent Cloud environment ID.
+| Key      | Type     | Default             | Description                           |
+| -------- | -------- | ------------------- | ------------------------------------- |
+| `envId`  | `string` | `''`                | Tencent Cloud / Vercel environment ID |
+| `lang`   | `string` | `auto`              | Resolved from the page language       |
+| `region` | `string` | `ap-shanghai`       | Tencent Cloud region                  |
+| `path`   | `string` | `location.pathname` | Custom thread path                    |
+
+Other Twikoo options are passed through to `twikoo.init()`.
 
 ### Valine
 
-`valine.appId`, `valine.appKey` — LeanCloud credentials.
+| Key              | Type     | Default             | Description                     |
+| ---------------- | -------- | ------------------- | ------------------------------- |
+| `appId`          | `string` | `''`                | LeanCloud App ID                |
+| `appKey`         | `string` | `''`                | LeanCloud App Key               |
+| `lang`           | `string` | `auto`              | Resolved from the page language |
+| `path`           | `string` | `location.pathname` | Comment path key                |
+| `placeholder`    | `string` | `''`                | Input placeholder               |
+| `meta`           | `array`  | Valine default      | Fields to show                  |
+| `requiredFields` | `array`  | `[]`                | Required fields                 |
+| `pageSize`       | `number` | `10`                | Comments per page               |
+| `avatar`         | `string` | Waline default      | Avatar style                    |
+
+Other Valine options are passed through to the Valine constructor.
 
 ### Gitalk
 
-`gitalk.clientID`, `gitalk.clientSecret`, `gitalk.repo`, `gitalk.owner`, `gitalk.admin` — GitHub OAuth app credentials.
+| Key                   | Type      | Default                        | Description                        |
+| --------------------- | --------- | ------------------------------ | ---------------------------------- |
+| `clientID`            | `string`  | `''`                           | GitHub OAuth App Client ID         |
+| `clientSecret`        | `string`  | `''`                           | GitHub OAuth App Client Secret     |
+| `repo`                | `string`  | `''`                           | Repository that stores issues      |
+| `owner`               | `string`  | `''`                           | Repository owner                   |
+| `admin`               | `array`   | `[]`                           | GitHub usernames with admin rights |
+| `id`                  | `string`  | `decodeURI(location.pathname)` | Issue identifier                   |
+| `title`               | `string`  | page title                     | Issue title                        |
+| `language`            | `string`  | `zh-CN`                        | Gitalk UI language                 |
+| `proxy`               | `string`  | `''`                           | CORS proxy for the GitHub API      |
+| `distractionFreeMode` | `boolean` | `false`                        | Enable distraction-free editing    |
+
+Other Gitalk options are passed through.
 
 ### Utterances
 
-`utterances.repo` — GitHub repo (e.g. `owner/repo`).
-`utterances.issue_term` — issue mapping (default: `pathname`).
+| Key          | Type     | Default    | Description                |
+| ------------ | -------- | ---------- | -------------------------- |
+| `repo`       | `string` | `''`       | GitHub repo (`owner/repo`) |
+| `issue_term` | `string` | `pathname` | Issue mapping              |
+| `label`      | `string` | `''`       | Optional issue label       |
 
 </details>
 

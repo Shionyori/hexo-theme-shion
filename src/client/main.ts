@@ -22,6 +22,7 @@ import { initImageReveal } from './image-reveal';
 import { initMusicPlayer } from './music-player';
 import { initPjax } from './pjax';
 import { initMath } from './math';
+import { initComments } from './comments';
 
 // ── Chrome: run once ────────────────────────────────────────
 
@@ -53,6 +54,7 @@ function initContent(): void {
   initHeadingAnchors();
   initCodeCopy();
   initShare();
+  initComments();
 }
 
 // ── Bootstrap ───────────────────────────────────────────────

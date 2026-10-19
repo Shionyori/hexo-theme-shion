@@ -18,6 +18,15 @@ posts: posts
 toc: Table of Contents
 no_toc: No headings found
 comment: Comments
+comments_setup_title: Comments are not ready yet
+comments_unconfigured_desc: 'This comment provider is not configured yet. Fill in the required options in the theme configuration and rebuild the site.'
+comments_error_title: Comments failed to load
+comments_error_desc: 'Check your network or comment service configuration, then try again.'
+comments_retry: Retry
+giscus_setup_desc: 'The giscus GitHub App is not installed on this repository, so comments cannot be posted yet. Install it once, then reload this page.'
+giscus_setup_action: Install giscus App
+waline_setup_desc: 'Waline is not configured yet. Set comments.waline.serverURL to your Waline server address and rebuild the site.'
+waline_setup_action: Waline deployment guide
 copyright: '&copy; %s %s. All rights reserved.'
 powered_by: 'Powered by %s'
 theme_by: 'Theme by %s'

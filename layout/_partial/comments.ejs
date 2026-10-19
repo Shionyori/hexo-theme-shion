@@ -1,64 +1,46 @@
-<% if (theme.comments.enable) { %>
-<section class="comments" id="comments">
+<%
+  // Comment section shell.
+  // The provider templates below are intentionally static mount points — all
+  // runtime logic lives in src/client/comments.ts so it survives PJAX swaps.
+  var commentsCfg = theme.comments || {};
+  var type = (commentsCfg.type || 'waline').toLowerCase();
+  var providers = ['giscus', 'disqus', 'waline', 'twikoo', 'valine', 'gitalk', 'utterances'];
+  var enabled = commentsCfg.enable && page.comments !== false && type !== 'none' && providers.indexOf(type) !== -1;
+%>
+<% if (enabled) { %>
+<section
+  class="comments"
+  id="comments"
+  data-comment-type="<%= type %>"
+  data-page-url="<%= (config.url || '').replace(/\/$/, '') + '/' + page.path %>"
+  data-page-identifier="<%= page.path %>"
+  data-lang="<%= page.lang || config.language || 'en' %>"
+>
   <div class="comments-header">
     <h3 class="comments-title"><%= __('comment') || 'Comments' %></h3>
   </div>
 
-  <%
-  var type = theme.comments.type || 'giscus';
-  var systems = {
-    giscus: '_partial/comments/giscus',
-    disqus: '_partial/comments/disqus',
-    waline: '_partial/comments/waline',
-    twikoo: '_partial/comments/twikoo',
-    valine: '_partial/comments/valine',
-    gitalk: '_partial/comments/gitalk',
-    utterances: '_partial/comments/utterances',
-  };
-  %>
+  <div class="comments-body">
+    <div class="comments-loading" aria-hidden="true">
+      <span class="comments-loading-bar"></span>
+      <span class="comments-loading-bar"></span>
+      <span class="comments-loading-bar comments-loading-bar-short"></span>
+    </div>
 
-  <% if (type === 'giscus') { %>
-    <script>
-      (function() {
-        var saved = localStorage.getItem('shion-theme');
-        var mode = saved || '<%= theme.appearance.default_mode %>';
-        if (mode === 'auto') {
-          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        var s = document.createElement('script');
-        s.src = 'https://giscus.app/client.js';
-        s.setAttribute('data-repo', '<%= theme.comments.giscus.repo %>');
-        s.setAttribute('data-repo-id', '<%= theme.comments.giscus.repo_id %>');
-        s.setAttribute('data-category', '<%= theme.comments.giscus.category %>');
-        s.setAttribute('data-category-id', '<%= theme.comments.giscus.category_id %>');
-        s.setAttribute('data-mapping', '<%= theme.comments.giscus.mapping %>');
-        s.setAttribute('data-strict', '<%= theme.comments.giscus.strict %>');
-        s.setAttribute('data-reactions-enabled', '<%= theme.comments.giscus.reactions_enabled %>');
-        s.setAttribute('data-emit-metadata', '<%= theme.comments.giscus.emit_metadata %>');
-        s.setAttribute('data-input-position', '<%= theme.comments.giscus.input_position %>');
-        s.setAttribute('data-theme', mode);
-        s.setAttribute('data-lang', '<%= theme.comments.giscus.lang %>');
-        s.crossOrigin = 'anonymous';
-        s.async = true;
-        document.currentScript.parentNode.insertBefore(s, document.currentScript.nextSibling);
-      })();
-    </script>
-  <% } else if (type === 'disqus') { %>
-    <div id="disqus_thread"></div>
-    <script>
-      var disqus_config = function () {
-        this.page.url = '<%= config.url + '/' + page.path %>';
-        this.page.identifier = '<%= page.path %>';
-      };
-      (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://<%= theme.comments.disqus.shortname %>.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
-  <% } else if (systems[type]) { %>
-    <%- partial(systems[type]) %>
-  <% } %>
+    <%- partial('_partial/comments/' + type) %>
+
+    <div class="comments-setup" data-comments-setup="generic" hidden>
+      <p class="comments-setup-title"><%= __('comments_setup_title') %></p>
+      <p class="comments-setup-desc"><%= __('comments_unconfigured_desc') %></p>
+    </div>
+
+    <div class="comments-setup comments-error" data-comments-error hidden>
+      <p class="comments-setup-title"><%= __('comments_error_title') %></p>
+      <p class="comments-setup-desc"><%= __('comments_error_desc') %></p>
+      <button type="button" class="comments-setup-action" data-comments-retry>
+        <%= __('comments_retry') %>
+      </button>
+    </div>
+  </div>
 </section>
 <% } %>
