@@ -21,25 +21,79 @@
   <%- partial('_partial/reading-progress') %>
 
 <div id="pjax-container">
-  <% // Full-width page-top background — outside container, edge-to-edge %>
   <%
-    var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
-    var pageCover = coverEnabled ? (page.cover || (theme.post.cover && theme.post.cover.default)) : null;
-    var hasCover = (pageCover && page.layout === 'post');
+  // Layout type — shared by the sidebar, the hero waves and other per-layout switches.
+  var type = is_post()   ? 'post'
+           : is_home()   ? 'index'
+           : is_archive()? 'archive'
+           : is_category()? 'categories'
+           : is_tag()    ? 'tags'
+           : page.layout || 'page';
+
+  var coverEnabled = !theme.post || !theme.post.cover || theme.post.cover.enable !== false;
+  var pageCover = coverEnabled ? (page.cover || (theme.post.cover && theme.post.cover.default)) : null;
+  var hasCover = (pageCover && page.layout === 'post');
+  var coverUrl = hasCover
+    ? ((pageCover.startsWith('/') || pageCover.startsWith('http')) ? url_for(pageCover) : url_for(page.path + pageCover))
+    : null;
+  var siteBg = (theme.shion && theme.shion.background_image) ? url_for(theme.shion.background_image) : null;
+
+  // Hero waves — parallax band that closes the hero and cuts it off from the
+  // content below, on non-post pages only.
+  // Precedence: page frontmatter (`waves: false`) > theme.waves.
+  var W = theme.waves || {};
+  var waveLayouts = (W.layouts && W.layouts.length) ? W.layouts : null;
+  var waveLayoutOk = !waveLayouts
+    || waveLayouts.indexOf(type) !== -1
+    || (type === 'categories' && waveLayouts.indexOf('category') !== -1)
+    || (type === 'tags' && waveLayouts.indexOf('tag') !== -1);
+  var wavesEnabled = W.enable !== false
+    && !is_post()
+    && page.type !== '404'
+    && page.waves !== false
+    && waveLayoutOk;
+
+  // Emit `theme.waves` as custom properties on the zone so the hero size,
+  // the shore colour and the wave band all read from the same place.
+  // Numeric heights are treated as rem.
+  var waveStyle = '';
+  if (wavesEnabled) {
+    var cleanCss = function (v) { return String(v).replace(/[<>"']/g, '').trim(); };
+    var asLength = function (v) { var s = cleanCss(v); return /^\d*\.?\d+$/.test(s) ? s + 'rem' : s; };
+    var decls = [];
+    if (W.height) decls.push('--waves-height: ' + asLength(W.height));
+    if (W.hero_height) decls.push('--hero-banner-height: ' + asLength(W.hero_height));
+    if (W.speed) decls.push('--waves-speed: ' + cleanCss(W.speed));
+    if (W.opacity !== undefined && W.opacity !== null) decls.push('--waves-opacity: ' + cleanCss(W.opacity));
+    if (W.color) decls.push('--waves-color: ' + cleanCss(W.color));
+    if (W.shore_color) decls.push('--waves-shore: ' + cleanCss(W.shore_color));
+    if (decls.length) waveStyle = ' style="' + decls.join('; ') + '"';
+  }
   %>
+
+  <% // Full-width page-top background — edge-to-edge.
+     // When waves are on, the image moves inside the hero zone instead so it
+     // ends exactly where the water does (see .hero-zone-bg). %>
+  <% if (!wavesEnabled) { %>
   <% if (hasCover) { %>
   <div class="page-bg">
-  <% var coverUrl = (pageCover.startsWith('/') || pageCover.startsWith('http')) ? url_for(pageCover) : url_for(page.path + pageCover); %>
     <img src="<%= coverUrl %>" alt="">
   </div>
-  <% } else if (theme.shion && theme.shion.background_image && page.type !== '404') { %>
+  <% } else if (siteBg && page.type !== '404') { %>
   <div class="page-bg">
-    <img src="<%= url_for(theme.shion.background_image) %>" alt="">
+    <img src="<%= siteBg %>" alt="">
   </div>
+  <% } %>
   <% } %>
 
   <% // Hero area — above content, outside flex layout so sidebar sits below it %>
   <% if (page.type !== '404') { %>
+  <div class="hero-zone<%= wavesEnabled ? ' has-waves' : '' %>"<%- waveStyle %>>
+  <% if (wavesEnabled && siteBg) { %>
+  <div class="hero-zone-bg">
+    <img src="<%= siteBg %>" alt="">
+  </div>
+  <% } %>
   <% if (is_post()) { %>
   <section class="page-hero">
     <h1 class="hero-title"><%= page.title %></h1>
@@ -74,16 +128,14 @@
     <h1 class="hero-title"><%= page.title || '' %></h1>
   </section>
   <% } %>
+  <% if (wavesEnabled) { %>
+  <%- partial('_partial/hero-waves') %>
+  <% } %>
+  </div>
   <% } %>
 
   <%
   // Sidebar enable: page frontmatter > layouts config > global
-  var type = is_post()   ? 'post'
-           : is_home()   ? 'index'
-           : is_archive()? 'archive'
-           : is_category()? 'categories'
-           : is_tag()    ? 'tags'
-           : page.layout || 'page';
   var P = page.sidebar || {};
   var L = (((theme.sidebar || {}).layouts) || {})[type] || {};
   var sidebarEnabled = P.enable !== undefined ? P.enable : (L.enable !== undefined ? L.enable : theme.sidebar.enable);

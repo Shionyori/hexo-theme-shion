@@ -1,0 +1,149 @@
+<%#
+  Hero waves — the waterline that closes the hero and divides it from the
+  content below.
+
+  Each layer is its own "gentle wave" path (tall enough to tile seamlessly
+  while it drifts). Going from the back layer to the shore, every wave gets
+  a little deeper, a little lower, a little more opaque and a little faster,
+  so the band reads as water receding instead of the same curve stamped
+  several times.
+
+  Geometry and the ladders are derived from `theme.waves`:
+    · amplitude — depth of the front (shore) wave, as a fraction of the band
+    · layers    — how many waves are stacked
+  Kept dependency-free: pure SVG + CSS, no JavaScript, no canvas. Colours,
+  sizes and speed arrive as CSS custom properties on `.hero-zone`.
+%>
+<%
+  var W = theme.waves || {};
+  var num = function (value, dflt, min, max) {
+    var n = parseFloat(value);
+    if (!isFinite(n)) return dflt;
+    return Math.min(max, Math.max(min, n));
+  };
+  var fix = function (n) { return String(Math.round(n * 100) / 100); };
+
+  // All geometry is in the 28-unit-tall viewBox (y: 24 → 52), so one unit is
+  // 1/28 of the band height.
+  var CREST_Y = 26; // 7% into the band — where the back layer crests
+  var FRONT_CREST_Y = 33.5; // 34% into the band — where the shore crests
+  var BOTTOM_Y = 52; // the band's bottom edge
+  var FILL_Y = 92; // well below the viewBox, so the body of the wave is solid
+  var VIEW_H = 28;
+  // The shore is opaque, so its deepest trough must stay inside the band:
+  // otherwise the artwork would be exposed in the gaps where the water dips
+  // below the frame.
+  var MAX_AMPLITUDE = (BOTTOM_Y - FRONT_CREST_Y) / VIEW_H;
+
+  var layers = Math.round(num(W.layers, 4, 2, 8));
+  var amplitude = num(W.amplitude, 0.64, 0.2, MAX_AMPLITUDE);
+  // How much shallower the waves behind the shore are (1 = all equal).
+  var depthBack = num(W.depth_falloff, 0.45, 0.2, 1);
+  var frontDepth = amplitude * VIEW_H;
+  var last = layers - 1;
+
+  // One path per layer: the crest sinks towards the front, and the trough
+  // sinks further still, so each wave is deeper than the one behind it.
+  var wavePath = function (crest, depth) {
+    var trough = crest + depth;
+    return (
+      'M-160 ' +
+      fix(trough) +
+      'c30 0 58-' +
+      fix(depth) +
+      ' 88-' +
+      fix(depth) +
+      's58 ' +
+      fix(depth) +
+      ' 88 ' +
+      fix(depth) +
+      ' 58-' +
+      fix(depth) +
+      ' 88-' +
+      fix(depth) +
+      ' 58 ' +
+      fix(depth) +
+      ' 88 ' +
+      fix(depth) +
+      'v' +
+      fix(FILL_Y - trough) +
+      'h-352z'
+    );
+  };
+
+  // Ladders from the back layer (i = 0) to the shore (i = last):
+  //   opacity  0.2 → 1 in even steps — no single wave jumps out (5 layers →
+  //            .2 .4 .6 .8 1); the furthest wave is faint but never invisible,
+  //            the shore stays solid so it still hides the artwork. More
+  //            `layers` = smaller steps.
+  //   duration 22s → 6s          (far water drifts slower)
+  //   delay    -1.8s * i         (starts out of phase)
+  //   x        52 + 4i           (an extra phase offset, still inside the
+  //                               range that keeps the strip covering the
+  //                               viewport)
+  var OPACITY_BACK = num(W.opacity_back, 0.2, 0.02, 0.9);
+  var layerOpacity = function (index) {
+    return OPACITY_BACK + (1 - OPACITY_BACK) * (index / last);
+  };
+  var crestStep = (FRONT_CREST_Y - CREST_Y) / last;
+  var paths = [];
+  var uses = [];
+  for (var i = 0; i < layers; i++) {
+    var ratio = i / last;
+    var crest = CREST_Y + crestStep * i;
+    var depth = frontDepth * (depthBack + (1 - depthBack) * ratio);
+    var id = 'shion-wave-' + (i + 1);
+    paths.push('<path id="' + id + '" d="' + wavePath(crest, depth) + '" />');
+    uses.push(
+      '<use href="#' +
+        id +
+        '" xlink:href="#' +
+        id +
+        '" x="' +
+        fix(52 + 4 * i) +
+        '"' +
+        (i === last ? ' class="is-shore"' : '') +
+        ' style="--wave-o:' +
+        fix(layerOpacity(i)) +
+        ';--wave-d:' +
+        fix(22 - 16 * ratio) +
+        's;--wave-delay:' +
+        fix(-1.8 * i) +
+        's" />',
+    );
+  }
+%>
+<div class="hero-waves" aria-hidden="true">
+  <svg
+    class="hero-waves-svg"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 24 150 28"
+    preserveAspectRatio="none"
+    focusable="false"
+  >
+    <defs>
+      <%- paths.join('\n      ') %>
+      <%#
+        Shore fill: dense water at the crest → page background lower down.
+        Both stops are opaque; only the colour changes, so the wave line stays
+        readable while the transition into the content stops being a hard cut.
+        The stops follow FRONT_CREST_Y, so they hold for any amplitude.
+      %>
+      <linearGradient
+        id="shion-wave-shore"
+        class="wave-shore"
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1="24"
+        x2="0"
+        y2="52"
+      >
+        <stop offset="<%= fix((FRONT_CREST_Y - 24) / VIEW_H) %>" class="wave-shore-crest" />
+        <stop offset="<%= fix((FRONT_CREST_Y - 24) / VIEW_H + 0.16) %>" class="wave-shore-body" />
+      </linearGradient>
+    </defs>
+    <g class="parallax">
+      <%- uses.join('\n      ') %>
+    </g>
+  </svg>
+</div>

@@ -1,0 +1,182 @@
+// ============================================================
+// Hero waves — the seam between the hero and the content below.
+//
+// On non-post pages the hero becomes a banner: the background image
+// lives inside .hero-zone, so it always ends exactly where the water
+// does instead of bleeding behind the content.
+//
+// The band is built so that nothing steps and nothing leaks:
+//   · the water layers are drawn in the page colour, each one lighter than
+//     the last, so the water fades into the artwork;
+//   · the shore (front layer) is fully opaque and — because the wave depth
+//     is capped in hero-waves.ejs — always reaches the bottom of the band,
+//     so the artwork is never exposed below the waterline;
+//   · a short page-coloured skirt under the banner spreads the hairline
+//     where the shore meets the page background (see .hero-zone::after).
+//
+// Technique: one tall "gentle wave" path repeated by several <use> layers
+// that drift at different speeds (the layered-wave trick used by
+// astro-koharu and Firefly). Pure SVG + CSS — no JS, no canvas, so it
+// survives PJAX swaps untouched and freezes for `prefers-reduced-motion`.
+// ============================================================
+
+// ─── Tokens ────────────────────────────────────────────────
+// Declared on the zone rather than on .hero-waves so the banner height
+// and the hero's bottom padding read from the same place. `theme.waves`
+// overrides them through an inline style on this same element.
+.hero-zone {
+  position: relative;
+  isolation: isolate;
+
+  // Sizes follow astro-koharu:
+  //   cover  h-[60svh] max-h-200        → min(60svh, 800px)
+  //   wave   height: 15svh, 50px…150px  → clamp(3.125rem, 15svh, 9.375rem)
+  // vh is the fallback for browsers without small-viewport units.
+  --hero-banner-height: min(60vh, 800px);
+  --waves-height: clamp(3.125rem, 15vh, 9.375rem);
+
+  @supports (height: 100svh) {
+    --hero-banner-height: min(60svh, 800px);
+    --waves-height: clamp(3.125rem, 15svh, 9.375rem);
+  }
+
+  --waves-speed: 1;
+  --waves-opacity: 1;
+  // Shore fill — must match the page background where the banner ends.
+  --waves-shore: var(--color-bg-alt);
+  // Water layers. Same colour as the page background by default: the waves
+  // read as the page rising over the artwork, and only their opacity differs.
+  // Set `waves.color` to tint them.
+  --waves-color: var(--waves-shore);
+}
+
+// ─── Banner ────────────────────────────────────────────────
+// Reserve room for the water so the copy never sinks into it.
+.hero-zone.has-waves .page-hero {
+  min-height: var(--hero-banner-height);
+  padding-bottom: var(--waves-height);
+}
+
+// Image layer — fills the zone, so it ends where the water ends.
+.hero-zone-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+
+  // The opaque shore covers the artwork from the waterline down, so the
+  // image only needs a late, tiny dissolve as insurance against rounding
+  // at the very bottom edge.
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--waves-height) * 0.14),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--waves-height) * 0.14),
+    transparent 100%
+  );
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+}
+
+// The banner is the divider, so the content underneath starts right after
+// the water instead of keeping the usual header-sized gap.
+.hero-zone.has-waves + .container .content-wrapper {
+  padding-top: var(--spacing-xl);
+  // Keeps the content (cards, sidebar) painted above the skirt below.
+  position: relative;
+  z-index: 0;
+}
+
+// Skirt: a page-coloured haze that starts exactly at the waterline and fades
+// into the real page background. It hides the hairline where the opaque shore
+// meets the body gradient, without reintroducing a hard edge.
+.hero-zone.has-waves::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 8rem;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--waves-shore), transparent);
+}
+
+// ─── Band ──────────────────────────────────────────────────
+.hero-waves {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: var(--waves-height);
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ─── Layers ────────────────────────────────────────────────
+// Every layer gets its own geometry, opacity, duration and delay from the
+// template (see hero-waves.ejs): waves recede — shallower, higher, fainter
+// and slower — the further back they sit, and their phases are offset so the
+// crests never line up. All layers share the page colour, so the shore in
+// front is a clean edge while the water blends gradually into the artwork.
+.hero-waves .parallax > use {
+  fill: var(--waves-color);
+  opacity: calc(var(--wave-o, 0.3) * var(--waves-opacity));
+  animation-name: shion-wave-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: calc(var(--wave-d, 14s) / var(--waves-speed));
+  animation-delay: calc(var(--wave-delay, 0s) / var(--waves-speed));
+  will-change: transform;
+}
+
+// Shore: the front layer. It hides the artwork below the waterline and
+// carries the page colour into the content.
+.hero-waves .parallax > use.is-shore {
+  fill: url(#shion-wave-shore);
+}
+
+// Water at the crest → page background further down.
+.hero-waves .wave-shore-crest {
+  stop-color: color-mix(in srgb, var(--waves-color) 50%, var(--waves-shore));
+}
+
+.hero-waves .wave-shore-body {
+  stop-color: var(--waves-shore);
+}
+
+// -90px → 85px in the SVG's own user units: just under half the 352
+// units of path width, so the strip always covers the viewport and the
+// loop is seamless (no visible jump at 100%).
+@keyframes shion-wave-drift {
+  from {
+    transform: translate3d(-90px, 0, 0);
+  }
+  to {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+// ─── Reduced motion ────────────────────────────────────────
+// Keep the shape, drop the drift.
+@media (prefers-reduced-motion: reduce) {
+  .hero-waves .parallax > use {
+    animation: none;
+    will-change: auto;
+  }
+}

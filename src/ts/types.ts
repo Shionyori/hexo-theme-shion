@@ -64,6 +64,20 @@ export interface HexoHelperContext {
     search?: { enable?: boolean };
     outdate?: { enable?: boolean; days?: number };
     shion?: { hero_enable?: boolean; hero_image?: string; '404_image'?: string };
+    waves?: {
+      enable?: boolean;
+      layouts?: string[];
+      hero_height?: string | number;
+      height?: string | number;
+      amplitude?: number;
+      layers?: number;
+      depth_falloff?: number;
+      speed?: number;
+      opacity?: number;
+      opacity_back?: number;
+      color?: string;
+      shore_color?: string;
+    };
     custom_css?: string;
     custom_js?: string;
     [key: string]: unknown;

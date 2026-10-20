@@ -405,6 +405,52 @@ Results show a context snippet with the matched keyword highlighted.
 | `shion.background_image` | `string`  | `/images/shion/bg.png`   | Page background decoration    |
 | `shion.404_image`        | `string`  | `/images/shion/404.png`  | 404 page illustration         |
 
+## Hero Waves
+
+On non-post pages (home, archive, tag, category and regular pages) the hero becomes a banner that ends in animated waves, and the waves double as the divider above the content. The waves are painted in the page background colour: the shore in front is solid and each wave behind it is lighter. Opacities run from `waves.opacity_back` at the back to `1` at the shore in even steps (4 layers → `.2 .47 .73 1`), so no single wave jumps out and the furthest one is faint but never invisible — raise `waves.layers` for finer steps, or `waves.opacity_back` if you want the far waves heavier. The hero image fades out across the band, so it never ends on a hard line. Post pages keep their plain cover.
+
+Sizes mirror [astro-koharu](https://github.com/cosZone/astro-koharu): the cover is `min(60svh, 800px)` and the wave band is `clamp(3.125rem, 15svh, 9.375rem)` — its `height: 15svh` clamped to 50–150 px. The opaque shore always reaches the bottom of the band (the wave depth is capped for that), so the artwork is never exposed under the waterline, and a short page-coloured skirt below the banner hides the hairline where the water meets the page.
+
+Tuning hero size belongs here because the banner only exists where the waves are. The whole effect is pure SVG + CSS — no JavaScript, no canvas — so it costs nothing at runtime and follows `prefers-reduced-motion` automatically.
+
+| Key                 | Type       | Default                                     | Description                                                                                                    |
+| ------------------- | ---------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `waves.enable`      | `boolean`  | `true`                                      | Turn the wave band on/off                                                                                      |
+| `waves.layouts`     | `string[]` | `null`                                      | Limit to some layouts (`index`, `archive`, `categories`, `tags`, `page`, …)                                    |
+| `waves.hero_height` | `string`   | `min(60svh, 800px)`                         | Banner height (bare number = `rem`). Compact pages default to `clamp(18rem, 42svh, 30rem)`                     |
+| `waves.height`      | `string`   | `null` → `clamp(3.125rem, 15svh, 9.375rem)` | Water band height (astro-koharu's 15svh clamped to 50–150px); also reserved as hero bottom padding             |
+| `waves.amplitude`   | `number`   | `0.8`                                       | Wave depth as a fraction of the band height (`0.2`–`1`); the waterline stays in place, only the trough deepens |
+| `waves.layers`      | `number`   | `5`                                         | How many waves are stacked (`2`–`8`); more layers = finer tonal steps                                          |
+| `waves.speed`       | `number`   | `1`                                         | Drift speed multiplier (`0.5` = half speed, `2` = double)                                                      |
+| `waves.opacity`     | `number`   | `1`                                         | Opacity multiplier of the whole wave stack                                                                     |
+| `waves.color`       | `string`   | `null`                                      | Water colour; falls back to `shore_color`, i.e. the page background                                            |
+| `waves.shore_color` | `string`   | `null`                                      | Page background the waves melt into; falls back to `--color-bg-alt`                                            |
+
+```yaml
+waves:
+  enable: true
+  hero_height: min(60svh, 800px)
+  # height: clamp(3.125rem, 15svh, 9.375rem)
+  amplitude: 0.64
+  layers: 5
+  speed: 1
+  opacity: 1
+  # color: '#ffffff' # tint the water instead of using the page colour
+```
+
+Rough guide: `height` sets how much room the water takes, `amplitude` how
+deep each crest dips (bigger = more dramatic waves, same waterline),
+`layers` how many waves are visible, `speed` how fast they drift.
+
+Disable it on a single page with frontmatter:
+
+```yaml
+---
+title: About
+waves: false
+---
+```
+
 ## Outdate Warning
 
 | Key              | Type      | Default | Description                               |

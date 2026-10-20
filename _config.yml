@@ -201,6 +201,28 @@ shion:
   background_image: /images/shion/bg.png
   404_image: /images/shion/404.png
 
+# --- Hero Waves ---
+# On non-post pages (home, archive, tag, category, regular pages) the hero
+# becomes a banner that ends in animated waves, and the waves double as the
+# divider above the content. Post pages keep their plain cover.
+# Pure SVG + CSS — no JavaScript involved.
+waves:
+  enable: true
+  # Restrict the band to specific non-post layouts. Leave empty (or omit)
+  # to show it on all of them. Accepts: index, archive, categories
+  # (or category), tags (or tag), page, and any custom page layout name.
+  # layouts: [index, archive, categories, tags, page]
+  hero_height: null # banner height (number = rem); defaults to min(60svh, 800px)
+  height: null # water band height; defaults to clamp(3.125rem, 15svh, 9.375rem)
+  amplitude: 0.64 # wave depth, as a fraction of the band height (0.2 – 0.71)
+  layers: 4 # how many waves are stacked (2 – 8)
+  depth_falloff: 0.45 # how much shallower the waves behind the shore are (1 = all equal)
+  speed: 1 # 0.5 = half speed, 2 = double
+  opacity: 1 # 0–1, opacity multiplier of the whole wave stack
+  opacity_back: 0.2 # opacity of the furthest wave; the shore is always 1
+  color: null # water colour; defaults to shore_color, i.e. the page background
+  shore_color: null # page background colour the waves melt into (defaults to --color-bg-alt)
+
 # --- Outdate Warning ---
 outdate:
   enable: true
