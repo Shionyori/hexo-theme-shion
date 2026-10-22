@@ -44,9 +44,7 @@ export function registerMarkExtension(hexo: Hexo): void {
         return undefined;
       },
       renderer(token: any): string {
-        const content = token.tokens
-          ? this.parser.parseInline(token.tokens)
-          : token.text;
+        const content = token.tokens ? this.parser.parseInline(token.tokens) : token.text;
         return `<mark>${content}</mark>`;
       },
     });
