@@ -3,6 +3,12 @@
     padding: 0 var(--spacing-md);
   }
 
+  // Keep the brand compact so it never crowds the centered nav in the
+  // 3-column grid at narrower widths.
+  .site-logo {
+    font-size: var(--font-size-lg);
+  }
+
   .post-title,
   .page-title {
     font-size: var(--font-size-3xl);

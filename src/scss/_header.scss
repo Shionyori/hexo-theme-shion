@@ -27,12 +27,15 @@
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  gap: var(--spacing-md);
 }
 
 .site-logo {
-  flex: 1;
+  grid-column: 1;
+  justify-self: start;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -53,11 +56,12 @@
 }
 
 .site-nav {
-  flex: 1;
+  grid-column: 2;
+  justify-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
 
   .nav-item {
     display: inline-flex;
@@ -74,7 +78,7 @@
 
     &:hover {
       color: var(--color-text);
-      background: var(--color-code-bg);
+      background: var(--color-primary-soft);
     }
 
     &.active {
@@ -85,7 +89,8 @@
 }
 
 .header-actions {
-  flex: 1;
+  grid-column: 3;
+  justify-self: end;
   display: flex;
   align-items: center;
   justify-content: flex-end;
