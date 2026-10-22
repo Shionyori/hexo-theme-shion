@@ -1,0 +1,14 @@
+// ─── Image lightbox (medium-zoom) ──────────────────────────
+// medium-zoom ships without any z-index of its own, so its overlay
+// (`position: fixed`) and cloned zoomed image (`position: absolute`)
+// default to `z-index: auto` and paint below theme chrome such as the
+// back-to-top button (`--z-sticky`). Lift the lightbox above all other
+// theme layers so it correctly covers floating UI when opened.
+
+.medium-zoom-overlay {
+  z-index: var(--z-lightbox);
+}
+
+.medium-zoom-image--opened {
+  z-index: calc(var(--z-lightbox) + 1);
+}
