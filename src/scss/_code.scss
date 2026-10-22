@@ -4,9 +4,14 @@ code {
   font-size: 0.9em;
 }
 
-p > code,
-li > code,
-td > code {
+// Use descendant selectors (not `p > code`) so inline code keeps its
+// background/border box when nested inside other inline elements, e.g.
+// ==`code`== (mark), **`code`** (strong) or *`code`* (em).
+// Code blocks (`figure.highlight code`) are unaffected — they are reset
+// below with higher specificity + later source order.
+p code,
+li code,
+td code {
   padding: 0.15em 0.4em;
   background: var(--color-code-bg);
   border-radius: var(--radius-sm);

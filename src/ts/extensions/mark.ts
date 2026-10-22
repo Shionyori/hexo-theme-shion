@@ -30,16 +30,24 @@ export function registerMarkExtension(hexo: Hexo): void {
         const rule = /^==((?:[^=]|=(?!=))+?)==/;
         const match = rule.exec(src);
         if (match) {
+          const text = match[1];
           return {
             type: 'mark',
             raw: match[0],
-            text: match[1],
+            text,
+            // Parse nested inline syntax inside the highlighted text so
+            // things like ==**bold**== or ==`code`== render correctly
+            // instead of leaking their literal markup.
+            tokens: this.lexer.inlineTokens(text),
           };
         }
         return undefined;
       },
       renderer(token: any): string {
-        return `<mark>${token.text}</mark>`;
+        const content = token.tokens
+          ? this.parser.parseInline(token.tokens)
+          : token.text;
+        return `<mark>${content}</mark>`;
       },
     });
   });

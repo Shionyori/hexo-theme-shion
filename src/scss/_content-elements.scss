@@ -15,6 +15,43 @@
     border-radius: 2px;
   }
 
+  // Strikethrough — draw the line manually so its vertical position is
+  // controlled. Native `line-through` relies on the font's Latin strikeout
+  // metrics, which can sit off-center for CJK and ignores the code box's
+  // extra padding. A 1px gradient line keeps it centered and continuous.
+  del,
+  s {
+    text-decoration: none;
+    background-image: linear-gradient(
+      to right,
+      var(--color-text-secondary),
+      var(--color-text-secondary)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 50%; // center of the glyph box
+  }
+
+  // Deleted text with a boxed child (code / mark / kbd): the child paints
+  // its own opaque background, which would otherwise cover the parent
+  // <del> line. Redraw the line on the child itself, centered on that
+  // child's box instead of the surrounding text metrics.
+  del code,
+  del mark,
+  del kbd,
+  s code,
+  s mark,
+  s kbd {
+    background-image: linear-gradient(
+      to right,
+      var(--color-text-secondary),
+      var(--color-text-secondary)
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 50%; // center of the boxed child
+  }
+
   // Keyboard keys — 3D keycap
   kbd {
     display: inline-block;
