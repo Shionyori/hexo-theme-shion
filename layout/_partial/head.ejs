@@ -27,9 +27,26 @@
 <% } %>
 
 <link rel="canonical" href="<%= config.url.replace(/\/$/, '') + '/' + page.path %>">
-<% if (config.feed && config.feed.atom) { %>
-<link rel="alternate" href="<%= config.feed.atom %>" type="application/atom+xml" title="<%= config.title %>">
-<% } %>
+<%
+// Feed discovery — one <link rel="alternate"> per configured feed type.
+// hexo-generator-feed writes {type, path}; the legacy `feed.atom: '/atom.xml'`
+// string form is still honoured.
+var feedLinks = [];
+var FEED_MIME = { atom: 'application/atom+xml', rss2: 'application/rss+xml', rss: 'application/rss+xml' };
+var FC = config.feed || {};
+var feedTypes = [].concat(FC.type || []);
+var feedPaths = [].concat(FC.path || []);
+feedTypes.forEach(function (type, i) {
+  var path = feedPaths[i] || feedPaths[0] || (type === 'atom' ? 'atom.xml' : 'rss2.xml');
+  feedLinks.push({ href: path, type: FEED_MIME[type] || 'application/rss+xml' });
+});
+if (!feedLinks.length && typeof FC.atom === 'string') {
+  feedLinks.push({ href: FC.atom, type: 'application/atom+xml' });
+}
+%>
+<% feedLinks.forEach(function (link) { %>
+<link rel="alternate" href="<%= url_for(link.href) %>" type="<%= link.type %>" title="<%= config.title %>">
+<% }) %>
 
 <script type="application/ld+json">
 {

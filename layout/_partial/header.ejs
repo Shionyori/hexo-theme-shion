@@ -21,7 +21,30 @@
       <% } %>
     </nav>
 
+    <%
+    // Feed button — appears when a feed is configured (see _config.yml → feed),
+    // hide it with header.rss_icon: false.
+    var feedHref = null;
+    var feedCfg = config.feed || {};
+    if (feedCfg.type || feedCfg.path || feedCfg.atom) {
+      var fTypes = [].concat(feedCfg.type || ['atom']);
+      var fPaths = [].concat(feedCfg.path || []);
+      feedHref = fPaths[0] || (fTypes[0] === 'rss2' ? 'rss2.xml' : 'atom.xml');
+      if (feedHref.charAt(0) !== '/') feedHref = '/' + feedHref;
+    }
+    var showRss = feedHref && (!theme.header || theme.header.rss_icon !== false);
+    %>
     <div class="header-actions">
+      <% if (showRss) { %>
+      <a class="btn-icon header-rss" href="<%= url_for(feedHref) %>" aria-label="RSS" title="RSS">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 11a9 9 0 0 1 9 9"/>
+          <path d="M4 4a16 16 0 0 1 16 16"/>
+          <circle cx="5" cy="19" r="1"/>
+        </svg>
+      </a>
+      <% } %>
+
       <button class="btn-icon search-toggle" id="search-toggle" aria-label="<%= __('search') %>">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/>

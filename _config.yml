@@ -30,6 +30,7 @@ menu:
 # --- Header ---
 header:
   nav_icons: true # show a 16px icon to the left of every nav item
+  rss_icon: true # RSS button in the header actions (needs _config.yml → feed)
 
 # --- Appearance ---
 appearance:

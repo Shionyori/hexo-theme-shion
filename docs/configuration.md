@@ -64,11 +64,42 @@ Theme defaults:
 
 ## Header
 
-| Key                | Type      | Default | Description                        |
-| ------------------ | --------- | ------- | ---------------------------------- |
-| `header.nav_icons` | `boolean` | `true`  | Icon to the left of every nav item |
+| Key                | Type      | Default | Description                                     |
+| ------------------ | --------- | ------- | ----------------------------------------------- |
+| `header.nav_icons` | `boolean` | `true`  | Icon to the left of every nav item              |
+| `header.rss_icon`  | `boolean` | `true`  | RSS button in the header actions (needs a feed) |
 
-## Appearance
+## Feed
+
+The theme does not generate the feed itself — install
+[`hexo-generator-feed`](https://github.com/hexojs/hexo-generator-feed) and
+configure it in the site's `_config.yml`:
+
+```bash
+pnpm add hexo-generator-feed
+```
+
+```yaml
+feed:
+  type: [atom, rss2] # generate both
+  path: [atom.xml, rss2.xml]
+  limit: 20 # entries (0 = all)
+  content: true # full post text in the feed
+  content_limit: 0 # 0 = do not truncate
+  order_by: -date
+  icon: /images/avatar.png
+```
+
+The theme then:
+
+- emits one `<link rel="alternate">` per feed type in `<head>` (Atom and/or
+  RSS 2.0 mime types), so readers and browsers discover it automatically;
+- renders an RSS button in the header actions pointing at the first feed
+  (`header.rss_icon: false` hides it).
+
+Feed URLs are taken from `feed.path` (falling back to `atom.xml` / `rss2.xml`),
+so a single `feed.type: atom` setup works without extra config. The legacy
+`feed.atom: '/atom.xml'` string form is still supported.
 
 | Key                           | Type                    | Default | Description                                   |
 | ----------------------------- | ----------------------- | ------- | --------------------------------------------- |
