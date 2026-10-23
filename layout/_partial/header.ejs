@@ -8,9 +8,16 @@
       <% } %>
     </a>
 
+    <%
+    // Nav icons — disable with header.nav_icons: false
+    var navIcons = !theme.header || theme.header.nav_icons !== false;
+    %>
     <nav class="site-nav" id="site-nav">
       <% for (var name in theme.menu) { %>
-        <a class="nav-item" href="<%= url_for(theme.menu[name]) %>"><%= __(name.toLowerCase()) || name %></a>
+        <a class="nav-item" href="<%= url_for(theme.menu[name]) %>">
+          <% if (navIcons) { %><span class="nav-icon"><%- menu_icon(name) %></span><% } %>
+          <span class="nav-text"><%= __(name.toLowerCase()) || name %></span>
+        </a>
       <% } %>
     </nav>
 

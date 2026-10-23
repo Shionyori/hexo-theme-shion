@@ -23,6 +23,28 @@ menu:
 
 Key = label, value = URL. Add or remove items freely.
 
+### Nav icons
+
+Every menu item gets a 16px icon on its left (`header.nav_icons`, default `true`),
+in both the desktop header and the mobile drawer. The glyph is picked from the
+menu **key**, so renaming an item to something unknown falls back to a generic
+link icon instead of dropping the icon slot:
+
+| Key (any case)               | Icon        |
+| ---------------------------- | ----------- |
+| `Home` / `首页` / `index`    | house       |
+| `Archives` / `归档`          | archive box |
+| `Tags` / `标签`              | tag         |
+| `Categories` / `分类`        | folder      |
+| `Friends` / `友链` / `links` | users       |
+| `About` / `关于`             | info        |
+| anything else                | link        |
+
+```yaml
+header:
+  nav_icons: false # bare text menu
+```
+
 ## Fonts
 
 Override heading, body, and code font families. Leave empty to use theme SCSS defaults. External font loading (Google Fonts, etc.) must be handled by you via `custom_css` or injecting `<link>` tags into the site header.
@@ -39,6 +61,12 @@ Theme defaults:
 - Heading: `'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
 - Body: `'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
 - Code: `'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace`
+
+## Header
+
+| Key                | Type      | Default | Description                        |
+| ------------------ | --------- | ------- | ---------------------------------- |
+| `header.nav_icons` | `boolean` | `true`  | Icon to the left of every nav item |
 
 ## Appearance
 
@@ -70,7 +98,7 @@ Theme defaults:
 | `post.cover.enable`          | `boolean`  | `true`                                               | Show cover images               |
 | `post.cover.default`         | `string`   | `/images/shion/default-cover.png`                    | Fallback cover                  |
 | `post.share.enable`          | `boolean`  | `true`                                               | Show share buttons              |
-| `post.share.platforms`       | `string[]` | `['twitter','facebook','linkedin','copy']`           | Enabled platforms               |
+| `post.share.platforms`       | `string[]` | all four (template default)                          | Enabled platforms, see below    |
 | `post.copyright_license`     | `string`   | `CC BY-NC-SA 4.0`                                    | License name                    |
 | `post.copyright_license_url` | `string`   | `https://creativecommons.org/licenses/by-nc-sa/4.0/` | License URL                     |
 | `post.code.highlight`        | `string`   | `highlight.js`                                       | Code highlighter                |
@@ -93,10 +121,14 @@ Theme defaults:
 | `sidebar.avatar.enable`      | `boolean`       | `true`                     | Show author avatar            |
 | `sidebar.avatar.image`       | `string`        | `/images/shion/avatar.png` | Avatar image path             |
 | `sidebar.social`             | `object`        | `{ GitHub: '...' }`        | Social links (key → URL)      |
-| `sidebar.widgets`            | `string[]`      | `['recent-posts']`         | Widget display order          |
+| `sidebar.widgets`            | `string[]`      | `['recent-posts']`¹        | Widget display order          |
 | `sidebar.recent_posts_count` | `number`        | `5`                        | Recent posts to show          |
 | `sidebar.tagcloud_min_font`  | `number`        | `1.2`                      | Tag cloud min font size (rem) |
 | `sidebar.tagcloud_max_font`  | `number`        | `2.8`                      | Tag cloud max font size (rem) |
+
+¹ Template default — leave `sidebar.widgets` unset to get it. The list is _not_
+declared in `_config.yml`, otherwise Hexo's array merge would make it impossible
+to remove entries from your site config (see [Array options](#array-options-and-_configthemeyml)).
 
 ### Social Icon Keys
 
@@ -105,6 +137,30 @@ Theme defaults:
 ### Available Widgets
 
 `recent-posts`, `categories-widget`, `tags-widget`, `tagcloud`, `archives-widget`
+
+Unknown names are ignored with a build warning that lists the valid ones:
+
+```
+WARN [shion] sidebar: unknown widget `recent-post` ignored. Available: recent-posts, categories-widget, archives-widget, tags-widget, tagcloud
+```
+
+### Array options and `_config.<theme>.yml`
+
+Hexo merges `_config.<theme>.yml` on top of the theme defaults with
+`hexo-util`'s `deepMerge`, whose array merge **appends** unseen items instead of
+replacing the list. A theme-level default like `widgets: [recent-posts]` would
+therefore be impossible to remove or reorder from the site config.
+
+So for the options where the order/content is yours to decide the default lives
+in the template, not in `_config.yml`:
+
+| Option                 | Unset →            | Set → exactly your list                              |
+| ---------------------- | ------------------ | ---------------------------------------------------- |
+| `sidebar.widgets`      | `['recent-posts']` | e.g. `[categories-widget, tags-widget]`, `[]` = none |
+| `post.share.platforms` | all four platforms | e.g. `['copy']`; `[]` = fall back to all four        |
+
+Objects (`sidebar.social`, `sidebar.layouts`) still merge key by key, and
+`sidebar.layouts.<type>.widgets: []` still means "no widgets on that page type".
 
 ### Sidebar Per-Page Configuration
 

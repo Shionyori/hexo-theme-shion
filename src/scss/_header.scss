@@ -66,6 +66,8 @@
   .nav-item {
     display: inline-flex;
     align-items: center;
+    gap: 0.375rem;
+    white-space: nowrap;
     color: var(--color-text-secondary);
     font-size: var(--font-size-sm);
     font-weight: 500;
@@ -75,6 +77,16 @@
     transition:
       color var(--transition-fast),
       background var(--transition-fast);
+
+    /* Nav icons are centred on the button box itself (no text-baseline nudge):
+       the glyph inks are already optically centred by menu_icon(). */
+    .nav-icon {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      opacity: 0.9;
+      transform: translateY(var(--nav-icon-nudge, 0px));
+    }
 
     &:hover {
       color: var(--color-text);
@@ -136,6 +148,18 @@
   }
   .icon-moon {
     display: block;
+  }
+}
+
+/* Between lg and md the header gets tight once every item carries an icon:
+   tighten the item padding/gap so the labels never wrap to a second line. */
+@include respond-down('lg') {
+  .site-nav {
+    gap: var(--spacing-xs);
+  }
+
+  .site-nav .nav-item {
+    padding: var(--spacing-sm);
   }
 }
 

@@ -24,7 +24,14 @@ var show      = cfg('enable',   G.enable);
 var hasProfile = cfg('profile', !G.profile || G.profile.enable !== false)
                  && ((G.avatar && G.avatar.enable) || config.author || config.description || G.social);
 var hasMusic   = cfg('music',   !!(theme.music && theme.music.enable));
-var widgets    = cfg('widgets', G.widgets || []);
+// `widgets` has no theme default on purpose (see _config.yml): the list from
+// _config.<theme>.yml is appended to the theme array by Hexo, so a default here
+// would make the site config unable to drop or reorder entries.
+var widgets    = cfg('widgets', G.widgets);
+if (widgets === undefined) widgets = ['recent-posts'];
+// Drop names that have no partial and warn once per build, instead of failing
+// the whole render (or silently emitting an empty card).
+widgets        = sidebar_widgets(widgets);
 var hasWidgets = widgets.length > 0;
 
 if (!show) return;

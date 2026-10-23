@@ -31,12 +31,20 @@ interface MusicState {
 }
 
 const STORAGE_KEY = 'shion-music';
+// Loop glyphs live on a 24-unit grid with the two bars at y=5 and y=19, leaving a
+// 12-unit band in the middle. In "loop one" that band holds a stroked numeral
+// (not <text>, which picked up the page font and sat on the bottom bar, reading
+// as a squashed "1"). The numeral keeps 2.2 units of clearance on both sides.
+const LOOP_ARROWS =
+  '<polyline points="17 1 21 5 17 9"/>' +
+  '<path d="M3 11V9a4 4 0 0 1 4-4h14"/>' +
+  '<polyline points="7 23 3 19 7 15"/>' +
+  '<path d="M21 13v2a4 4 0 0 1-4 4H3"/>';
+
 const MODE_ICONS: Record<PlayMode, string> = {
   sequential: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
-  'loop-all':
-    '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
-  'loop-one':
-    '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/><text x="12" y="16" text-anchor="middle" font-size="8" font-weight="700">1</text>',
+  'loop-all': LOOP_ARROWS,
+  'loop-one': LOOP_ARROWS + '<path d="M11 9.4h1.7v5.2" stroke-width="2.4"/>',
   shuffle:
     '<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/>',
 };

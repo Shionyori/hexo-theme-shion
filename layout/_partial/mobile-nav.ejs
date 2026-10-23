@@ -11,10 +11,16 @@
       </button>
     </div>
 
+    <%
+    var navIcons = !theme.header || theme.header.nav_icons !== false;
+    %>
     <ul class="mobile-nav-menu">
       <% for (var name in theme.menu) { %>
         <li>
-          <a class="mobile-nav-link" href="<%= url_for(theme.menu[name]) %>"><%= __(name.toLowerCase()) || name %></a>
+          <a class="mobile-nav-link" href="<%= url_for(theme.menu[name]) %>">
+            <% if (navIcons) { %><span class="nav-icon"><%- menu_icon(name) %></span><% } %>
+            <span class="nav-text"><%= __(name.toLowerCase()) || name %></span>
+          </a>
         </li>
       <% } %>
     </ul>

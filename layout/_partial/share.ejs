@@ -1,7 +1,12 @@
 <% if (theme.post.share && theme.post.share.enable) { %>
 <div class="post-share">
   <div class="share-buttons">
-    <% var platforms = theme.post.share.platforms || ['twitter', 'facebook', 'linkedin', 'copy']; %>
+    <%
+    // Default lives here, not in _config.yml: Hexo appends site arrays to theme
+    // defaults, so a theme-level default could never be trimmed from the site.
+    var platforms = theme.post.share.platforms;
+    if (!platforms || !platforms.length) platforms = ['twitter', 'facebook', 'linkedin', 'copy'];
+    %>
     <% var url = encodeURIComponent(config.url.replace(/\/$/, '') + '/' + page.path); %>
     <% var title = encodeURIComponent(page.title); %>
 

@@ -27,6 +27,10 @@ menu:
   Friends: /friends/
   About: /about/
 
+# --- Header ---
+header:
+  nav_icons: true # show a 16px icon to the left of every nav item
+
 # --- Appearance ---
 appearance:
   default_mode: auto # auto | light | dark
@@ -56,7 +60,9 @@ post:
     default: /images/shion/default-cover.png
   share:
     enable: true
-    platforms: ['twitter', 'facebook', 'linkedin', 'copy']
+    # Same array-merge caveat as sidebar.widgets: the default list lives in the
+    # template, so the site config can pick fewer platforms. Empty = all four.
+    # platforms: ['twitter', 'facebook', 'linkedin', 'copy']
   copyright_license: 'CC BY-NC-SA 4.0'
   copyright_license_url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
   code:
@@ -88,8 +94,12 @@ sidebar:
     image: /images/shion/avatar.png
   social:
     GitHub: https://github.com/
-  widgets:
-    - recent-posts
+  # Widgets, in display order. Leave unset to get [recent-posts] (the template
+  # supplies that default): Hexo *appends* arrays from _config.<theme>.yml to the
+  # theme defaults instead of replacing them, so a default here would make it
+  # impossible to drop or reorder it from the site config. Set [] for none.
+  # widgets:
+  #   - recent-posts
   recent_posts_count: 5
   tagcloud_min_font: 1.2
   tagcloud_max_font: 2.8
