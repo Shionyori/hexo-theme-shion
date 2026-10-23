@@ -78,6 +78,11 @@
       color: var(--color-text-secondary);
       /* Centred on the row, matching the header nav. */
       transform: translateY(var(--mobile-nav-icon-nudge, 0px));
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
     }
 
     &:hover {
