@@ -36,6 +36,9 @@ export function registerStringHelpers(hexo: Hexo): void {
     const cn = (text.match(/[一-鿿㐀-䶿]/g) || []).length;
     const en = (text.match(/[a-zA-Z0-9]+/g) || []).length;
     const total = cn + en;
+    const __ = (this as any).__;
+    // Labels live in languages/*.yml so CJK sites read `%s 字` instead of `%s words`.
+    if (typeof __ === 'function') return __(total === 1 ? 'word' : 'words', total);
     return total + ' ' + (total === 1 ? 'word' : 'words');
   });
 
@@ -44,6 +47,8 @@ export function registerStringHelpers(hexo: Hexo): void {
     const cn = (text.match(/[一-鿿㐀-䶿]/g) || []).length;
     const en = (text.match(/[a-zA-Z0-9]+/g) || []).length;
     const minutes = Math.max(1, Math.ceil(cn / 300 + en / 200));
+    const __ = (this as any).__;
+    if (typeof __ === 'function') return __('min_read', minutes);
     return minutes + ' min read';
   });
 

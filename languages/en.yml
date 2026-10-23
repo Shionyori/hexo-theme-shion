@@ -52,6 +52,16 @@ posts_count: '%s posts'
 friends: Friends
 no_friends: No friends yet
 visit_site: Visit site
+visitors: Visitors
+page_views: Page views
+word: '%s word'
+words: '%s words'
+min_read: '%s min read'
+uptime_label: Running for
+uptime_day: 'd'
+uptime_hour: 'h'
+uptime_minute: 'm'
+uptime_second: 's'
 pagination:
   prev: Prev
   next: Next

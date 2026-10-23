@@ -1,0 +1,14 @@
+<% var up = site_uptime(); %>
+<% if (up) { %>
+<div class="site-runtime" data-uptime data-since="<%= up.iso %>" data-uptime-format="<%= up.format %>"<% if (up.refresh) { %> data-uptime-refresh="<%= up.refresh %>"<% } %>>
+  <% if (up.icon) { %>
+  <span class="site-runtime-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+  </span>
+  <% } %>
+  <% if (up.label) { %>
+  <span class="site-runtime-label"><%= __('uptime_label') %></span>
+  <% } %>
+  <span class="site-runtime-value" data-uptime-value><%= up.text %></span>
+</div>
+<% } %>

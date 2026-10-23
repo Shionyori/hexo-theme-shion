@@ -190,9 +190,25 @@ search:
 # --- Footer ---
 footer:
   since: null
+  social: true # mirror sidebar.social under the footer info
   powered_by: true
   theme_by: true
   icp: null
+
+# --- Site Uptime ---
+# Live "running for X d X h X m X s" counter in the footer, counted from `since`.
+# Accepts any date string a browser can parse; omit it (or set enable: false) to hide.
+runtime:
+  enable: true
+  since: null # e.g. '2025-01-01T00:00:00'
+  # Finest unit to display: day | hour | minute | second.
+  # 'hour' renders "3 天 4 小时", 'day' renders "3 天".
+  precision: day
+  label: true # show the "Running for" lead-in
+  icon: true # show the clock icon
+  # Refresh interval in seconds. Empty = auto: tick exactly when the smallest
+  # displayed unit changes (second -> 1 s, minute -> on the minute, ...).
+  refresh: null
 
 # --- Shion Theme Character ---
 shion:
@@ -233,6 +249,7 @@ busuanzi:
   enable: false
   site_uv: true # Enable site UV (unique visitor) counter
   site_pv: true # Enable site PV (page view) counter
+  page_pv: true # Enable per-post page view counter (shown in the post meta)
 
 # --- Advanced ---
 custom_css: null

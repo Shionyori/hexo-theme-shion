@@ -52,6 +52,16 @@ posts_count: '%s 件の投稿'
 friends: 友達リンク
 no_friends: まだ友達リンクがありません
 visit_site: サイトを見る
+visitors: 訪問者
+page_views: 閲覧
+word: '%s 文字'
+words: '%s 文字'
+min_read: '約 %s 分'
+uptime_label: 運営期間
+uptime_day: '日'
+uptime_hour: '時間'
+uptime_minute: '分'
+uptime_second: '秒'
 pagination:
   prev: 前へ
   next: 次へ

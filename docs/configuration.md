@@ -392,6 +392,7 @@ Results show a context snippet with the matched keyword highlighted.
 | Key                 | Type      | Default | Description                                        |
 | ------------------- | --------- | ------- | -------------------------------------------------- |
 | `footer.since`      | `string`  | `null`  | Copyright start year (e.g. `2024` → `2024 – 2026`) |
+| `footer.social`     | `boolean` | `true`  | Repeat `sidebar.social` links above the copyright  |
 | `footer.powered_by` | `boolean` | `true`  | Show "Powered by Hexo"                             |
 | `footer.theme_by`   | `boolean` | `true`  | Show "Theme — Shion"                               |
 | `footer.icp`        | `string`  | `null`  | ICP filing number (China)                          |
@@ -458,13 +459,61 @@ waves: false
 | `outdate.enable` | `boolean` | `true`  | Warn on old posts                         |
 | `outdate.days`   | `number`  | `365`   | Days before a post is considered outdated |
 
+## Site Uptime
+
+Live "running for X d X h X m X s" counter in the footer, counted from `since`.
+The server renders the initial value (works without JS) and the client keeps it
+ticking (`src/client/uptime.ts`).
+
+| Key                 | Type      | Default  | Description                                                     |
+| ------------------- | --------- | -------- | --------------------------------------------------------------- |
+| `runtime.enable`    | `boolean` | `true`   | Show the uptime counter                                         |
+| `runtime.since`     | `string`  | `null`   | Start date/time, any value `new Date()` parses; `null` hides it |
+| `runtime.precision` | `string`  | `second` | Finest unit shown: `day`, `hour`, `minute` or `second`          |
+| `runtime.label`     | `boolean` | `true`   | Show the `uptime_label` lead-in text                            |
+| `runtime.icon`      | `boolean` | `true`   | Show the clock icon                                             |
+| `runtime.refresh`   | `number`  | `null`   | Update interval in seconds; `null` = aligned with `precision`   |
+
+```yaml
+runtime:
+  enable: true
+  since: '2025-01-01T00:00:00'
+  precision: hour # -> "本站已运行 288 天 4 小时"
+  label: true
+  icon: true
+  refresh: null # auto: once an hour for `precision: hour`
+```
+
+`precision` truncates from the finest unit upwards — `second` shows all four,
+`hour` shows days + hours, `day` shows days only. Each precision level is
+translated per language (`uptime_day` … `uptime_second`), so unit order and
+spacing stay localizable.
+
+With `refresh: null` the counter re-renders exactly when the smallest displayed
+unit changes instead of every second; set a number to override (e.g. `60`).
+
+A future or unparsable `since` renders nothing rather than a negative counter.
+
 ## Busuanzi
 
-| Key                | Type      | Default | Description             |
-| ------------------ | --------- | ------- | ----------------------- |
-| `busuanzi.enable`  | `boolean` | `false` | Enable visitor counting |
-| `busuanzi.site_uv` | `boolean` | `true`  | Show unique visitors    |
-| `busuanzi.site_pv` | `boolean` | `true`  | Show page views         |
+| Key                | Type      | Default | Description                          |
+| ------------------ | --------- | ------- | ------------------------------------ |
+| `busuanzi.enable`  | `boolean` | `false` | Enable visitor counting              |
+| `busuanzi.site_uv` | `boolean` | `true`  | Show unique visitors                 |
+| `busuanzi.site_pv` | `boolean` | `true`  | Show page views                      |
+| `busuanzi.page_pv` | `boolean` | `true`  | Show per-post views in the post meta |
+
+Counters come from [busuanzi](https://busuanzi.ibruce.info) (third-party, free).
+The service identifies the site by the `Referer` of a JSONP request, so:
+
+- `site_uv` is de-duplicated by a session cookie (`busuanziId`) — visitors who
+  block third-party cookies are counted as new on every page load, which pushes
+  UV towards PV.
+- Counts are keyed by hostname: switching to a custom domain starts from zero.
+- Because the theme navigates with PJAX, the counter script is re-run after every
+  swap (`src/client/stats.ts`), so in-site navigation counts as a real page view.
+- If the script is blocked or the service is unreachable, the counters hide
+  themselves instead of leaving a `-` placeholder on screen.
 
 ## Music Player
 

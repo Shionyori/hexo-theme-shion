@@ -6,6 +6,10 @@
 }
 
 .footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
@@ -14,12 +18,12 @@
 .footer-social {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 
   .social-link {
     color: var(--color-text-tertiary);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     font-weight: 500;
     transition: color var(--transition-fast);
 
@@ -29,46 +33,113 @@
   }
 }
 
+/* ── Footer meta rows ─────────────────────────────────────── */
+/* Copyright, credits, uptime and visitor counters share one type scale, one
+   colour ramp and one icon rhythm, so the footer reads as a single quiet block
+   instead of four competing lines. Vertical spacing comes from the flex gap on
+   .footer-inner, so rows must not carry their own margins. */
+.footer-info,
+.footer-credits,
+.site-runtime,
 .busuanzi {
   display: flex;
-  justify-content: center;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
-
-  .busuanzi-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .busuanzi-icon {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.footer-info {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
-  display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: var(--spacing-xs) var(--spacing-md);
+  gap: 0.375rem;
+  margin: 0;
+  font-size: var(--font-size-xs);
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
 
   a {
-    color: var(--color-text-tertiary);
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
 
     &:hover {
       color: var(--color-primary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
+}
 
-  .powered-by a,
-  .theme-by a {
-    font-weight: 500;
+/* Rows made of separate items (copyright + ICP, powered-by + theme-by, the two
+   counters) are split by a "|" separator instead of a wide gap, so the items stay
+   legible as one line. The uptime row is a single phrase — icon, label and value —
+   and keeps the tight 6px rhythm. */
+.footer-info,
+.footer-credits,
+.busuanzi {
+  column-gap: var(--spacing-sm);
+}
+
+.footer-sep {
+  opacity: 0.55;
+  user-select: none;
+}
+
+/* The copyright line is the one deliberate emphasis in the footer: one step up in
+   size (12px → 14px) while keeping the same colour and weight as the meta rows.
+   Its icon scales with it so the © does not fall behind again. */
+.footer-info {
+  font-size: var(--font-size-sm);
+}
+
+.copyright-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* The copyright line leads with the same icon rhythm as the rows below it,
+   so the © mark does not read smaller than the clock / eye glyphs. */
+/* The © glyph already carries ~2px of empty padding inside its 16px box, so the
+   CSS gap can be much tighter than the 6px used for the label/value rows. */
+.copyright {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+
+  .copyright-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    opacity: 0.85;
   }
+}
+
+/* Values share the labels' colour — no emphasis — but use tabular digits so the
+   uptime and the counters do not jitter while they tick. */
+.site-runtime-value,
+[data-busuanzi-value] {
+  font-variant-numeric: tabular-nums;
+}
+
+.site-runtime-icon,
+.busuanzi-icon {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  opacity: 0.85;
+}
+
+/* Flex-centring puts the icon box in the middle of the line box, but glyphs do
+   not sit in its centre: the font's descent is deeper than its ascent, so a 14px
+   icon reads slightly high against a 12px label. Nudge the icons down onto the
+   text's optical centre. The exact amount depends on the CJK font your system
+   resolves ('Noto Sans SC' → 'Microsoft YaHei' → …), so it is a single knob:
+   override `--meta-icon-nudge` in your own CSS when it looks off. */
+.copyright-icon,
+.site-runtime-icon,
+.busuanzi-icon {
+  transform: translateY(var(--meta-icon-nudge, 1px));
+}
+
+.busuanzi-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
 }
 
 @include respond-down('md') {
@@ -78,9 +149,6 @@
 
   .footer-inner {
     padding: 0 var(--spacing-md);
-  }
-
-  .footer-social {
-    gap: var(--spacing-md);
+    gap: var(--spacing-xs);
   }
 }

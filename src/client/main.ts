@@ -23,6 +23,8 @@ import { initMusicPlayer } from './music-player';
 import { initPjax } from './pjax';
 import { initMath } from './math';
 import { initComments } from './comments';
+import { initStats } from './stats';
+import { initUptime } from './uptime';
 
 // ── Chrome: run once ────────────────────────────────────────
 
@@ -55,6 +57,10 @@ function initContent(): void {
   initCodeCopy();
   initShare();
   initComments();
+  initUptime();
+  // Stats go last: it re-runs the busuanzi script after a PJAX swap, which must
+  // happen once the new #pjax-container (with its page-view node) is in place.
+  initStats();
 }
 
 // ── Bootstrap ───────────────────────────────────────────────
