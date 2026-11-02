@@ -57,11 +57,33 @@
     opacity 0.35s ease-out,
     transform 0.35s ease-out;
   will-change: transform, opacity;
+  // Entrance `transform`s must stay out of scroll anchoring: while a card is
+  // visually floating up the browser keeps adjusting the scroll offset to
+  // compensate (and again when the animation ends), which on reload looks like
+  // the whole page jumping by the animation distance.
+  overflow-anchor: none;
 
   &.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+// Long-form pages keep scroll anchoring — when an image inside an article loads
+// late, the reader's position should stay put. Their own entrance is covered by
+// the `.entrance-phase` window below instead.
+.post,
+.page {
+  overflow-anchor: auto;
+}
+
+// The entrance pass moves a whole screen of cards by a few dozen pixels. Scroll
+// anchoring would chase that visual offset (and shift the scroll back when the
+// animation finishes), so it stays off until the above-fold reveals settle.
+// `.entrance-phase` is set on <html> by the inline script in head.ejs, before
+// the first paint, and cleared by animations.ts.
+html.entrance-phase {
+  overflow-anchor: none;
 }
 
 // Widgets: transform-only entrance so children's CSS animations
@@ -70,6 +92,7 @@
   transform: translateY(20px);
   transition: transform 0.35s ease-out;
   will-change: transform;
+  overflow-anchor: none;
 
   &.is-visible {
     transform: translateY(0);

@@ -7,8 +7,22 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+}
+
+// Smooth scrolling is opt-in: `.smooth-scroll` is added to <html> on the first
+// user gesture (see main.ts).
+// `scroll-behavior: smooth` at parse time also makes the *browser's* own scroll
+// adjustments animate — on reload the restored offset gets corrected a few
+// dozen pixels after layout settles, which showed up as the whole page (and the
+// reading progress bar) sliding/jittering once; PJAX's `scrollTo(0, 0)` was
+// animated for the same reason.
+html.smooth-scroll {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {

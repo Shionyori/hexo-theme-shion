@@ -28,6 +28,21 @@ import { initUptime } from './uptime';
 
 // ── Chrome: run once ────────────────────────────────────────
 
+/**
+ * Enable CSS smooth scrolling only once the user has interacted.
+ *
+ * `html { scroll-behavior: smooth }` is intentionally not applied at parse time:
+ * it also animates scroll corrections the browser makes on its own (scroll
+ * restoration on reload, `window.scrollTo` in PJAX), which made the page slide
+ * a few dozen pixels and look like it was shaking on refresh. Any anchor jump
+ * the user can trigger is preceded by a gesture, so nothing is lost.
+ */
+function initSmoothScroll(): void {
+  const enable = (): void => document.documentElement.classList.add('smooth-scroll');
+  window.addEventListener('pointerdown', enable, { once: true, capture: true, passive: true });
+  window.addEventListener('keydown', enable, { once: true, capture: true });
+}
+
 function initChrome(): void {
   initTheme();
   initSearch();
@@ -36,6 +51,7 @@ function initChrome(): void {
   initReadingProgress();
   initMobileNav();
   initHeaderScroll();
+  initSmoothScroll();
   initPjax(); // must be last — wires up link interception
 }
 

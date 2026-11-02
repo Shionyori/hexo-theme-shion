@@ -3,7 +3,28 @@
  * IntersectionObserver triggers below-fold elements on scroll.
  * All animation selectors are configured here to keep them in one place.
  */
+
+// Below-fold elements waiting for their reveal. Kept at module scope so the
+// "jumped past it" guard below can be bound only once, even though
+// `initAnimations` re-runs on every PJAX navigation.
+const pending = new Set<HTMLElement>();
+let guardBound = false;
+
+// Above-fold reveals still running. Scroll anchoring stays disabled
+// (`html.entrance-phase`) until they have all finished, so the browser cannot
+// chase the entrance offset.
+let settling = 0;
+
+function entranceSettled(): void {
+  if (settling > 0) return;
+  document.documentElement.classList.remove('entrance-phase');
+}
+
 export function initAnimations(): void {
+  pending.forEach((el) => {
+    if (!el.isConnected) pending.delete(el);
+  });
+
   // IntersectionObserver for below-fold elements — triggers fade-in
   // when the element scrolls into view.
   // No rAF needed here: these elements have been painted in their
@@ -16,6 +37,7 @@ export function initAnimations(): void {
         const target = entry.target as HTMLElement;
         const delay = Number(target.dataset.animDelay) || 0;
         observer.unobserve(target);
+        pending.delete(target);
 
         target.style.transitionDelay = delay + 'ms';
         target.classList.add('is-visible');
@@ -27,6 +49,31 @@ export function initAnimations(): void {
     { threshold: 0.05, rootMargin: '0px 0px 100px 0px' },
   );
 
+  // Jump scrolling (End key, dragging the scrollbar, an anchor jump) can skip
+  // over observed elements without ever reporting an intersection, which would
+  // leave them invisible for good. Reveal anything that ended up above the
+  // viewport — instantly, since it is off-screen anyway.
+  if (!guardBound) {
+    guardBound = true;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (pending.size === 0) return;
+        pending.forEach((el) => {
+          if (!el.isConnected) {
+            pending.delete(el);
+            return;
+          }
+          if (el.getBoundingClientRect().bottom >= 0) return;
+          pending.delete(el);
+          el.style.transitionDelay = '';
+          el.classList.add('is-visible');
+        });
+      },
+      { passive: true },
+    );
+  }
+
   // Trigger entrance animation for all elements matching `selector`.
   function animate(selector: string, stagger = 60): void {
     const els = document.querySelectorAll<HTMLElement>(selector);
@@ -35,13 +82,18 @@ export function initAnimations(): void {
     els.forEach((el, i) => {
       el.dataset.animDelay = String(i * stagger);
 
-      const cleanup = () => (el.style.transitionDelay = '');
+      const cleanup = () => {
+        el.style.transitionDelay = '';
+        settling -= 1;
+        entranceSettled();
+      };
 
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight) {
         // Above fold: double rAF ensures the hidden state is painted
         // before is-visible triggers the CSS transition.
         el.offsetHeight;
+        settling += 1;
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             el.style.transitionDelay = String(i * stagger) + 'ms';
@@ -53,6 +105,7 @@ export function initAnimations(): void {
         });
       } else {
         // Below fold: observe and trigger on scroll.
+        pending.add(el);
         observer.observe(el);
       }
     });
@@ -96,4 +149,11 @@ export function initAnimations(): void {
   // ── Comments, 404 ────────────────────────────────────────
   animate('.comments', 0);
   animate('.not-found-content', 0);
+
+  // Nothing above the fold (or every reveal already scheduled) → hand scroll
+  // anchoring back right away. `transitionend` normally clears the phase; the
+  // timer is a safety net for reveals that never transition (reduced motion,
+  // throttled background tab, ...).
+  entranceSettled();
+  window.setTimeout(entranceSettled, 2000);
 }

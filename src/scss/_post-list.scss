@@ -10,6 +10,10 @@
   opacity: 0;
   transform: translateY(20px);
   border-radius: var(--radius-lg);
+  // Keep the entrance transform out of scroll anchoring — otherwise the browser
+  // chases the floating card and shifts the scroll offset by the animation
+  // distance (and back when it ends), which reads as a page jump on reload.
+  overflow-anchor: none;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;

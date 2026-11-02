@@ -98,6 +98,9 @@ if (page.math === true) {
 
 <script>
   (function() {
+    // Entrance pass marker — keeps scroll anchoring off while the cards float
+    // in (see _animation.scss); animations.ts removes it once they settle.
+    document.documentElement.classList.add('entrance-phase');
     var mode = '<%= theme.appearance.default_mode %>';
     var saved = localStorage.getItem('shion-theme');
     if (saved) { mode = saved; }
