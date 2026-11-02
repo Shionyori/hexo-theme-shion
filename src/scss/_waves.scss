@@ -93,6 +93,15 @@
   // Keeps the content (cards, sidebar) painted above the skirt below.
   position: relative;
   z-index: 0;
+
+  // …but `z-index: 0` also makes this element a stacking context, which traps
+  // the mobile sidebar drawer: the drawer is fixed with a z-index *inside* this
+  // context, while its dimming overlay is appended to <body> — so opening the
+  // floating menu just greyed the page out instead of showing the drawer.
+  // Below `md` tree order alone already keeps the content above the skirt.
+  @include respond-down('md') {
+    z-index: auto;
+  }
 }
 
 // Skirt: a page-coloured haze that starts exactly at the waterline and fades

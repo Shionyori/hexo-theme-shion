@@ -71,11 +71,13 @@ export function initSidebar(): void {
     }
   });
 
-  // Auto-close when a link inside the sidebar is clicked (PJAX navigation)
+  // Delegate so the handlers survive PJAX swapping the drawer out: close on the
+  // drawer's own close button, and on any link inside it.
   on(document, 'click', (e) => {
     const target = e.target as HTMLElement;
     const sidebar = getSidebar();
-    if (sidebar && sidebar.classList.contains('is-open') && target.closest('#site-sidebar a')) {
+    if (!sidebar || !sidebar.classList.contains('is-open')) return;
+    if (target.closest('#sidebar-drawer-close') || target.closest('#site-sidebar a')) {
       close();
     }
   });

@@ -150,6 +150,16 @@ async function navigateTo(url: string, addToHistory: boolean): Promise<void> {
 // ── Event binding ───────────────────────────────────────────
 
 export function initPjax(): void {
+  // Mark the entry the page loaded with, so going back/forward across it is
+  // handled as a same-document traversal. Without the marker, popstate had
+  // nothing to match for that entry: the URL changed but the content (and the
+  // menu highlight) stayed on the page we had navigated away from.
+  try {
+    history.replaceState({ ...(history.state || {}), pjax: true }, '', location.href);
+  } catch {
+    // history state is best-effort (Safari quota, file://, …)
+  }
+
   // Intercept all link clicks (event delegation on document)
   document.addEventListener(
     'click',

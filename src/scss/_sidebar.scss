@@ -10,6 +10,12 @@
   min-height: 0;
 }
 
+// Drawer header — only used by the mobile drawer (styles live in the
+// `respond-down('md')` block below).
+.sidebar-drawer-header {
+  display: none;
+}
+
 // ── Card base ────────────────────────────────────────────
 // Shared shell: surface, border, shadow, padding, gap.
 // Specific card variants override as needed.
@@ -314,12 +320,12 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 320px;
-    max-width: 85vw;
+    width: min(88vw, 21rem);
     z-index: calc(var(--z-overlay) + 2);
     background: var(--color-surface);
-    padding: var(--spacing-lg);
-    padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
+    // Horizontal padding lives here; the sticky header bleeds back over it with
+    // negative margins, the cards inset themselves inside it.
+    padding: 0 var(--spacing-lg) calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
     border-radius: 0;
     border: none;
     box-shadow: var(--shadow-lg);
@@ -345,23 +351,156 @@
       transform: translateX(0);
     }
 
-    // Cards inside the drawer drop their card chrome
+    // ── Drawer header (mobile only) ──────────────────────
+    // Sticky so the cards scroll underneath it instead of pushing it away.
+    .sidebar-drawer-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin: 0 calc(-1 * var(--spacing-lg)) var(--spacing-md);
+      padding: calc(env(safe-area-inset-top, 0px) + var(--spacing-sm)) var(--spacing-lg)
+        var(--spacing-sm);
+      min-height: calc(44px + env(safe-area-inset-top, 0px));
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border-light);
+
+      .sidebar-drawer-title {
+        flex: 1;
+        min-width: 0;
+        font-family: var(--font-heading);
+        font-size: var(--font-size-base);
+        font-weight: 700;
+        color: var(--color-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sidebar-drawer-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        margin-right: calc(-1 * var(--spacing-xs));
+        border-radius: var(--radius-md);
+        color: var(--color-text-secondary);
+        transition: all var(--transition-fast);
+
+        &:hover {
+          color: var(--color-text);
+          background: var(--color-code-bg);
+        }
+      }
+    }
+
+    // ── Cards become inset panels ────────────────────────
+    // Flat cards on a flat drawer made every block run into the next one; a
+    // tinted panel per section gives the drawer the same rhythm as the page.
     .sidebar-card {
-      background: transparent;
-      border: none;
+      background: var(--color-code-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
       box-shadow: none;
-      padding: 0;
+      padding: var(--spacing-md);
+      gap: var(--spacing-sm);
       margin-bottom: var(--spacing-md);
-      overflow: visible; // undo base .sidebar-card overflow:hidden
-      // Prevent flex shrinking from squeezing card content
+      overflow: hidden;
       flex-shrink: 0;
+    }
+
+    // Profile block — the drawer's "cover": more air, smaller avatar, centred.
+    .sidebar-profile {
+      padding: var(--spacing-lg) var(--spacing-md);
+
+      .sidebar-avatar img {
+        width: 72px;
+        height: 72px;
+      }
+
+      .sidebar-author,
+      .sidebar-bio {
+        margin-top: 0;
+      }
+
+      .sidebar-social {
+        gap: var(--spacing-sm);
+
+        // The chips are tinted with `--color-code-bg` on the page, which is now
+        // the panel colour too — they would sink into the card. Lift them to the
+        // drawer surface so the pill silhouette stays readable.
+        // Roomier horizontal padding as well: the drawer keeps the 40px touch
+        // height, and with the desktop padding the pill read as squeezed next
+        // to the PC one.
+        // Sized like the desktop chip (same 36px height, same label step), just
+        // scaled by the smaller mobile root font — the drawer's 40px/13px
+        // version read noticeably bulkier than the PC one.
+        .social-icon {
+          min-width: 2.4rem;
+          height: 2.4rem;
+          padding: 0 0.6rem;
+          font-size: var(--font-size-xs);
+          background: var(--color-surface);
+          border-color: var(--color-border);
+        }
+      }
+    }
+
+    // Same reason as the social chips: this sits on the TOC panel.
+    .sidebar-toc-header .sidebar-back-home {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+
+    // The music card is inset by `md` here (not `lg`), so the playlist has to
+    // bleed by that amount to reach the card edges again.
+    .sidebar-music .music-playlist {
+      margin-left: calc(-1 * var(--spacing-md));
+      margin-right: calc(-1 * var(--spacing-md));
+      margin-bottom: calc(-1 * var(--spacing-md));
+    }
+
+    // TOC card brings its own header/footer paddings.
+    .sidebar-toc {
+      padding: 0;
+      gap: 0;
+    }
+
+    // Widgets — roomier rows, so list items are easy to hit with a thumb.
+    .widget {
+      .widget-title {
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .widget-list .widget-item {
+        min-height: 38px;
+      }
+    }
+
+    .widget-tagcloud .tag-link {
+      padding: 0.3em 0.7em;
     }
 
     // Sticky group is unnecessary in the drawer (already scrollable)
     .sidebar-sticky-group {
       position: static;
       max-height: none;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+
+      > .sidebar-card {
+        margin-bottom: 0;
+      }
+    }
+
+    // The drawer already scrolls — let the TOC scroll with it, not inside it.
+    .sidebar-scroll {
+      overflow: visible;
     }
   }
 

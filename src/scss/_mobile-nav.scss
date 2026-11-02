@@ -18,64 +18,105 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 280px;
-  max-width: 80vw;
+  width: min(84vw, 19rem);
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   z-index: calc(var(--z-overlay) + 1);
   transform: translateX(-100%);
-  transition: transform var(--transition-base);
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+  // The inner column scrolls; the drawer itself never does, so the sticky
+  // header can never be pushed away by a rubber-band overscroll.
+  overflow: hidden;
+  // Keep the header clear of the notch / status bar.
+  padding-top: env(safe-area-inset-top, 0px);
 
   &.is-open {
     transform: translateX(0);
+    // Only while open: a closed drawer sits just off-screen, and its shadow
+    // would otherwise bleed a dark edge into the page at desktop widths.
+    box-shadow: var(--shadow-lg);
   }
 }
 
 .mobile-nav-inner {
-  padding: var(--spacing-xl);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-lg) calc(var(--spacing-lg) + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
+// Header — sticky, bled to the drawer edges so the menu scrolls underneath it.
 .mobile-nav-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+  margin: 0 calc(-1 * var(--spacing-lg)) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border-light);
 
   .mobile-nav-title {
+    min-width: 0;
     font-family: var(--font-heading);
     font-size: var(--font-size-lg);
     font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // 40px hit area for thumbs (the shared .btn-icon is 36px).
+  .mobile-nav-close {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    margin-right: calc(-1 * var(--spacing-sm));
   }
 }
 
 .mobile-nav-menu {
   list-style: none;
   padding: 0;
-  margin: 0;
-
-  li {
-    margin-bottom: var(--spacing-xs);
-  }
+  margin: 0 0 var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 
   .mobile-nav-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    // Touch target: 44px is the comfortable minimum on phones.
+    min-height: 44px;
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-md);
     font-size: var(--font-size-base);
     font-weight: 500;
     color: var(--color-text);
-    transition: all var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      background var(--transition-fast);
 
     .nav-icon {
       display: flex;
       flex: 0 0 auto;
       align-items: center;
-      color: var(--color-text-secondary);
+      color: var(--color-text-tertiary);
+      transition: color var(--transition-fast);
       /* Centred on the row, matching the header nav. */
       transform: translateY(var(--mobile-nav-icon-nudge, 0px));
 
@@ -85,9 +126,25 @@
       }
     }
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       color: var(--color-primary);
       background: var(--color-code-bg);
+
+      .nav-icon {
+        color: var(--color-primary);
+      }
+    }
+
+    // Current page — same pill treatment as the header navigation.
+    &.is-active {
+      color: var(--color-primary);
+      background: var(--color-primary-soft);
+      font-weight: 600;
+
+      .nav-icon {
+        color: var(--color-primary);
+      }
     }
   }
 }
@@ -96,7 +153,9 @@
   display: flex;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
-  margin-top: var(--spacing-xl);
+  // Sit at the bottom of the drawer when the menu is short, but never closer
+  // than the menu's own bottom margin when it is long.
+  margin-top: auto;
   padding-top: var(--spacing-lg);
   border-top: 1px solid var(--color-border-light);
 
@@ -104,9 +163,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 36px;
-    height: 36px;
-    padding: 0 var(--spacing-sm);
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding: 0 0.6rem;
     border-radius: var(--radius-full);
     color: var(--color-text-secondary);
     font-size: var(--font-size-xs);

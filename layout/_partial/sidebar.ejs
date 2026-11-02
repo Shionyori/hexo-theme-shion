@@ -39,6 +39,16 @@ if (type !== 'post' && !hasProfile && !hasMusic && !hasWidgets) return;
 %>
 <aside class="site-sidebar<%= type === 'post' ? ' sidebar-post' : '' %>" id="site-sidebar" data-position="<%= theme.sidebar.position || 'right' %>">
 
+  <% // Mobile-only drawer header (hidden ≥ md): title + close affordance. %>
+  <div class="sidebar-drawer-header">
+    <span class="sidebar-drawer-title"><%= config.title %></span>
+    <button class="sidebar-drawer-close" type="button" id="sidebar-drawer-close" aria-label="<%= __('close') %>">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
   <% if (type !== 'post') { %>
   <% // ── Non-post pages: profile card + sticky group ── %>
 

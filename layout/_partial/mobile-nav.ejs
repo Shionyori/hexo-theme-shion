@@ -1,9 +1,9 @@
 <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
 
-<nav class="mobile-nav" id="mobile-nav">
+<nav class="mobile-nav" id="mobile-nav" aria-label="<%= __('nav_menu') %>">
   <div class="mobile-nav-inner">
     <div class="mobile-nav-header">
-      <span class="mobile-nav-title"><%= __('home') %></span>
+      <span class="mobile-nav-title"><%= __('nav_menu') %></span>
       <button class="btn-icon mobile-nav-close" id="mobile-nav-close" aria-label="<%= __('close') %>">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 6 6 18M6 6l12 12"/>
@@ -13,11 +13,20 @@
 
     <%
     var navIcons = !theme.header || theme.header.nav_icons !== false;
+    // Active state is computed from `page.path` rather than `is_current()`:
+    // the helper reads the render context, which is not the page path inside
+    // a partial, so every non-home entry silently lost its highlight.
+    var herePath = '/' + String(page.path || '').replace(/index\.html$/, '');
+    if (herePath === '//') herePath = '/';
     %>
     <ul class="mobile-nav-menu">
       <% for (var name in theme.menu) { %>
+        <%
+        var menuHref = String(theme.menu[name]);
+        var menuActive = menuHref === '/' ? herePath === '/' : herePath.indexOf(menuHref) === 0;
+        %>
         <li>
-          <a class="mobile-nav-link" href="<%= url_for(theme.menu[name]) %>">
+          <a class="mobile-nav-link<%= menuActive ? ' is-active' : '' %>" href="<%= url_for(menuHref) %>"<%= menuActive ? ' aria-current="page"' : '' %>>
             <% if (navIcons) { %><span class="nav-icon"><%- menu_icon(name) %></span><% } %>
             <span class="nav-text"><%= __(name.toLowerCase()) || name %></span>
           </a>
