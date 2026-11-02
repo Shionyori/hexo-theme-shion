@@ -36,7 +36,13 @@
   font-size: 0.7rem;
 }
 
-// Sidebar tag cloud widget — each tag fades in with staggered delay
+// Sidebar tag cloud widget — each tag fades in with staggered delay.
+//
+// The cascade is kept paused until the widget itself has been revealed
+// (`.is-visible`, added by animations.ts). CSS animations start when the
+// element is parsed, so without this gate the first tags would burn their
+// fade-in behind the still transparent sidebar card and then pop in as the
+// card faded — the first tag being the most obvious one.
 .tagcloud {
   display: flex;
   flex-wrap: wrap;
@@ -44,13 +50,26 @@
 
   a {
     animation: widgetItemIn 0.3s ease both;
+    animation-play-state: paused;
   }
 
+  // Cap the cascade: past ~25 tags the delay stops growing, otherwise a big
+  // cloud waits a full second and then dumps the whole tail in at once.
   @for $i from 1 through 120 {
     a:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.025s, 1s);
+      animation-delay: min($i * 0.02s, 0.5s);
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      animation: none;
+    }
+  }
+}
+
+.widget.is-visible .tagcloud a {
+  animation-play-state: running;
 }
 
 .tag-cloud {
@@ -68,7 +87,11 @@
     color: var(--color-primary-dark);
     border-radius: var(--radius-full);
     font-weight: 500;
-    animation: widgetItemIn 0.35s ease both;
+    // No per-item entrance animation here on purpose. The tags page usually
+    // holds 100+ pills, so a staggered CSS animation started at parse time
+    // both ran behind the still transparent `.content-card` and collapsed its
+    // tail into one big batch at the 1s delay cap. The card's own reveal
+    // (`.is-visible` from animations.ts) already fades the cloud in as a whole.
     transition:
       background var(--transition-fast),
       color var(--transition-fast),
@@ -83,12 +106,6 @@
       font-size: 0.65em;
       margin-left: 3px;
       opacity: 0.65;
-    }
-  }
-
-  @for $i from 1 through 120 {
-    .tag-cloud-item:nth-of-type(#{$i}) {
-      animation-delay: min($i * 0.025s, 1s);
     }
   }
 }
