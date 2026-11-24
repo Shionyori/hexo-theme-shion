@@ -740,8 +740,20 @@
   }
 }
 
+// Standalone pages (About, etc.) share the post reading size so the same
+// prose does not look smaller than an article.
 .page-content {
   font-family: var(--font-reading);
+  font-size: var(--font-size-reading);
+  line-height: var(--line-height-reading);
+  word-break: normal;
+  overflow-wrap: break-word;
+
+  p {
+    margin-bottom: 0.9em;
+    line-height: var(--line-height-reading);
+    text-wrap: pretty;
+  }
 }
 
 .post-share {
