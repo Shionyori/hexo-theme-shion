@@ -132,7 +132,9 @@
   overflow: hidden;
 
   a {
-    color: var(--color-text);
+    // Deep navy instead of near-black: WenKai's synthetic bold at 24px reads
+    // harsh in pure --color-text, and the navy ties the card to the palette.
+    color: var(--color-primary-dark);
     transition: color var(--transition-fast);
 
     &:hover {
