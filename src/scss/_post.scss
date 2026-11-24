@@ -9,7 +9,9 @@
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  padding: var(--spacing-2xl);
+  // Slightly tighter than the old 3rem, and it scales down on narrow screens
+  // instead of leaving 45px of padding on each side of a 390px viewport.
+  padding: clamp(1rem, 4.5vw, 2.75rem);
 }
 
 .post-header {
@@ -77,9 +79,14 @@
 }
 
 .post-content {
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-relaxed);
-  word-break: break-word;
+  font-family: var(--font-reading);
+  font-size: var(--font-size-reading);
+  line-height: var(--line-height-reading);
+  // `word-break: break-word` splits identifiers mid-token even when they
+  // would fit on the next line. Let CJK break normally; only break Latin
+  // tokens as a last resort.
+  word-break: normal;
+  overflow-wrap: break-word;
   color: var(--color-text);
 
   h1,
@@ -161,7 +168,11 @@
   }
 
   p {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0.9em;
+    // The global p rule uses --line-height-relaxed; reading text is airier.
+    line-height: var(--line-height-reading);
+    // Avoid a one-word orphan on the last line (progressive enhancement).
+    text-wrap: pretty;
   }
 
   img {
@@ -727,6 +738,10 @@
     font-size: var(--font-size-4xl);
     margin-bottom: var(--spacing-xl);
   }
+}
+
+.page-content {
+  font-family: var(--font-reading);
 }
 
 .post-share {
