@@ -30,8 +30,10 @@ body {
   font-size: var(--font-size-root);
   line-height: var(--line-height-normal);
   color: var(--color-text);
+  // Vertical instead of diagonal: the light band should run across the whole
+  // top edge, not pool in one corner, and it keeps the wave shore aligned.
   background: linear-gradient(
-    160deg,
+    to bottom,
     var(--color-primary-soft) 0%,
     var(--color-bg-alt) 25%,
     var(--color-bg) 70%
