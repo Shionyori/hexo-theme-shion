@@ -45,7 +45,9 @@
     'LXGW WenKai', 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   // Long-form reading uses the same rounded Kai face.
   --font-reading: 'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
-  --font-code: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  --font-code:
+    'CaskaydiaMono NF', 'CaskaydiaMono Nerd Font', 'Cascadia Mono', 'Cascadia Code', Consolas,
+    monospace;
 
   // ── Font size scale ────────────────────────────
   --font-size-root: 15px; // override via _config.yml → fonts.size_root

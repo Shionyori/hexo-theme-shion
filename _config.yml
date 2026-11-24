@@ -13,7 +13,7 @@ fonts:
   heading: "'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
   body: "'LXGW WenKai', 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
   reading: "'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
-  code: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace"
+  code: "'CaskaydiaMono NF', 'CaskaydiaMono Nerd Font', 'Cascadia Mono', 'Cascadia Code', Consolas, monospace"
   size_root: 15px
   # ZeoSeven font 292 = LXGW WenKai, split into unicode-range woff2 subsets.
   external_css: 'https://fontsapi.zeoseven.com/292/main/result.css'

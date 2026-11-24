@@ -63,7 +63,7 @@ Theme defaults:
 - Heading: `'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
 - Body: `'LXGW WenKai', 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
 - Reading: `'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
-- Code: `'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace`
+- Code: `'CaskaydiaMono NF', 'CaskaydiaMono Nerd Font', 'Cascadia Mono', 'Cascadia Code', Consolas, monospace`
 
 `fonts.external_css` defaults to `https://fontsapi.zeoseven.com/292/main/result.css` (font 292 = LXGW WenKai, unicode-range split woff2). If you prefer to self-host the font, point it at your own stylesheet or set it to `null` and add the `@font-face` rules through `custom_css`.
 
