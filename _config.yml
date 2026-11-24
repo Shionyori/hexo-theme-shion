@@ -4,13 +4,19 @@
 
 # --- Fonts ---
 # Font families and base size. Leave empty to use theme SCSS defaults.
-# External font loading (Google Fonts, CDN) must be handled by the user
-# via custom_css or injecting <link> tags into the site header.
+#
+# All text uses LXGW WenKai (霞鹜文楷) — a rounded, calligraphic CJK font.
+# Noto Sans SC stays as the fallback (and for any UI chrome you choose to
+# keep sans by overriding `body`). `external_css` loads the @font-face rules;
+# set it to null to use only locally installed / system fonts.
 fonts:
-  heading: "'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
-  body: "'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+  heading: "'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
+  body: "'LXGW WenKai', 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+  reading: "'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif"
   code: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace"
   size_root: 15px
+  # ZeoSeven font 292 = LXGW WenKai, split into unicode-range woff2 subsets.
+  external_css: 'https://fontsapi.zeoseven.com/292/main/result.css'
 
 # --- Site Identity ---
 favicon: /images/shion/favicon.png

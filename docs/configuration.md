@@ -47,20 +47,25 @@ header:
 
 ## Fonts
 
-Override heading, body, and code font families. Leave empty to use theme SCSS defaults. External font loading (Google Fonts, etc.) must be handled by you via `custom_css` or injecting `<link>` tags into the site header.
+Override heading, body, reading, and code font families. Leave empty to use theme SCSS defaults. `fonts.external_css` points at a stylesheet containing the `@font-face` rules (the default loads LXGW WenKai from ZeoSeven); set it to `null` to rely only on locally installed / system fonts.
 
-| Key               | Type     | Default   | Description         |
-| ----------------- | -------- | --------- | ------------------- |
-| `fonts.heading`   | `string` | see below | Heading font family |
-| `fonts.body`      | `string` | see below | Body font family    |
-| `fonts.code`      | `string` | see below | Code font family    |
-| `fonts.size_root` | `string` | `15px`    | Base font size      |
+| Key                  | Type     | Default   | Description                        |
+| -------------------- | -------- | --------- | ---------------------------------- |
+| `fonts.heading`      | `string` | see below | Heading font family                |
+| `fonts.body`         | `string` | see below | UI / body font family              |
+| `fonts.reading`      | `string` | see below | Long-form article reading family   |
+| `fonts.code`         | `string` | see below | Code font family                   |
+| `fonts.size_root`    | `string` | `15px`    | Base font size                     |
+| `fonts.external_css` | `string` | ZeoSeven  | Stylesheet with `@font-face` rules |
 
 Theme defaults:
 
-- Heading: `'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
-- Body: `'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+- Heading: `'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
+- Body: `'LXGW WenKai', 'Noto Sans SC', Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+- Reading: `'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif`
 - Code: `'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace`
+
+`fonts.external_css` defaults to `https://fontsapi.zeoseven.com/292/main/result.css` (font 292 = LXGW WenKai, unicode-range split woff2). If you prefer to self-host the font, point it at your own stylesheet or set it to `null` and add the `@font-face` rules through `custom_css`.
 
 ## Header
 

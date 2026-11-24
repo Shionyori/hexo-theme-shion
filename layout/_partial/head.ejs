@@ -65,6 +65,14 @@ if (!feedLinks.length && typeof FC.atom === 'string') {
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
+<% if (theme.fonts && theme.fonts.external_css) { %>
+<% var fontOrigin = ''; try { fontOrigin = new URL(theme.fonts.external_css).origin; } catch (e) {} %>
+<% if (fontOrigin) { %>
+<link rel="preconnect" href="<%= fontOrigin %>" crossorigin>
+<% } %>
+<link rel="stylesheet" href="<%= theme.fonts.external_css %>" referrerpolicy="no-referrer">
+<% } %>
+
 <link rel="stylesheet" href="<%= url_for('/css/main.css') %>">
 
 <% if (theme.custom_css) { %>
@@ -122,6 +130,9 @@ if (page.math === true) {
       }
       if (fonts.body) {
         document.documentElement.style.setProperty('--font-body', fonts.body);
+      }
+      if (fonts.reading) {
+        document.documentElement.style.setProperty('--font-reading', fonts.reading);
       }
       if (fonts.code) {
         document.documentElement.style.setProperty('--font-code', fonts.code);
