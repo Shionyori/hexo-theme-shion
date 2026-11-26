@@ -7,12 +7,16 @@
     color: var(--color-primary);
   }
 
-  // Highlighted text — warm gold background, like ::selection but softer
+  // Highlighted text — warm gold background, like ::selection but softer.
+  // Radius and padding are deliberately the same as the inline code chip so
+  // `==text==` and `` `text` `` read as one family of sub-word boxes, differing
+  // only in fill. Wrapped highlights keep square corners at the line break
+  // (default `slice`), so a multi-line mark stays one continuous band.
   mark {
     background: var(--mark-bg);
     color: var(--mark-text);
-    padding: 0.1em 0.15em;
-    border-radius: 2px;
+    padding: 0.1em 0.28em;
+    border-radius: 4px;
   }
 
   // Strikethrough — draw the line manually so its vertical position is
