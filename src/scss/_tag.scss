@@ -278,43 +278,167 @@
     color: var(--color-primary);
   }
 }
-// Link Card
+// ─── Link Card ─────────────────────────────────────────────
+// Shared shell for `{% linkCard %}` (external) and `{% postLinkCard %}`
+// (internal): a square thumbnail slot on the left, text block on the right, one
+// hover / focus affordance. The two tags differ only in what sits in the slot
+// (escaping arrow vs sheet of text) and in the last line — the external card
+// shows the URL, the internal one the publication date, because a permalink
+// says nothing a reader does not already know.
+//
+// Animation notes:
+// - One duration + one ease-out curve for every part (lift, tint, border,
+//   arrow) so the card settles as a single object instead of four elements
+//   finishing at different times. `ease` (the theme's --transition-fast) is
+//   too abrupt for a block this large.
+// - The hover tint is painted on `::before` and faded in. A gradient cannot be
+//   interpolated, so transitioning `background: linear-gradient(...)` snapped
+//   the fill into place mid-lift; opacity composites smoothly instead.
+$card-duration: 260ms;
+$card-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
 .tag-link-card {
-  display: block;
-  padding: var(--spacing-lg);
+  position: relative;
+  // Stacking context so the ::before tint can sit above the card's own fill
+  // (z-index: -1 would otherwise hide it behind the parent background) and
+  // still below the text.
+  isolation: isolate;
+  // Thumbnail slot on the left, text block on the right. Both card tags share
+  // this frame; only the glyph and the last line (URL vs date) differ.
+  display: flex;
+  // Center the text block against the slot: with one line, three lines, or a
+  // two-line excerpt the card still reads as a balanced unit, where top
+  // alignment left the text floating against a taller box.
+  align-items: center;
+  gap: var(--spacing-md);
+  // Tighter than a prose block: the slot already supplies the visual bulk, so
+  // 24px of padding made the card read as a big empty frame.
+  padding: var(--spacing-md);
   margin: var(--spacing-md) 0;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
+  // Resting elevation: without it the card sat flush with the prose, reading as
+  // a coloured block rather than an object. Hover raises it one more step.
+  box-shadow: var(--shadow-md);
   transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
-    background var(--transition-fast);
+    transform $card-duration $card-ease,
+    border-color $card-duration $card-ease,
+    box-shadow $card-duration $card-ease;
 
-  &:hover {
-    border-color: var(--color-primary-light);
-    box-shadow: var(--shadow-md);
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
     background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-primary-soft) 100%);
+    opacity: 0;
+    transition: opacity $card-duration $card-ease;
+    pointer-events: none;
   }
 
+  // A 1px lift + shadow reads as "this whole block is one link" much more
+  // clearly than the border tint alone.
+  &:hover {
+    border-color: var(--color-primary-light);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .link-card-title {
+      color: var(--color-primary);
+    }
+
+    // The slot keeps its colour — only a real thumbnail moves, and only a hair.
+    .link-card-icon--cover img {
+      transform: scale(1.06);
+    }
+  }
+
+  // Pressing cancels the lift instead of stacking a second motion on top.
+  &:active {
+    transform: translateY(0);
+  }
+
+  // Keyboard users get the same "clickable" cue as the hover state.
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-color: var(--color-primary-light);
+  }
+
+  // Square thumbnail slot. Sized (not just padded) so a real cover image can
+  // drop in later without touching the layout: the glyph below is the
+  // placeholder for that slot. `overflow: hidden` + the `img` rule mean an
+  // actual `<img>` only needs to be added to the markup.
+  .link-card-icon {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    // Same tint vocabulary as the inline code chip.
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $card-duration $card-ease;
+    }
+
+    // Slot holds a real thumbnail: drop the tint (the image is the fill) and
+    // keep a neutral backing for slow/transparent images.
+    &.link-card-icon--cover {
+      background: var(--color-bg-alt);
+    }
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  // min-width: 0 is what lets `.link-card-url`'s ellipsis work inside a flex row.
+  .link-card-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // Card-typography, not reading-typography: the inherited reading line-height
+  // (~1.75) left the single title line floating loose against the 72px slot.
   .link-card-title {
     display: block;
     font-weight: 600;
+    line-height: 1.4;
     color: var(--color-text);
     margin-bottom: var(--spacing-xs);
+    transition: color $card-duration $card-ease;
   }
 
   .link-card-desc {
-    display: block;
+    display: -webkit-box;
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
     margin-bottom: var(--spacing-xs);
-    display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  // URL of an external link — the one part of the card that cannot be derived
+  // from the page itself.
   .link-card-url {
     display: block;
     font-size: var(--font-size-xs);
@@ -325,10 +449,38 @@
   }
 }
 
-.tag-post-card {
-  border-left: 3px solid var(--color-primary);
+// The slot is the one fixed-size element in the card, so it is the first thing
+// to give at narrow widths.
+@include respond-down('md') {
+  .tag-link-card {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    // Scoped to the card on purpose: a bare `.link-card-icon` here would be
+    // (0,1,0) and lose to the (0,2,0) base rule, leaving the slot at 72px.
+    .link-card-icon {
+      width: 56px;
+      height: 56px;
 
-  &:hover {
-    border-left-color: var(--color-primary);
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+}
+
+// Hover lift and tint are decoration — drop them when the reader asked for
+// less motion, but keep the border/colour feedback.
+@media (prefers-reduced-motion: reduce) {
+  .tag-link-card,
+  .tag-link-card::before,
+  .tag-link-card .link-card-title,
+  .tag-link-card .link-card-icon img {
+    transition: none;
+  }
+
+  .tag-link-card:hover,
+  .tag-link-card:active {
+    transform: none;
   }
 }

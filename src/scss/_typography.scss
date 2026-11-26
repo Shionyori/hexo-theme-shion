@@ -47,9 +47,13 @@ a {
   position: relative;
 }
 
+// Card links ({% linkCard %} / {% postLinkCard %}) are blocks, not inline text —
+// an underline would propagate onto every line of the card.
 .post-content
-  a:not(.tag-link):not(.post-nav-item):not(.heading-anchor):not(.toc-list-link):not(.tab-btn),
-.page-content a:not(.tag-link) {
+  a:not(.tag-link):not(.tag-link-card):not(.post-nav-item):not(.heading-anchor):not(
+    .toc-list-link
+  ):not(.tab-btn),
+.page-content a:not(.tag-link):not(.tag-link-card) {
   text-decoration: underline;
   text-decoration-color: var(--color-primary-light);
   text-underline-offset: 4px;

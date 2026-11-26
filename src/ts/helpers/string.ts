@@ -21,7 +21,42 @@ function cleanText(html: string): string {
     .trim();
 }
 
+/** Fields a post needs to supply for `postIntro`. */
+export interface IntroSource {
+  description?: unknown;
+  excerpt?: unknown;
+  content?: unknown;
+}
+
+/**
+ * The site's definition of a post "简介", shared by the home post cards and the
+ * `{% postLinkCard %}` tag so both always read the same:
+ *
+ *   1. front-matter `description` — the author's own wording
+ *   2. the `<!-- more -->` excerpt
+ *   3. the first paragraph of the rendered content
+ *
+ * Returns plain text (entities decoded, tags stripped, whitespace collapsed).
+ */
+export function postIntro(post: IntroSource, maxLen = 150): string {
+  const description = cleanText(String(post.description ?? ''));
+  const excerpt = cleanText(String(post.excerpt ?? ''));
+  const content = String(post.content ?? '');
+  const pMatch = content.match(/<p[^>]*>([\s\S]*?)<\/p>/);
+
+  const text = description || excerpt || cleanText(pMatch ? pMatch[1] : content);
+  if (text.length <= maxLen) return text;
+  return text.substring(0, maxLen) + '...';
+}
+
 export function registerStringHelpers(hexo: Hexo): void {
+  // Post "简介" as the post cards render it — keeps the template free of the
+  // description/excerpt/first-paragraph chain defined in postIntro().
+  hexo.extend.helper.register('post_intro', function (post: IntroSource) {
+    const maxLen = (this as any).theme.home?.excerpt_length || 280;
+    return postIntro(post, maxLen);
+  });
+
   hexo.extend.helper.register('excerpt', function (content: string, length?: number) {
     const maxLen = length || (this as any).theme.home?.excerpt_length || 280;
     // Extract first <p> from rendered HTML, or fall back to full content

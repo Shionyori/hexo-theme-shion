@@ -56,27 +56,9 @@
       <% } %>
 
       <% if (theme.home.display_excerpt) { %>
-      <div class="post-card-excerpt">
-        <%
-          var maxLen = theme.home.excerpt_length || 280;
-          var text = '';
-
-          if (post.description) {
-            text = post.description;
-          } else if (post.excerpt) {
-            text = strip_html(post.excerpt);
-          } else {
-            var pMatch = post.content.match(/<p[^>]*>([\s\S]*?)<\/p>/);
-            if (pMatch) {
-              text = strip_html(pMatch[1]);
-            } else {
-              text = strip_html(post.content);
-            }
-          }
-
-          if (text.length > maxLen) text = text.substring(0, maxLen) + '...';
-        %><%= text %>
-      </div>
+      <%# 简介 chain (description → excerpt → first paragraph) lives in
+          scripts/helpers/string.js → postIntro(), shared with {% postLinkCard %}. %>
+      <div class="post-card-excerpt"><%= post_intro(post) %></div>
       <% } %>
     </div>
   </article>
