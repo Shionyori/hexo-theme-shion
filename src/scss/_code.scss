@@ -1,4 +1,8 @@
 // ─── Inline code ───────────────────────────────────────────
+// Single source of truth for the inline-code tint: the colour-immunity rule
+// below has to restate it, so keep the value in one place.
+$inline-code-color: var(--color-primary-dark);
+
 code {
   font-family: var(--font-code);
   font-size: 0.9em;
@@ -19,7 +23,24 @@ td code {
   border: none;
   border-radius: 4px;
   font-size: 0.88em;
-  color: var(--color-primary-dark);
+  color: $inline-code-color;
+}
+
+// ─── Inline code is decoration-immune ──────────────────────
+// Inline wrappers paint their own text colour, which would otherwise bleed into
+// nested code and stack two tints on a single token: `**`code`**` renders as
+// <strong><code>, and `.post-content strong` (0,1,1) outranks `p code` (0,0,2).
+// `==`code`==` already behaves like this — mark only adds a background and lets
+// the code keep its colour. Emphasis should do the same: the wrapper keeps its
+// weight on prose, the code keeps its own colour and weight. `:is()` keeps this
+// at (0,1,2) so it wins over any single-class ancestor without touching order.
+.post-content :is(strong, em) code,
+.page-content :is(strong, em) code {
+  color: $inline-code-color;
+  // Do not inherit the wrapper's weight: bold Cascadia Mono is much heavier
+  // than bold Kai body text, so the same token (`&` inside vs outside `**`)
+  // read as two different glyphs.
+  font-weight: 400;
 }
 
 // ─── Code blocks — shared font metrics ─────────────────────
