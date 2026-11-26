@@ -243,7 +243,10 @@
   }
 }
 
-// Details
+// ─── Details (collapsible) ─────────────────────────────────
+// The open/close height animation lives in src/client/details.ts (the native
+// element cannot transition its own content); CSS owns everything that *can* be
+// a transition — the chevron, the accent colour, the border.
 .tag-details {
   margin: var(--spacing-md) 0;
   padding: var(--spacing-md) var(--spacing-lg);
@@ -252,21 +255,50 @@
   transition: border-color var(--transition-fast);
 
   summary {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
     font-weight: 500;
     cursor: pointer;
     color: var(--color-text);
     outline: none;
     user-select: none;
     -webkit-user-select: none;
+    // Native disclosure markers cannot be animated, so this one is drawn with
+    // two borders on ::before and rotated.
+    list-style: none;
+    // Matches the shorter of the two body animations, so the label does not
+    // finish recolouring long before the panel stops moving.
+    transition: color 200ms var(--ease-standard);
+
+    &:hover {
+      color: var(--color-primary);
+    }
 
     &::marker {
-      color: var(--color-primary);
-      font-size: 0.9em;
+      content: '';
     }
 
     &::-webkit-details-marker {
-      color: var(--color-primary);
+      display: none;
     }
+
+    &::before {
+      content: '';
+      flex: 0 0 auto;
+      width: 6px;
+      height: 6px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      // Closed: points right. Open: rotated a quarter turn, points down.
+      transform: rotate(-45deg);
+      transition: transform 260ms var(--ease-standard);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   &[open] {
@@ -274,8 +306,29 @@
   }
 
   &[open] summary {
-    margin-bottom: var(--spacing-md);
     color: var(--color-primary);
+
+    &::before {
+      transform: rotate(45deg);
+    }
+  }
+
+  // Animated by initDetails().
+  // - `border-box`: the closing animation ends at `height: 0`, which has to
+  //   swallow the top gap as well, or the panel holds 1rem of empty space on
+  //   the last frame.
+  // - `flow-root`: keeps the last child's bottom margin inside the box. Without
+  //   it the margin collapses out of the measured height and the panel jumps by
+  //   one line when the animation hands back to `height: auto`.
+  // `.tag-details-inner` needs no rules of its own: it is only the target of the
+  // translateY slide in initDetails() (the body above is what gets clipped, so
+  // text settles in from behind the summary instead of being wiped in from the
+  // bottom edge). No permanent `will-change` — a promoted layer per panel costs
+  // memory, and WAAPI promotes a transform animation for its own duration.
+  .tag-details-body {
+    box-sizing: border-box;
+    display: flow-root;
+    padding-top: var(--spacing-md);
   }
 }
 // ─── Link Card ─────────────────────────────────────────────
@@ -299,10 +352,6 @@ $card-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
 .tag-link-card {
   position: relative;
-  // Stacking context so the ::before tint can sit above the card's own fill
-  // (z-index: -1 would otherwise hide it behind the parent background) and
-  // still below the text.
-  isolation: isolate;
   // Thumbnail slot on the left, text block on the right. Both card tags share
   // this frame; only the glyph and the last line (URL vs date) differ.
   display: flex;
@@ -321,33 +370,22 @@ $card-ease: cubic-bezier(0.22, 1, 0.36, 1);
   // Resting elevation: without it the card sat flush with the prose, reading as
   // a coloured block rather than an object. Hover raises it one more step.
   box-shadow: var(--shadow-md);
+  // The hover fill is a plain `background-color`, not a gradient on a
+  // pseudo-element: `background-color` is interpolated by every engine, so the
+  // tint fades in instead of switching, with no stacking-context trickery.
   transition:
     transform $card-duration $card-ease,
     border-color $card-duration $card-ease,
+    background-color $card-duration $card-ease,
     box-shadow $card-duration $card-ease;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-primary-soft) 100%);
-    opacity: 0;
-    transition: opacity $card-duration $card-ease;
-    pointer-events: none;
-  }
-
-  // A 1px lift + shadow reads as "this whole block is one link" much more
-  // clearly than the border tint alone.
+  // A lift + shadow + tinted fill reads as "this whole block is one link" much
+  // more clearly than the border tint alone.
   &:hover {
     border-color: var(--color-primary-light);
+    background-color: var(--color-primary-soft);
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
-
-    &::before {
-      opacity: 1;
-    }
 
     .link-card-title {
       color: var(--color-primary);
@@ -472,8 +510,11 @@ $card-ease: cubic-bezier(0.22, 1, 0.36, 1);
 // Hover lift and tint are decoration — drop them when the reader asked for
 // less motion, but keep the border/colour feedback.
 @media (prefers-reduced-motion: reduce) {
+  .tag-details summary::before {
+    transition: none;
+  }
+
   .tag-link-card,
-  .tag-link-card::before,
   .tag-link-card .link-card-title,
   .tag-link-card .link-card-icon img {
     transition: none;

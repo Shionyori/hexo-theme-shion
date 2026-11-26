@@ -12,6 +12,7 @@ import { initShare } from './share';
 import { initMobileNav } from './mobile-nav';
 import { initLightbox } from './lightbox';
 import { initTabs as initTagTabs } from './tabs';
+import { initDetails } from './details';
 import { initAnimations } from './animations';
 import { initHeaderScroll } from './header-scroll';
 import { initCardClick } from './card-click';
@@ -67,6 +68,7 @@ function initContent(): void {
   initImageError();
   initImageReveal();
   initTagTabs();
+  initDetails();
   initAnimations();
   initCardClick();
   initHeadingAnchors();
